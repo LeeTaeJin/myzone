@@ -1,0 +1,273 @@
+   <script>
+  
+  //손가락버튼 mouseover했을 때 색 변하게 하기.
+  $(function() {
+    $("span").mouseover(function(){
+    $("span").css("color", "red");
+    });
+    
+    $("span").mouseleave(function(){
+    $("span").css("color", "black");
+    });
+  
+    //밑에 동그라미 mouseover 했을때 색 변하게 하기.
+    $("#icon1, #picon1").mouseover(function(){    
+    $(".service-icon1").css("border-color", "#0C5838");
+    });
+    $("#icon1, #picon1").mouseleave(function(){    
+    $(".service-icon1").css("border-color", "#7D6F81");
+    });
+    
+    $("#icon2, #picon2").mouseover(function(){
+    $(".service-icon2").css("border-color", "#0C5838");
+    });
+    $("#icon2, #picon2").mouseleave(function(){
+    $(".service-icon2").css("border-color", "#7D6F81");
+    });
+       
+    $("#icon3, #picon3").mouseover(function(){
+    $(".service-icon3").css("border-color", "#0C5838");
+    }); 
+    $("#icon3, #picon3").mouseleave(function(){
+    $(".service-icon3").css("border-color", "#7D6F81");
+    });
+
+    // $('body').smoothWheel(function(){
+        // $('#aaa').smoothWheel();
+    // });
+  });
+  </script>
+    
+     <div class="jumbotron" id="top" style="background-image: url(https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-xpa1/v/t1.0-9/11947483_833544056761626_6388524221709896910_n.jpg?oh=df1434c4094e5f37d1222391567bd482&oe=56807E0E&__gda__=1446490038_9fe83b67f9ad1e62d26e55431b0817a2); background-size: cover; height:530px;">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6" ><br><br>
+            <h1 id="main_font" style="margin-left: 5px; margin-top: 45px;">My Zone</h1><br>
+              <p id="main_font_" style="text-align:right">평택대학교 강의실 예약 시스템입니다.</p>
+          </div>
+          
+          <div class="col-md-6" style="text-align:right;">
+          
+          <% if current_user %> <!-- 로그인이 되어있다면 --> 
+          
+            <!--오늘의 예약건수-->
+            <br><br><br><br><br><br><br><br><br><br><br><br>
+             
+            <div class="notice" id="menu_font" style="margin-left: 175px; padding-top: 20px;padding-left: 10px;" >
+              <p>My Info</p>
+               <!--<p style="text-align:left">성 명 : <%#= current_user.student_name%><p>-->
+               <!--<p style="text-align:left">학 번 : <%#= current_user.student_number %><p>-->
+               <!--<p style="text-align:left">학 과 : <%#= current_user.department %><p>-->
+               
+               
+            </div>
+            
+          <%else%> 
+            
+              <div id="navbar" class="navbar-collapse collapse"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                  
+                 <!-- devise 로그인창 -->
+                  <form class="new_user" id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="kRl81tHWKzxcUUvagXUXiCSvVvipE2p5muJR0dP9Gy600BAvnC8R8rOq47T/9CQrCJ47i7Bl/YjQImveK4Q2EQ==">
+                
+                      <label for="user_email" style="text-align:right; font-size:20px; color:white" id="menu_font_t">Email</label>
+                      <input autofocus="autofocus" type="email" value="" name="user[email]" id="user_email">
+                    
+                      <label for="user_password" style="text-align:right; font-size:20px; color:white;" id="menu_font_t">&nbsp;&nbsp;Password</label>
+                      <input autocomplete="off" type="password" name="user[password]" id="user_password">
+                  
+                      <div class="#" class="action">
+                        <input name="user[remember_me]" type="hidden" value="0"><input type="checkbox" value="1" name="user[remember_me]" id="user_remember_me">
+                        <label for="user_remember_me" style="text-align:right; font-size:15px; color:white;" id="menu_font_t">Remember me</label> &nbsp;     
+                        <input type="submit" name="commit" id="menu_font_t" value="Log in">
+                      </div>
+                  </form>
+                  
+                  <a href="/users/password/new" style="text-align:right; font-size:15px; color:white;" id="menu_font_t">Forgot your password?</a><br>
+                  <!--여기까지-->
+  
+              </div>
+            </div>
+          <%end%> 
+
+        </div>
+      </div><br><br><br>
+    </div>
+    
+      <!--페이지 내리는거(손가락)-->
+      <center>
+        <div class="page-scroll">
+          <p style=" font-size:20px;" id="menu_font">How To Use&nbsp;&nbsp;
+          
+          <a href="#howtouse">
+            <i class="icon-angle-down scroll-down" style="padding-top:2px" >
+              <span class="glyphicon glyphicon-hand-down"></span>
+            </i>
+          </a>
+          
+          </p>
+        </div>
+      </center><br>
+
+    <!--공지사항-->
+    <section class="mt150" id="notice_slidedown">
+     <br><br><br><br><br><br><br>
+        <div itemscope="" itemtype="http://schema.org/LocalBusiness" class="container">
+          <div class="row">
+            <div class="full">
+              <h1 class="text-center" id="menu_font" style="font-size:30px">공지사항
+              <a href = "/posts" style = "color:black">
+                  <p class="glyphicon glyphicon-list-alt" aria-hidden="true" style="font-size:30px; top: 5px;"></p>
+              </a>
+                </h1><br><br>
+            </div>
+          </div>
+  
+          <div class="row" id="menu_font_t">
+            <div class="one-half">
+              <p><strong>여기다가는 전체 공지사항 게시판에서 최신글 몇개만 주르륵 불러와서 나오게 할거임.</strong></p>
+            </div>
+            <div class="one-half">
+              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
+              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
+              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
+              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
+              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
+              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
+              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
+              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
+            </div>
+          </div>
+        </div><br><br><br><br>
+      </section>
+ 
+  <!--이용방법-->
+  <div class = "how" id ="howtouse">
+  <br><br><br><br><br>
+  
+        <!--수평선-->
+      	<div class="other-focuses">
+		      <div class="section-footer-title" id="menu_font" style = "text-align:center"> How To Use</div>
+	      </div>
+  </div>
+    <div class="content-section-a">
+        <div class="container" >
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading" id="menu_font">1:로그인</h2>
+                    <p class="lead" id="menu_font_t">그림에 마우스 올려놓으면 뭐 뜨게하기.</p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_two.png"/>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <br>
+
+    <div class="content-section-b">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading" id="menu_font">How To Use 2: 버튼 누르기</h2>
+                    <p class="lead" id="menu_font_t">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by Visit their website to download some of their awesome, free photoshop actions!</p>
+                </div>
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    
+     <div class="content-section-a" >
+        <div class="container"   >
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading" id="menu_font">How To Use 3: ex)선택하기</h2>
+                    <p class="lead" id="menu_font_t"> for providing the photographs that you see in this template. Visit their website to become a member.</p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_three.png"/>
+                </div>
+            </div>
+        </div>
+      </div>
+    
+    <br>
+    
+    <div class="content-section-b">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading" id="menu_font">How To Use 4: 확인하기</h2>
+                    <p class="lead" id="menu_font_t">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by Visit their website to download some of their awesome, free photoshop actions!</p>
+                </div>
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_four.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   <!--R.eservation S.ystem Bar-->
+   <br><br><br><br><br><br>
+    <div class="jumbotron_down" style="background-image: url(http://my-zone-park-ji-yeon.c9.io/img/one_white.jpg); background-size: cover; height:500px;" >
+      <br><br><br><br><br><br><br><br>
+      <p style = "color:black; text-align: center; font-size:100px; margin-bottom: 0px;">Reservation System</p>
+      <p style = "color:black; text-align: center; font-size:25px">Pyeongtaek University<p>
+    </div>
+    
+    <!--문의하기 버튼 눌렀을 때 이동-->
+    <div id="bottom"></div>
+    <br><br><br><br><br><br>
+     
+    
+    <!--동그라미 3개-->   
+    <center>
+      <div class="container">
+        <div class="col-lg-4 col-sm-4 focus-box red wow fadeInLeft animated animated" data-wow-offset="30" data-wow-duration="1.5s" data-wow-delay="0.15s" style="visibility: visible;-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;">
+    			<div class="service-icon1">
+      			<img src="https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/11891267_832017333580965_4922852121499772665_n.jpg?oh=c6bbb44a9ce4277289d2c7099225684f&oe=563BFA27&__gda__=1449830733_44379e5949f24753633b012a75ff42b0" style="margin-top: 26px; width: 70px;" id = "icon1">
+      		</div>
+      			<h3 class="red-border-bottom" id = "picon1" >Contact</h3><br>
+      			<p id = "picon1" id="menu_font_t" style="font-size: 17px;">사용 중 불편하거나 건의사항이 있으면<br>아래의 쪽지보내기를 통해<br>관리자에게 쪽지를 보내주세요.</p>
+      			<a href ="http://my-zone-park-ji-yeon.c9.io/message/main"> <button id = "picon1" style="color: black; font-size: 17px;" id="menu_font_t"> 쪽지 보내기</button> </a> 
+  		  </div>
+  		
+  		  <div class="col-lg-4 col-sm-4 focus-box red wow fadeInLeft animated animated" data-wow-offset="30" data-wow-duration="1.5s" data-wow-delay="0.15s" style="visibility: visible;-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;">
+    			<div class="service-icon2">
+      			<img src="https://fbcdn-sphotos-d-a.akamaihd.net/hphotos-ak-xfp1/v/t1.0-9/11934993_832017396914292_6807399436638976517_n.jpg?oh=9db7e0b0596633c8a003af7f3a7be7cb&oe=56754A7D&__gda__=1450550260_2ce7f08b9f79b4e0c63adfc61ea4a83e" style="width: 84px; margin-top: 20px;" id = "icon2" >
+      		</div>
+      			<h3 class="red-border-bottom-center" id = "picon2">Phone</h3><br>
+      			<p id = "picon2" id="menu_font_t" style="font-size: 17px;">PTU 대표전화 : 031 - 659 - 8114<br>시스템관리자 연락처 : 010 - 1234 - 5678</p>
+  		  </div>
+  		
+        <div class="col-lg-4 col-sm-4 focus-box red wow fadeInLeft animated animated" data-wow-offset="30" data-wow-duration="1.5s" data-wow-delay="0.15s" style="visibility: visible;-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;">
+    			<div class="service-icon3" >
+      			<img src="https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xfp1/v/t1.0-9/11899819_832017373580961_9132140812643272515_n.jpg?oh=a2d3b010fa85f666bf0ee61df27ccdff&oe=566FA27C&__gda__=1450366197_2fef23755f5ecb198a7ecfc32afe7072" style="width: 80px; margin-top: 22px;" id = "icon3">
+      		</div>
+      			<h3 class="red-border-bottom-right" id = "picon3">Location</h3><br>
+      			<p id = "picon3" id="menu_font_t" style="font-size: 17px;">평택대학교 :<br>경기도 평택시 서동대로 3825번지<br>(구 용이동 111번지)</p>
+  		  </div>
+      </div>
+    </center><br><br><br><br>
+           
+      <!--페이지 위로 올리기-->
+      <center>
+      <div class="top-footer-scroll page-scroll" style="font-size:20px;">
+          <a href="#top">
+            <i class="icon-angle-down scroll-down">
+              <span class="glyphicon glyphicon-hand-up"></span>
+            </i>
+          </a>
+      </div>
+      <br>

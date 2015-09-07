@@ -1,0 +1,18 @@
+<div class="well">
+  <center>쪽지 상세 보기 페이지입니당</center>
+</div>
+
+
+<div class="col-md-4"></div>
+
+<div class="col-md-4">
+  보내는 사람 : <%=@message.sender%><br><br>
+  받는 사람 : <%=@message.receiver%><br><br>
+  보낸 시간 : <%=@message.created_at%><br><br>
+  내용 <br> <%=@message.content%><br><br>
+  <center><a href="/message/main" class="btn btn-default">쪽지 메인으로 가기</a>
+          <a href="/message/write" class="btn btn-default">답장보내기</a></center>
+  
+</div>
+
+<div class="col-md-4"></div>
