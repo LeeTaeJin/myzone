@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'mailgun_rails'
 gem 'validates_overlap'
 gem 'devise'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

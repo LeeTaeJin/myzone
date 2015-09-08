@@ -94,7 +94,7 @@
           <%end%> 
 
         </div>
-      </div><br><br><br>
+      </div><br><br><br> 
     </div>
     
       <!--페이지 내리는거(손가락)-->
@@ -275,3 +275,12 @@
           </a>
       </div>
       <br>
+
+
+
+<% if @mode == "false" %>
+  <script>
+    alert("관리자가 아닙니다");
+  </script>
+    
+<% end %>

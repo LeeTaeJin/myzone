@@ -1,39 +1,42 @@
-<h2>Sign up</h2>
-
+<center>
+<h2>회원가입</h2>
+<br>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
   <div class="field">
-    <%= f.label :student_number %><br />
+    <%= f.label :student_number, "학번" %><br />
     <%= f.text_field :student_number, autofocus: true %>
   </div>
  
-  
+  <br>
   <div class="field">
-    <%= f.label :student_name %><br />
+    <%= f.label :student_name,"이름" %><br />
     <%= f.text_field :student_name, autofocus: true %>
   </div>
-  
+  <br>
   <div class="field">
-    <%= f.label :email %><br />
+    <%= f.label :email,"이메일" %><br />
     <%= f.email_field :email, autofocus: true %>
   </div>
-
+<br>
   <div class="field">
-    <%= f.label :password %>
+    <%= f.label :password,"비밀번호" %>
     <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <em>(최소 <%= @minimum_password_length %> 자리 이상)</em>
     <% end %><br />
     <%= f.password_field :password, autocomplete: "off" %>
   </div>
-
+<br>
   <div class="field">
-    <%= f.label :password_confirmation %><br />
+    <%= f.label :password_confirmation,"비밀번호 확인" %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
-
+<br>
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "회원가입" %>
   </div>
 <% end %>
 
+
 <%= render "devise/shared/links" %>
+</center>

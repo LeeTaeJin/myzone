@@ -4,12 +4,14 @@ class BookController < ApplicationController
     
     
     def real_main  # 메인페이지
-        
+         @mode = params[:mode]
+        session[:account] = "admin@ptu.ac.kr" 
     end
     
     
     def main 
         @building=Building.all
+       
       
     end
     
@@ -126,6 +128,32 @@ class BookController < ApplicationController
         
         redirect_to :back
     end
+    
+    def condition
+        
+         @class=Reservation.all 
+         
+         if current_user.email == "admin@ptu.ac.kr"
+ 
+
+        else 
+
+          redirect_to action:"main", mode: "false"
+  
+        end 
+         
+        #  if current_user.email.count==0
+        #          redirect_to action:"real_main", mode: "false"
+                
+        #  elsif current_user.email == "admin@put.ac.kr"
+        #       redirect_to action:"real_main", mode: "true"    
+                
+        #  else          
+        #     redirect_to action:"real_main", mode: "false"
+        #  end
+        
+        
+    end    
     
 end
                 
