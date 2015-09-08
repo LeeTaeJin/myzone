@@ -55,6 +55,10 @@
              
             <div class="notice" id="menu_font" style="margin-left: 175px; padding-top: 20px;padding-left: 10px;" >
               <p>My Info</p>
+               <p style="text-align:left">성 명 : <%= current_user.student_name%><p>
+               <p style="text-align:left">나의 예약 수 : <%= Reservation.where(user: current_user.id).count %><p>
+               <p style="text-align:left">승인 대기중 : <%#= current_user.department %><p>
+               <p style="text-align:left">승인 완료 : <%#= current_user.department %><p>
                <!--<p style="text-align:left">성 명 : <%#= current_user.student_name%><p>-->
                <!--<p style="text-align:left">학 번 : <%#= current_user.student_number %><p>-->
                <!--<p style="text-align:left">학 과 : <%#= current_user.department %><p>-->

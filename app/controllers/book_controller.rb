@@ -56,7 +56,7 @@ class BookController < ApplicationController
         # 
         # @save_result = true # 초기값 설정을 true 에서 "" 로 바꿔놈.
          
-        if (( Time.zone.now<= @start_time) and (@start_time < @finish_time)) # true여야함
+        if (( Time.zone.now<= @start_time.to_s(:db)) and (@start_time.to_s(:db) < @finish_time.to_s(:db))) # true여야함
           if @all_reservation.count==0
              @save_result=true
           
@@ -86,7 +86,7 @@ class BookController < ApplicationController
           
             @reservation=Reservation.new #새로운 예약 db를 생성
             @reservation.room_id=params[:id]
-            @reservation.user=current_user.email #여기다가는 유저 이름을 저장한다.(나중에 수정할것)
+            @reservation.user=current_user.id #여기다가는 유저 이름을 저장한다.(나중에 수정할것)
             @reservation.professor=params[:professor]
             @reservation.date=params[:date]
             @reservation.start_time=@start_time
@@ -120,8 +120,11 @@ class BookController < ApplicationController
       
     end
     
-    def delete
+    def delete #예약 지울때
+        reservation_del = Reservation.find(params[:id])
+        reservation_del.destroy
         
+        redirect_to :back
     end
     
 end

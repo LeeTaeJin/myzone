@@ -9,7 +9,8 @@ class CreateReservations < ActiveRecord::Migration
       t.datetime :start_time
       t.datetime :finish_time
       t.string :purpose
-      
+      t.string :state
+            
       t.timestamps null: false
     end
   end

@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20150825181820) do
     t.datetime "start_time"
     t.datetime "finish_time"
     t.string   "purpose"
+    t.string   "state"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
