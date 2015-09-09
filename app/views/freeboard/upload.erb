@@ -1,0 +1,31 @@
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<h1>게시글 등록</h1><br>
+<%= form_tag("/freeboard/write", method: "post") do %>
+    
+    <% if user_signed_in? %>
+        이름 : <%= current_user.student_name %> 
+        
+    <% end %>
+    <br>
+    <input type="password" name="user_passowrd" placeholder="Pw">
+    <br>
+    <br>
+    <input type="text" name="user_title" placeholder="Title">
+    <br>
+    <textarea name="user_content" placeholder="Content"></textarea>
+    <br>
+    <input type="hidden" name="user_name" value="<%= current_user.student_name %>">
+    <!--<input type="hidden" name="user_major" value="<%#= current_user.major %>">-->
+    <input type="hidden" name="user_hakbun" value="<%= current_user.student_number %>">
+    
+
+    <input type="submit" value="확인">
+
+<% end %>

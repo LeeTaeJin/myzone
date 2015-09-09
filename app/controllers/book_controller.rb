@@ -1,16 +1,18 @@
 class BookController < ApplicationController
     
-     before_action :authenticate_user!, only: [:booking]
+     before_action :authenticate_user!, only: [:booking, :view_booking]
     
     
     def real_main  # 메인페이지
-         @mode = params[:mode]
-        session[:account] = "admin@ptu.ac.kr" 
+       
+        
     end
     
     
     def main 
         @building=Building.all
+        
+      
        
       
     end
@@ -26,6 +28,7 @@ class BookController < ApplicationController
         #해당 강의실의 예약현황을 보여줌
         @class=Room.find(params[:id])
         @date=params[:show_date]
+        
         
         # Room.reservations.where(date: Date.today)
     
@@ -131,29 +134,24 @@ class BookController < ApplicationController
     
     def condition
         
-         @class=Reservation.all 
-         
-         if current_user.email == "admin@ptu.ac.kr"
- 
-
-        else 
-
-          redirect_to action:"main", mode: "false"
-  
-        end 
-         
-        #  if current_user.email.count==0
-        #          redirect_to action:"real_main", mode: "false"
-                
-        #  elsif current_user.email == "admin@put.ac.kr"
-        #       redirect_to action:"real_main", mode: "true"    
-                
-        #  else          
-        #     redirect_to action:"real_main", mode: "false"
-        #  end
+        @class = Reservation.all
         
-        
+        if current_user     #로그인이 되어있고
+                # redirect_to :back        
+            if current_user.email == "admin@ptu.ac.kr" # 관리자라면 입장
+            
+            else #관리자가 아니면 백
+                
+            redirect_to action:"real_main", mode: "false"
+            end  
+            
+        elsif current_user.nil?
+            redirect_to action:"real_main", mode: "blank"
+      
+        end
     end    
+   
+    
     
 end
                 

@@ -20,9 +20,9 @@
             <td><%=c.start_time.to_s(:db)%> ~ <%=c.finish_time.to_s(:db)%></td>
             
             <td>
-            <% if current_user %> <!--로그인 된 상태.-->
+            <!--<2% if current_user %> <!--로그인 된 상태.-->-->
                       
-                <%  if current_user.email == "admin@ptu.ac.kr" %> <!--관리자일때 승인하기-->
+                <!--<2%  if current_user.email == "admin@ptu.ac.kr" %> <!--관리자일때 승인하기-->-->
                   <span class="label label-info" id="view_state<%c.id%>"><%=c.state%></span>
                   
                   <% if c.state=="승인대기" %>
@@ -32,23 +32,22 @@
                   <!--<input class="btn btn-primary btn-sm" onclick="change()" value="승인하기" id="<=c.id%>"></input>-->
                   <%end%>
                                 
-                <% else %> <!--관리자가 아닐때 승인대기-->
-                  <span class="label label-info"><%=c.state%></span><!--관리자가 아닐땐 상태만 보여준다-->
+                <!--<2% else %> <!--관리자가 아닐때 승인대기-->-->
+                <!--  <span class="label label-info"><%=c.state%></span><!--관리자가 아닐땐 상태만 보여준다-->-->
                   <!--<input class="btn btn-primary btn-sm" value="승인대기" id="<=c.id%>"></input>-->
                             
-                <% end %>
+                <!--<2% end %>-->
                       
-              <% else %> <!--로그인 안된 상태에서는 로그인창으로 이동-->
-                <% redirect_to "/users/sign_in" %>
+              <!--<2% else %> <!--로그인 안된 상태에서는 로그인창으로 이동-->-->
+               
             
-              <% end %>  
+              <!--<2% end %>  -->
                     
 <script>
    function change(){                             
 // $(function() {  
                                 	     
   // $("#button%=c.id%>").click(function change(){                 
-
     var view_state = document.getElementById("view_state<%=c.id%>");
     var button = document.getElementById("button<%=c.id%>");
     alert("view_state<%=c.id%>  ;  button<%=c.id%>"  );
@@ -76,14 +75,14 @@
                
             <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show<%=c.id%>">상세보기</button></td>
             
-             <% if current_user.email == "admin@ptu.ac.kr" %>
-              <!--예약취소는 사용자만 가능하게! 관리자가 안된다고 생각하면 삭제 말고 승인 거부하면된다-->
-              <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show_check<%=c.id%>" >예약 취소</button></td>
+             
+               <% if current_user.email == "admin@ptu.ac.kr" %>
+                <!--예약취소는 사용자만 가능하게! 관리자가 안된다고 생각하면 삭제 말고 승인 거부하면된다-->
+                <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show_check<%=c.id%>" >예약 취소</button></td>
         
             <%end%>
             
           </tr>
-
       <% end %>
     </tbody>
   </table> 

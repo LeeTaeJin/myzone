@@ -1,5 +1,6 @@
 Rails.application.configure do
-  config.action_mailer.delivery_method = :mailgun
+ 
+   config.action_mailer.delivery_method = :mailgun
   config.action_mailer.mailgun_settings = {
         api_key: 'key-cc39fd1cddce9ee5e5b2927232e4fef7',
         domain: 'sandbox5f99cf69336e44ca813e78fe5ce6fac4.mailgun.org'
@@ -7,7 +8,6 @@ Rails.application.configure do
 
 
   config.action_mailer.default_url_options = { host: 'rkskekfkakqktk-sangcheol.c9.io', port: 80 }
-  
   # Settings specified here will take precedence over those in config/application.rb.
   
   # In the development environment your application's code is reloaded on

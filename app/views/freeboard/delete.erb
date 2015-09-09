@@ -1,0 +1,18 @@
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h1>삭제 페이지</h1>
+    <%= form_tag("/freeboard/delete_action", method: "post") do %>
+        
+        <br>
+        <input type="password" name="del_passowrd" placeholder="Pw"> <font>비밀번호 입력해</p></font>
+        <br>
+        <br>
+        <input type="submit" value="확인">
+        <input type='hidden' name='id' value='<%= @id %>'>
+        
+    
+    <% end %>

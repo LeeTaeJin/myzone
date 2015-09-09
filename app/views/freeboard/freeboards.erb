@@ -1,0 +1,99 @@
+	  <!--freeboard css-->    
+	<!--  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
+	<!--  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/earlyaccess/hanna.css">-->
+ <!--   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/earlyaccess/jejugothic.css">-->
+ <!--   <link rel="stylesheet" type="text/css" href="stylesheet.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="https://www.jqueryscript.net/css/jquerysctipttop.css">-->
+	
+	<!--<link rel="stylesheet" type="text/css" href="https://www.jqueryscript.net/css/jquerysctipttop.css">-->
+	<!--<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>-->
+	<!--<script src="/js/pagination.js"></script>-->
+
+// 	<script>
+    
+// 	$(function () {
+// 			load = function() {
+// 				window.tp = new Pagination('#tablePaging', {
+// 					itemsCount: <#= @fb_all.count %>,
+// 					onPageSizeChange: function (ps) {
+// 						console.log('changed to ' + ps);
+// 					},
+// 					onPageChange: function (paging) {
+// 						//custom paging logic here
+// 						console.log(paging);
+// 						var start = paging.pageSize * (paging.currentPage - 1),
+// 							end = start + paging.pageSize,
+// 							$rows = $('#table').find('.data');
+
+// 						$rows.hide();
+
+// 						for (var i = start; i < end; i++) {
+// 							$rows.eq(i).show();
+// 						}
+// 					}
+// 				});
+// 			}
+
+// 		load();
+// 	});
+// 	</script>
+	</head>
+	
+<body style="background-image:url('http://www.ucorean.com/files/attach/images/3959561/691/787/008/peaceful_summer_day-1920x1080.jpg'); background-size:cover;"><br>
+
+        
+<div class="container">
+    <font size="10px" color="white">GameSchool</font>
+     <div class="jumbotron" style="width:600px height:600px">
+      <form id="form1">
+        <table class="table table-condensed" id="table" style="padding-top:1px; padding-bottom:1px; background:rgba(40,40,40,0.7); align:center">
+        <font1><font size="20px">Freeboard</font></font1>
+          <tr>
+            <th style="text-align: center">Num </th>
+            <th style="text-align: center">글쓴이 </th>
+            <th style="text-align: center">제목 </th>
+            <th style="text-align: center">작성일</th>
+          </tr>
+          <% @fb_all.reverse_each do |a| %>
+                <tr class="data">
+                    <td  style="text-align :center"><%= a.id %></td>
+                
+                    <td  style="text-align :center"><%= a.fb_name %></td>
+                     
+                    <% if user_signed_in? %>
+                        <td  style="text-align :center"><a href="/freeboard/upload_view?id=<%= a.id %>"><%= a.fb_title %>(<%= a.replies.count %>)</a></td>
+                    <% else %>    
+                        <td  style="text-align :center"><a href="/freeboard/warning"><%= a.fb_title %>(<%= a.replies.count %>)</a></td>
+                    <% end %>
+                        <td  style="text-align :center"><%=a.created_at.in_time_zone("Seoul")%></td>
+                </tr>
+            <% end %>
+        </table>
+        <% if user_signed_in? %>
+            <p align="right"><a href="/freeboard/upload">작성하기</a></p>
+        <% else %>
+            <p align="right"><a href="/freeboard/warning">작성하기</a></p>
+        <% end %>
+        <div class="paging-container" id="tablePaging"> </div>
+        <div style="clear: both;"></div>
+      </form>
+    </div>
+    
+    <script type="text/javascript">
+    
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-36251023-1']);
+      _gaq.push(['_setDomainName', 'jqueryscript.net']);
+      _gaq.push(['_trackPageview']);
+    
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    
+    </script>
+	
+</body>
+</html>
+

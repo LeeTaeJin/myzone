@@ -11,12 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150825181820) do
+ActiveRecord::Schema.define(version: 20150909040858) do
 
   create_table "buildings", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "freeboards", force: :cascade do |t|
+    t.string   "fb_name"
+    t.string   "fb_title"
+    t.text     "fb_content"
+    t.string   "fb_password"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "messages", force: :cascade do |t|
@@ -25,6 +34,15 @@ ActiveRecord::Schema.define(version: 20150825181820) do
     t.string   "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "replies", force: :cascade do |t|
+    t.integer  "freeboard_id"
+    t.string   "rp_name"
+    t.string   "rp_content"
+    t.integer  "rp_hakbun"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "reservations", force: :cascade do |t|

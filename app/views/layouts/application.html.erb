@@ -40,7 +40,7 @@
       <nav class="navbar navbar-default navbar-fixed-top">
       
         <div class = "col-md-6">
-                <ul class="nav navbar-nav" id="menu_font">
+                <ul class="nav navbar-nav" id="menu_font" style="padding-left:70px">
                       <li>
                           <a href="/"><img src="http://my-zone-park-ji-yeon.c9.io/img/ptu.jpg" /></a>
                       </li>
@@ -48,7 +48,7 @@
                         <% if current_page?(controller: 'book', action: 'real_main') %>        
                             <a id="11" class="scroll-down1"  href="#notice_slidedown" style = "margin-top: 17px; font-size:20px;">공지사항</a>
                         <% else %>
-                            <a id="11" class="scroll-down1"  href="/posts" style = "margin-top: 17px; font-size:20px;">공지사항</a>
+                            <a id="11" class="scroll-down1"  href="/freeboard/freeboards" style = "margin-top: 17px; font-size:20px;">공지사항</a>
                         <% end %>
                       </li>
                       <li>
@@ -68,7 +68,7 @@
         </div>
                
         <div class = "col-md-6 col-offset-md-3">
-                <ul class="nav navbar-nav" id="menu_font">
+                <ul class="nav navbar-nav navbar-right" id="menu_font" style="padding-right:100px">
                 
                     <% if current_user %> <!-- 로그인이 되어 있다면 -->
                       <li>
@@ -93,9 +93,9 @@
                        <a id="11" class="page-scroll" href="/users/sign_in" style = "margin-top: 17px; font-size:20px">로그인</a>
                      </li>
 
-                     <li>
-                       <a id="11" class="page-scroll" href="/book/mypage" style = "margin-top: 17px; font-size:20px">마이페이지</a>
-                     </li>
+                     <!--<li>-->
+                     <!--  <a id="11" class="page-scroll" href="/book/mypage" style = "margin-top: 17px; font-size:20px">마이페이지</a>-->
+                     <!--</li>-->
                      
                      <li>
                        <a id="11" class="page-scroll" href="/users/sign_up" style = "margin-top: 17px; font-size:20px">회원가입</a>
@@ -115,12 +115,12 @@
       <footer>
         <center>      
         <br><br> 
-          <div style="background-color:#0C5838">
+          <div style="background-color:#0C5838;margin-top: 500px;">
           <br><br><br>
             <p style = "color: white; font-size:19px;">Copyright © Company Tip+_one 2015, All Rights Reserved.<br></p>
             <p style="color: white; font-size:17px;">E-mail : um135@naver.com<br>
                                                      Pyeongtaek University URL : link( <a href = "www.ptu.ac.kr" style="color:white">www.ptu.ac.kr</a> )
-            <br><br><br><br></p>
+            <br><br><br><br></p>  
           </div>
         </center>
       </footer>
@@ -139,26 +139,4 @@
 </html>
 
 
-<!--좋아 좋아 잘하고있어 아주 만족스럽다 -->
 
-
-
-
-            <!--<2% if session[:account]%>-->
-
-            <!--<form class="navbar-form navbar-right">-->
-            <!--  <2%= session[:account] %>님 환영합니다.-->
-            <!--  <a href="/book/log_out"><button type="button" class="btn btn-default btn-xs" >로그아웃</button></a>-->
-            <!--</form>-->
-
-
-
-   
-            <!--<form class="navbar-form navbar-right" role="login" action='/book/log_in' method="POST">-->
-            <!--  <div class="form-group">-->
-            <!--    학번 : <input type="text" name="student_number" class="form-control" required>-->
-            <!--    비밀번호 : <input type="password" name="student_pw" class="form-control" required>-->
-            <!--  </div>-->
-            <!--  <button type="submit" class="btn btn-default btn-xs">로그인</button>-->
-            <!--  <a href="/book/enroll"><button type="button" class="btn btn-default btn-xs" >회원가입</button></a>-->
-            <!--</form>-->
