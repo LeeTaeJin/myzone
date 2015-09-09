@@ -1,4 +1,4 @@
-<div class="containter"> <!--지우면 footer 위로 올라오니까 놔두세
+<div class="containter"> 
 <div class="row">
 
 <div class="well">
@@ -156,12 +156,12 @@
                     <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change()" >승인하기</button>
                   <% else %>
                     <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change()">승인취소</button>
-                  <!--<input class="btn btn-primary btn-sm" onclick="change()" value="승인하기" id="<=c.id%>"></input>-->
+                  <input class="btn btn-primary btn-sm" onclick="change()" value="승인하기" id="<=c.id%>"></input>
                   <%end%>
                                 
                 <% else %> <!--관리자가 아닐때 승인대기-->
                   <span class="label label-info"><%=c.state%></span><!--관리자가 아닐땐 상태만 보여준다-->
-                  <!--<input class="btn btn-primary btn-sm" value="승인대기" id="<=c.id%>"></input>-->
+                  <input class="btn btn-primary btn-sm" value="승인대기" id="<=c.id%>"></input>
                             
                 <% end %>
                                  
@@ -202,7 +202,7 @@
             
             <% if current_user %>
                <% if User.find(c.user).email == current_user.email %>
-                <!--예약취소는 사용자만 가능하게! 관리자가 안된다고 생각하면 삭제 말고 승인 거부하면된다-->
+                예약취소는 사용자만 가능하게! 관리자가 안된다고 생각하면 삭제 말고 승인 거부하면된다
                 <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show_check<%=c.id%>" >예약 취소</button></td>
                <% else %>
                  
@@ -279,7 +279,7 @@
       
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <!--<button type="button" class="btn btn-primary" id = "ok" >승인하기</button>-->
+        <button type="button" class="btn btn-primary" id = "ok" >승인하기</button>
 
       </div>
     </div>
