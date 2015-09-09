@@ -150,6 +150,10 @@ class BookController < ApplicationController
       
         end
     end    
+    
+    def test
+        
+    end
    
     
     
