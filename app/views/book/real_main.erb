@@ -51,20 +51,82 @@
           <% if current_user %> <!-- 로그인이 되어있다면 --> 
           
             <!--오늘의 예약건수-->
-            <br><br><br><br><br><br><br><br><br><br><br><br>
-             
-            <div class="notice" id="menu_font" style="margin-left: 175px; padding-top: 20px;padding-left: 10px;" >
-              <p>My Info</p>
-               <p style="text-align:left">성 명 : <%= current_user.student_name%><p>
-               <p style="text-align:left">나의 예약 수 : <%= Reservation.where(user: current_user.id).count %><p>
-               <p style="text-align:left">승인 대기중 : <%#= current_user.department %><p>
-               <p style="text-align:left">승인 완료 : <%#= current_user.department %><p>
-               <!--<p style="text-align:left">성 명 : <%#= current_user.student_name%><p>-->
-               <!--<p style="text-align:left">학 번 : <%#= current_user.student_number %><p>-->
-               <!--<p style="text-align:left">학 과 : <%#= current_user.department %><p>-->
-               
-               
-            </div>
+            <br><br><br><br>
+            
+            <div class="notice" id="menu_font" style="margin-left: 175px; padding-top: 20px;padding-left: 10px" >
+              <!--아코디언-->
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <%=current_user.student_name%>님의 정보 </a>
+           <a href="/book/mypage">
+             <button type="button" class="btn btn-default btn-xs" style="padding-top:5px">바로가기</button>
+           </a>
+        
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <div class="alert alert-danger" role="alert">
+          총 예약수 : <%= Reservation.where(user: current_user.id).count %> ||
+          승인 대기중 : <%= Reservation.where("user = ? and state = ?",current_user.id,"승인대기").count %>  ||
+          승인 완료 : <%= Reservation.where("user = ? and state = ?",current_user.id,"승인완료").count %><br>
+          
+        </div>
+        이름  : <%=current_user.student_name%><br>
+        학번  : <%=current_user.student_number%><br>
+        학과  : ...<br>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          예약 승인 완료 현황
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        
+        <% if Reservation.where("user = ? and state = ?",current_user.id,"승인완료").count==0 %>
+          승인완료 된 예약이 없습니다.
+        <%elsif%>
+          <% Reservation.where("user = ? and state = ?",current_user.id,"승인완료").last(5).each do |r| %>
+            <%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호 | <%=r.date%> | <%=r.state%> <br>
+          <%end%>
+        <%end%>
+        
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          예약 승인 대기 현황
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        
+        <% if Reservation.where("user = ? and state = ?",current_user.id,"승인대기").count==0 %>
+          승인대기 된 예약이 없습니다.
+        <%elsif%>
+          <% Reservation.where("user = ? and state = ?",current_user.id,"승인대기").last(5).each do |r| %>
+            <%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호 | <%=r.date%> | <%=r.state%> <br>
+          <%end%>
+        <%end%>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<!--아코디언 끝-->
             
           <%else%> 
             
