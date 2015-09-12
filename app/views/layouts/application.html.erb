@@ -84,7 +84,7 @@
                       
                       <%if current_user.email=="admin@ptu.ac.kr"%>
                         <li>
-                          <a id="11" class="page-scroll" href="#" style = "margin-top: 17px; font-size:20px">관리자 메뉴</a>
+                          <a id="11" class="page-scroll" href="/book/admin_menu" style = "margin-top: 17px; font-size:20px">관리자 메뉴</a>
                         </li>
                       <%end%>
                       <!-- <li>-->
@@ -117,8 +117,11 @@
     </div>
   </div> <!-- 상단 고정 메누바 끝 -->
   
-<%= yield %>
-
+  
+      <%= yield %>
+    
+    
+  
       <!--마지막 copyright 부분-->
       <footer>
         <center>      

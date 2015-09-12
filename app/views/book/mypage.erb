@@ -22,6 +22,7 @@
       <a href="#message_menu" class="list-group-item" data-toggle="collapse">나의 문의함</a>
         <div class="collapse" id="message_menu" >
           <ul class="list-group">
+            <a href="#" id="all_message" class="list-group-item">통합 메일함</a>
             <a href="#" class="list-group-item">내가 보낸 문의</a>
             <a href="#" class="list-group-item">내가 받은 답장</a>
           </ul>
@@ -39,9 +40,16 @@
       <p>나의 예약 수 : <%= Reservation.where(user: current_user.id).count %><p>
       <p>승인 대기중 : <%= Reservation.where("user = ? and state = ?", current_user.id, "승인대기").count %><p>
       <p>승인 완료 : <%= Reservation.where("user = ? and state = ?", current_user.id, "승인완료").count %><p>
-
     </div>
-  </div>  
+  </div>
+  <script>
+    $('#all_message').on('click', function(){
+      $('all_message_content').show()
+      });
+      
+  </script>
+  
+  
 </div>
 
 
