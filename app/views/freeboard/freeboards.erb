@@ -1,4 +1,4 @@
-	<!--freeboard css-->
+<!--freeboard css-->
 	
 	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/earlyaccess/hanna.css">
@@ -78,7 +78,7 @@
                 <tr class="data">
                     <td  style="text-align :center; font-size: 18px;" id="menu_font_t"><%= a.id %></td>
                 
-                    <td  style="text-align :center; font-size: 18px;" id="menu_font_t"><%= a.fb_name %></td>
+                    <td  style="text-align :center; font-size: 18px;" id="menu_font_t"><%= User.find(a.fb_user_id).student_name %></td>
                      
                     <% if user_signed_in? %>
                         <td  style="text-align :center; font-size: 18px;" id="menu_font_t"> <a href="/freeboard/upload_view?id=<%= a.id %>"> <p style = "color:black"> <%= a.fb_title %></p></a> </td>
@@ -160,4 +160,3 @@
 	<br><br><br><br><br>
 </body>
 </html>
-
