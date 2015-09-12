@@ -82,9 +82,14 @@
                        <a id="11" class="page-scroll" href="/book/mypage" style = "margin-top: 17px; font-size:20px">마이페이지</a>
                        </li>
                       
-                       <li>
-                        <a id="11" class="page-scroll" href="/users/edit" style = "margin-top: 17px; font-size:20px">회원정보 수정</a>
-                      </li>
+                      <%if current_user.email=="admin@ptu.ac.kr"%>
+                        <li>
+                          <a id="11" class="page-scroll" href="#" style = "margin-top: 17px; font-size:20px">관리자 메뉴</a>
+                        </li>
+                      <%end%>
+                      <!-- <li>-->
+                      <!--  <a id="11" class="page-scroll" href="/users/edit" style = "margin-top: 17px; font-size:20px">회원정보 수정</a>-->
+                      <!--</li>-->
                       
                       <li>
                         <a id="11" class="page-scroll" href="/users/sign_out" style="margin-top: 17px; font-size:20px">로그아웃</a>
