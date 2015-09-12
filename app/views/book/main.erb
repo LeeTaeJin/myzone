@@ -56,22 +56,27 @@
 <!--</div>-->
 
 <div class="container">
-<div class="row">
-
-<div class="col-md-6 col-md-offset-3">
-    <!--<div class="panel panel-info">-->
-    <!--  <div class="panel-heading">-->
-    <!--    <h3 class="panel-title"><center>예약할 강의실을 선택해주세요</center></h3>-->
-    <!--  </div>-->
-    <!--  <div class="panel-body">-->
-        <center>
-        <% @building.each do |b| %>
-        
-        <a href="/book/detail_info/<%=b.id%>" class="btn btn-success" style="margin-bottom:10px"><%=b.name%></a><br>
-        
-        <%end%>
-        </center>
-</div>
+  <div class="row">
+    <div class="col-md-7">
+      <center>
+      <img src="http://www.ptu.ac.kr/ptu/include/img/contents/campus_map/campus_map_s.jpg">
+      </center>
+    </div>
+  
+    <div class="col-md-5">
+        <!--<div class="panel panel-info">-->
+        <!--  <div class="panel-heading">-->
+        <!--    <h3 class="panel-title"><center>예약할 강의실을 선택해주세요</center></h3>-->
+        <!--  </div>-->
+        <!--  <div class="panel-body">-->
+            
+            <% @building.each do |b| %>
+            
+            <a href="/book/detail_info/<%=b.id%>" class="btn btn-success" style="margin-bottom:10px"><%=b.name%></a><br>
+            
+            <%end%>
+            
+    </div>
 
   </div>
 </div>
