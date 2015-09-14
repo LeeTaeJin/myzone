@@ -136,9 +136,9 @@
             
             <td>
               <% if current_user %> <!--로그인 된 상태.-->
-                      
+                <span class="label label-info" id="view_state<%c.id%>"><%=c.state%></span><!--현재 진행상태 보여쥼
+                
                 <%  if current_user.email == "admin@ptu.ac.kr" %> <!--관리자일때 승인하기-->
-                  <span class="label label-info" id="view_state<%c.id%>"><%=c.state%></span>
                   
                   <% if c.state=="승인대기" %>
                     <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change()" >승인하기</button>
