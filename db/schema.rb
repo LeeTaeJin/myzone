@@ -37,7 +37,8 @@ ActiveRecord::Schema.define(version: 20150909040858) do
 
   create_table "replies", force: :cascade do |t|
     t.integer  "freeboard_id"
-    t.string   "user_id"
+    t.integer  "user_id"
+    t.string   "rp_name"
     t.string   "rp_content"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false

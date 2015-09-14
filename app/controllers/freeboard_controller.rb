@@ -108,7 +108,7 @@ class FreeboardController < ApplicationController
         
         fb_reply = Reply.new
         fb_reply.freeboard_id = params[:freeboard_id]
-        # fb_reply.rp_name = params[:rp_name]
+        fb_reply.rp_name = params[:rp_name]
         fb_reply.user_id=current_user.id
         fb_reply.rp_content = params[:rp_content]
         # fb_reply.rp_hakbun = params[:rp_hakbun]
@@ -126,6 +126,11 @@ class FreeboardController < ApplicationController
 
         if rp_delete.user_id == current_user.id
                     # 같은 이름을 가진 사람이 댓글을 삭제할수도 있으므로 학번으로 바꿔야함.
+            
+           rp_delete.destroy
+            redirect_to :back
+            
+        elsif current_user.email == "admin@ptu.ac.kr"
             
             rp_delete.destroy
             redirect_to :back

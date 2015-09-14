@@ -50,7 +50,7 @@
                   <div class="<%= r.id %>">   
                     <form action="/freeboard/reply_delete" method="GET">
                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                          <span style="font-size: 18px;" id="menu_font_t"><%= r.rp_name %> : <%= r.rp_content %></span>  
+                          <span style="font-size: 18px;" id="menu_font_t"><%= r.rp_name %> : <%= r.rp_content %> </span>  
                         <input type="submit" class="btn btn-danger btn pull-right" style=" font-size: 15px; text-align: right;" id="menu_font_t" value="삭제" >                               
                         <input type="hidden" name="rp_id" value="<%= r.id %>">
                     </form>            
@@ -59,8 +59,12 @@
               </div>
           </div>
 
+
+
+
                             
                             <% end %> 
+                          
                           <br>
                             <%= form_tag("/freeboard/reply_write", method: "post") do %>
                                 <% if user_signed_in? %>
