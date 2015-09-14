@@ -30,4 +30,19 @@ class MessageController < ApplicationController
     def reply # 답장보내는페이지
         @reply_message=Message.find(params[:id])
     end
+    
+    def send_message
+        
+        @receive_message=Message.where(receiver: current_user.id)#내가 받은 메시지
+        @send_message=Message.where(sender: current_user.id) #내가 보낸 메시지
+    
+    end
+    
+    def receive_message
+        
+        @receive_message=Message.where(receiver: current_user.id)#내가 받은 메시지
+        @send_message=Message.where(sender: current_user.id) #내가 보낸 메시지
+    
+    end
+    
 end

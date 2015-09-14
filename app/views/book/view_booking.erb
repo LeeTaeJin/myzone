@@ -280,9 +280,12 @@
         </div>
       </div>
       
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <% if current_user.email == "admin@ptu.ac.kr" %>
         <button type="button" class="btn btn-primary" id = "ok" >승인하기</button>
+      <% end %>  
 
       </div>
     </div>
