@@ -147,6 +147,7 @@
             <td><%=User.find(c.user).email %></td>
             <td><%=c.date%></td>
             <td><%=c.start_time.to_s(:db)%> ~ <%=c.finish_time.to_s(:db)%></td>
+            <%=c.id%>
             
             <td>
               <% if current_user %> <!--로그인 된 상태.-->
@@ -155,15 +156,18 @@
                   <span class="label label-info" id="view_state<%c.id%>"><%=c.state%></span>
                   
                   <% if c.state=="승인대기" %>
-                    <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change()" >승인하기</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change()">승인하기</button>
+                    
                   <% else %>
                     <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change()">승인취소</button>
-                  <input class="btn btn-primary btn-sm" onclick="change()" value="승인하기" id="<=c.id%>"></input>
-                  <%end%>
+                    
+                  <input type="hidden" class="btn btn-primary btn-sm" onclick="change()" value="승인하기" id="<=c.id%>">
+               
+                  <% end %>
                                 
                 <% else %> <!--관리자가 아닐때 승인대기-->
-                  <span class="label label-info"><%=c.state%></span><!--관리자가 아닐땐 상태만 보여준다-->
-                  <input type="button" class="btn btn-primary btn-sm" value="승인대기" id="<=c.id%>"></input>
+                  <span class="label label-info"><%=c.state%></span> <!--관리자가 아닐땐 상태만 보여준다-->
+                  <input type="hidden" value="승인대기" id="<=c.id%>">
                             
                 <% end %>
                                  

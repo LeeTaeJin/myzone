@@ -37,7 +37,7 @@
                     <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change()" >승인하기</button>
                   <% else %>
                     <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change()">승인취소</button>
-                  <!--<input class="btn btn-primary btn-sm" onclick="change()" value="승인하기" id="<=c.id%>"></input>-->
+                  <input type="hidden" class="btn btn-primary btn-sm" onclick="change()" value="승인하기" id="<=c.id%>">
                   <%end%>
                                 
                 <!--<2% else %> <!--관리자가 아닐때 승인대기-->
