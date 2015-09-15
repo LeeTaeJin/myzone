@@ -94,9 +94,12 @@
         <% if user_signed_in? %>
                  <% if current_user.email == 'admin@ptu.ac.kr' %> <br>
                     <a href="/freeboard/upload"><input type = "button"  class="btn btn-primary btn-sm" style="font-size: 18px;" id="menu_font" value = "작성하기"></input></a>
+
                   <% else %>
                     <br>
                     <input class="btn btn-primary" type ="button" style="font-size: 18px;" id="writeadmin" id = "menu_font" value = "작성하기"></input>
+
+
                                        
                     <script type="text/javascript"> 
                       $(function() {
@@ -104,6 +107,7 @@
                               $("#dialog").dialog({
                                   title: "알림",
                               
+
                                   width: 300,               //dialog
                                   height: 200,
                                   modal: true,
@@ -122,7 +126,7 @@
                         * 관리자가 아닙니다. <br>
                          (관리자에게만 권한이 있습니다.)
                     </div>
-                      
+         
                   <% end %>
         <% else %>
           <!-- 로그인 창으로 넘어간다. -->
