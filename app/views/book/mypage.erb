@@ -6,12 +6,12 @@
 
 <div class = "container">
   <div class = "row">
-    <div class = "col-md-6" style="background-image: url(http://notice-chohyejin.c9.io/img/pit.png); height: 340px; width: 400px">
+    <div class = "col-md-6" style="background-image: url(http://ffaass-leetaejin-1.c9.io/img/pit.png); height: 340px; width: 400px">
      <p style = "font-size:40px;" id = "menu_font"> &nbsp;&nbsp; <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> &nbsp; My page</p>
         <center>
         <p style = "font-size:22px;" id = "menu_font">성 명 : <%= current_user.student_name%></p>
         <p style = "font-size:22px;" id = "menu_font">학 번 : <%= current_user.student_number %></p>
-        <p style = "font-size:22px;" id = "menu_font">학 과 : <%#= current_user.department %></p>
+        <p style = "font-size:22px;" id = "menu_font">학 과 : <%= current_user.department %></p>
         <p style = "font-size:22px;" id = "menu_font">나의 예약 수 : <%= Reservation.where(user: current_user.id).count %></p>
         <p style = "font-size:22px;" id = "menu_font">승인 대기중 : <%#= current_user.department %></p>
         <p style = "font-size:22px;" id = "menu_font">승인 완료 : <%#= current_user.department %></p>
@@ -27,7 +27,7 @@
               <div class="collapse" id="user_menu" >
                 <ul class="list-group">
                   <a href="/users/edit" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;회원 정보 수정</a>
-                  <a href="/users(.:format)" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;회원 탈퇴</a>
+                  <!--<a href="/users(.:format)" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;회원 탈퇴</a>-->
                 </ul>
               </div> <br>
               
