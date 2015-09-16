@@ -236,14 +236,26 @@
               <p><strong>여기다가는 전체 공지사항 게시판에서 최신글 몇개만 주르륵 불러와서 나오게 할거임.</strong></p>
             </div>
             <div class="one-half">
-              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
-              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
-              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
-              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
-              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
-              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
-              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
-              <p>In today's virtual marketplace, people are searching for your company. We exist to help your business find more customers online by using cutting edge SEO and digital marketing techniques. Call us at <strong><span itemprop="telephone">407-850-8895</span></strong> to get started.</p>
+              
+              <div class="list-group">
+                <% Freeboard.last(5).reverse.each do |f| %>
+              
+                  <a href="/freeboard/upload_view/<%=f.id%>" class="list-group-item">
+                    <div class="row">
+                      <div class="col-md-5">
+                        <h4 class="list-group-item-heading"><strong><%=f.fb_title%> (<%=f.replies.count()%>)</strong><br><br>
+                        <small><%=f.id%> | <%=User.find(f.fb_user_id).student_name%> </small>
+                        </h4>
+                      </div>
+                      <div class="col-md-7">
+                        <small class="list-group-item-text"><%=f.fb_content.first(30)%>...</small>
+                      </div>
+                    </div>
+                    
+                  </a>
+                <%end%>
+              </div>
+             
             </div>
           </div>
         </div><br><br><br><br>
