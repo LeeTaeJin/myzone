@@ -162,6 +162,13 @@ class BookController < ApplicationController
         @a="ff"
     end
    
+   def update_state
+       update_state=Reservation.find(params[:reservation_num])
+       update_state.state=params[:state]
+       update_state.save
+       
+       render:text =>" "
+   end
     
     
 end
