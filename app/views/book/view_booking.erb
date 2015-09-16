@@ -181,20 +181,21 @@
             <td><%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)</td>
             <td><%=c.date%></td>
             <td><%=c.start_time.to_s(:db)%> ~ <%=c.finish_time.to_s(:db)%></td>
+            <td><span class="label label-info" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span>    <!--현재 진행상태 보여줌--></td>
             
             <td>
               <% if current_user %> <!--로그인 된 상태.-->
-                <span class="label label-info" id="view_state<%c.id%>" value="<%=c.state%>"><%=c.state%></span>    <!--현재 진행상태 보여줌-->
                 
                 <%  if current_user.email == "admin@ptu.ac.kr" %> <!--관리자일때 승인하기-->
                   
                   <% if c.state=="승인대기" %>
-                    <input onclick="change(<%=c.id%>)" type="button" value="승인하기" id="button<%=c.id%>"></input>
-                    <!--<button type="button" class="btn btn-primary btn-sm" id="button" onclick="change()" >승인하기</button>-->
+                    <!--<input onclick="change(<=c.id%>)" type="button" value="승인하기" id="button<=c.id%>"></input>-->
+                    <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인하기</button>
+                    
                     
                   <% else %>
-                    <input onclick="change(<%=c.id%>)" type="button" value="승인취소" id="button<%=c.id%>"></input>
-                    <!--<button type="button" class="btn btn-primary btn-sm" id="button<=c.id%>" onclick="change()">승인취소</button>-->
+                    <!--<input onclick="change(%=c.id%>)" type="button" value="승인취소" id="button%=c.id%>"></input>-->
+                    <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인취소</button>
                   <!--<input class="btn btn-primary btn-sm" onclick="change()" value="승인하기" id="<=c.id%>"></input>-->
                     
                   <%end%>
@@ -203,36 +204,51 @@
                                  
               <% end %> <!-- if current_user end -->
                     
-<script>
-
+<script type="text/javascript">
+  
   function change(reservation_id){
+        
         var button="button" + reservation_id;
         var view_state="view_state" + reservation_id;
+        var re_state=document.getElementById(view_state).innerHTML;
         
-        alert(button);
-        alert(view_state);
-        // // % @reservation %> = reservation_id
-        // alert(reservation_id)
-        // < @reservation = reservation_id %>
-        
-        if document.getElementById(view_state).value == "승인대기"//승인대기라면
+        if (re_state == "승인대기")//승인대기라면
           //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!
-          document.getElementById(view_state).innerHTML="승인완료";
-          document.getElementById(button).value="승인취소";
-          
-          
-          // % @change_state=Reservation.find(reservation.id)
-          //   @change_state.state="승인완료"
-          //   @change_state.save %>
-             
-        else
-          document.getElementById(view_state).innerHTML="승인대기";
-          document.getElementById(button).value="승인하기";
-          
-          // % @change_state=Reservation.find(@reservation_id)
-          //   @change_state.state="승인대기"
-          //   @change_state.save %>
+          $.ajax({
+            data: {
+              reservation_num: reservation_id,
+              state: "승인완료"
+            },
+            url: "/book/update_state",
+            success: function(){
+              // alert("db 저장 완료");
+              document.getElementById(view_state).innerHTML="승인완료";
+              document.getElementById(button).innerHTML="승인취소";
+            },
+            error:function(request,status,error){
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+          });
+          //db 바꿔줌
         
+        else
+          $.ajax({
+            data: {
+              reservation_num: reservation_id,
+              state: "승인대기"
+            },
+            url: "/book/update_state",
+            success: function(){
+              // alert("db 저장 완료");
+              document.getElementById(view_state).innerHTML="승인대기";
+              document.getElementById(button).innerHTML="승인하기";
+            },
+            error:function(request,status,error){
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+          });
+          
+          
   };
 
 </script>
