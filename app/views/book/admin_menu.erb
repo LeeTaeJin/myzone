@@ -6,6 +6,7 @@
         var view_state="view_state" + reservation_id;
         var re_state=document.getElementById(view_state).innerHTML;
         
+        
         if (re_state == "승인대기")//승인대기라면
           //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!
           $.ajax({
@@ -18,9 +19,19 @@
               // alert("db 저장 완료");
               document.getElementById(view_state).innerHTML="승인완료";
               document.getElementById(button).innerHTML="승인취소";
-              document.getElementById(button).className='btn btn-danger btn-sm';
-              document.getElementById(view_state).className='label label-primary';
-              // document.getElementById(button).setAttribute("class", "btn btn-success btn-sm");
+              document.getElementById(view_state).className="label label-primary";
+              document.getElementById(button).className="btn btn-danger btn-sm";
+              
+              $("#wait_table").load(window.location + " #wait_table");
+              // $("#total_table").load(window.location + " #total_table");
+              $("#ok_table").load(window.location + " #ok_table");
+              $("#over6_table").load(window.location + " #over6_table");
+               
+              // ajax.reload();
+              // document.getElementById("total_table").load();
+              // document.getElementById("wait_table").load();
+              // document.getElementById("ok_table").load();
+              // document.getElementById("over6_table").load();
             },
             error:function(request,status,error){
             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -39,8 +50,26 @@
               // alert("db 저장 완료");
               document.getElementById(view_state).innerHTML="승인대기";
               document.getElementById(button).innerHTML="승인하기";
-              document.getElementById(button).className='btn btn-success btn-sm';
-              document.getElementById(view_state).className='label label-info';
+              document.getElementById(view_state).className="label label-info";
+              document.getElementById(button).className="btn btn-success btn-sm";
+              
+              $("#wait_table").load(window.location + " #wait_table");
+              // $("#total_table").load(window.location + " #total_table");
+              $("#ok_table").load(window.location + " #ok_table");
+              $("#over6_table").load(window.location + " #over6_table");
+              // $("#wait_table").load(window.location + " #wait_table");
+              // $("#total_table").load(window.location + " #total_table");
+              // $("#ok_table").load(window.location + " #ok_table");
+              // $("#over6_table").load(window.location + " #over6_table");
+              // (document.getElementById("total_table")).load();
+              // (document.getElementById("wait_table")).load();
+              // (document.getElementById("ok_table")).load();
+              // (document.getElementById("over6_table")).load();
+              
+              // document.getElementById("total_table").load();
+              // document.getElementById("wait_table").load();
+              // document.getElementById("ok_table").load();
+              // document.getElementById("over6_table").load();
             },
             error:function(request,status,error){
             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -60,7 +89,7 @@
 <div class="row">
 
 <div class="col-md-7 col-md-offset-0">
-  <table class="table table-striped table-hover ">
+  <table class="table table-striped table-hover" id="total_table">
     <thead>
       <tr class="info">
         <th>#</th>
@@ -72,8 +101,8 @@
         <th></th>
       </tr>
     </thead>
-    <tbody>
-      <% Reservation.order(:start_time).each do |c| %>
+    <tbody><center>오늘부터의 예약(지난 과거의 예약은 보여주지 않음)</center>
+      <% Reservation.where("date >= ? ", Time.zone.today).order(:start_time).each do |c| %>
           <tr>
             
             <td><%=c.id%></td>
@@ -128,7 +157,7 @@
   </table> 
   <!--시간별로 보여주는거 끝-->
   
-  <table class="table table-striped table-hover ">
+  <table class="table table-striped table-hover" id="wait_table">
     <thead>
       <tr class="info">
         <th>#</th>
@@ -196,7 +225,7 @@
     </tbody>
   </table> 
   
-  <table class="table table-striped table-hover ">
+  <table class="table table-striped table-hover" id="ok_table">
     <thead>
       <tr class="info">
         <th>#</th>
@@ -209,7 +238,7 @@
       </tr>
     </thead>
     <tbody>
-        <center>승인대기 예약 리스트
+        <center>승인완료 예약 리스트
       <% Reservation.where(state: "승인완료").each do |c| %>
           <tr>
             
@@ -264,7 +293,7 @@
     </tbody>
   </table> 
   
-  <table class="table table-striped table-hover ">
+  <table class="table table-striped table-hover" id="over6_table">
     <thead>
       <tr class="info">
         <th>#</th>
