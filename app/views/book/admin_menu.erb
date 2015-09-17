@@ -282,7 +282,8 @@
       </table> 
     </div>
   </div> <!--row의 div-->
-
+    <% Reservation.where(date: Time.zone.today).where("start_time >= ?", "18:00".to_time).each do |c| %>
+          <tr>
             
             <td><%=c.id%></td>
             <td><%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)</td>
