@@ -1,25 +1,50 @@
-<h2 id = "menu_font">비밀번호 변경</h2>
+<div class="well" id="menu_font" style="font-size: 20px;" >
+   <center>비밀번호 변경 페이지입니다.</center>
+</div>
+<br>
+
+<center>
+<div id = "menu_font" style="font-size: 30px;"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color:red;"></span>
+&nbsp;비밀번호 변경
+</div>
+<br><br>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
   <%= f.hidden_field :reset_password_token %>
 
-  <div class="field" id = "menu_font">
-    <%= f.label :password, "New password" %><br />
+  <div class="field" id = "menu_font_t" style = "font-size:20px">
+    <%= f.label :password, "변경할 비밀번호" %>&nbsp;
     <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+    (최소 <%= @minimum_password_length %> 자리 이상)<br />
     <% end %>
     <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
   </div>
+  <br>
 
-  <div class="field" id = "menu_font">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
+  <div class="field" id = "menu_font_t" style = "font-size:20px">
+    <%= f.label :password_confirmation, "비밀번호 확인" %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
+  <br>
 
-  <div class="actions" id = "menu_font">
-    <%= f.submit "Change my password" %>
+  <div class="actions"  id = "menu_font" style = "font-size:25px">
+    <input type="submit" name="commit" value="변경하기" style="height: 40px; width: 300px; background-color: #FFFFFF;">
+    <%#= f.submit "Change my password" %>
   </div>
 <% end %>
+<br>
+<br>
 
-<%= render "devise/shared/links" %>
+<%#= render "devise/shared/links" %>
+  <div id="menu_font" style="font-size: 20px;margin-top: 10px;">
+    <%- if controller_name != 'sessions' %>
+     <%= link_to "로그인", new_session_path(resource_name) %>&nbsp;&nbsp;
+    <% end -%>
+  
+  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+     <%= link_to "회원가입", new_registration_path(resource_name) %><br /><br><br>
+  <% end -%>
+  </div>
+</center>
+
