@@ -16,7 +16,7 @@
     });
     $("#icon1, #picon1").mouseleave(function(){    
     $(".service-icon1").css("border-color", "#7D6F81");
-    });
+    });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     
     $("#icon2, #picon2").mouseover(function(){
     $(".service-icon2").css("border-color", "#0C5838");
@@ -224,16 +224,40 @@
         <div itemscope="" itemtype="http://schema.org/LocalBusiness" class="container">
           <div class="row">
             <div class="full">
+
+              <h1 class="text-center" id="menu_font" style="font-size:30px">공지사항
+              <a href = "/freeboard/freeboards" style = "color:black">
+                  <p class="glyphicon glyphicon-list-alt" aria-hidden="true" style="font-size:30px; top: 5px;"></p>
+              </a>
+                </h1><br><br>
+            </div>
+          </div>
+  
+          <div class="row" id="menu_font_t">
+            <div class="one-half">
+              <p><strong>여기다가는 전체 공지사항 게시판에서 최신글 몇개만 주르륵 불러와서 나오게 할거임.</strong></p>
+            </div>
+            <div class="one-half">
               
-              <h1 class="text-center" id="menu_font" style="font-size:30px"> <p class="glyphicon glyphicon-list-alt" aria-hidden="true" style = "font-size:30px"></p>&nbsp;공지사항</h1>
-              <br>
-                   <center>
-                   <div id = "menu_font">
-                   <a href = "/freeboard/freeboards" style = "font-size:24px; color:red">해당 글을 클릭하여 공지사항 게시판으로 이동해주세요!<br>
-                    예약 시스템 사용시에 공시사항은 꼭 필독해주시기 바랍니다. </a>
-                  </div>
-                  </center>
+              <div class="list-group">
+                <% Freeboard.last(5).reverse.each do |f| %>
               
+                  <a href="/freeboard/upload_view/<%=f.id%>" class="list-group-item">
+                    <div class="row">
+                      <div class="col-md-5">
+                        <h4 class="list-group-item-heading"><strong><%=f.fb_title%> (<%=f.replies.count()%>)</strong><br><br>
+                        <small><%=f.id%> | <%=User.find(f.fb_user_id).student_name%> </small>
+                        </h4>
+                      </div>
+                      <div class="col-md-7">
+                        <small class="list-group-item-text"><%=f.fb_content.first(30)%>...</small>
+                      </div>
+                    </div>
+                    
+                  </a>
+                <%end%>
+              </div>
+
             </div>
           </div>
       
