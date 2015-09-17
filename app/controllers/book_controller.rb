@@ -171,6 +171,10 @@ class BookController < ApplicationController
    end
     
     
+    def tip
+        
+    end
+    
 end
                 
         

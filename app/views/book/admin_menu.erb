@@ -238,11 +238,51 @@
        
       </tr>
 
-    </thead>
-    <tbody>
-        <center>승인완료 예약 리스트
-      <% Reservation.where(state: "승인완료").each do |c| %>
-          <tr>
+      </thead>
+        <tbody>
+        <br><br>
+            <center><p id = "menu_font" style = "font-size:20px;"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>&nbsp;승인완료 예약 리스트</p>
+          <% Reservation.where(state: "승인완료").each do |c| %>
+              <tr>
+               
+                <td id = "menu_font_t"><%=User.find(c.user).email %></td>
+                <td id = "menu_font_t"><%=c.date%></td>
+                <td id = "menu_font_t"><%=c.start_time.to_s(:db)%> ~ <%=c.finish_time.to_s(:db)%></td>
+                
+                <td>
+                  <% if current_user %> <!--로그인 된 상태.-->
+                          
+                    <%  if current_user.email == "admin@ptu.ac.kr" %> <!--관리자일때 승인하기-->
+                      <span id = "menu_font_t" class="label label-info" id="view_state<%c.id%>"><%=c.state%></span>
+                      
+                 <% if c.state=="승인대기" %>
+                        <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change()" >승인하기</button>
+                      <% else %>
+                        <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change()">승인취소</button>
+                      <%end%>
+                                    
+                    <% else %> <!--관리자가 아닐때 승인대기-->
+                      <span id = "menu_font_t" class="label label-info"><%=c.state%></span><!--관리자가 아닐땐 상태만 보여준다-->
+                      <input class="btn btn-primary btn-sm" value="승인대기" id="<=c.id%>"></input>
+                                
+               <% end %>
+                                     
+                  <% end %> <!-- if current_user end -->
+                        
+    
+                </td>
+                   
+                <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show<%=c.id%>">상세보기</button></td>
+                
+               
+            </tr>
+    
+          <% end %>
+        </tbody>
+      </table> 
+    </div>
+  </div> <!--row의 div-->
+
             
             <td><%=c.id%></td>
             <td><%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)</td>

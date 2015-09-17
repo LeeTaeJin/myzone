@@ -7,7 +7,7 @@ Rails.application.configure do
 }
 
 
-  config.action_mailer.default_url_options = { host: 'rkskekfkakqktk-sangcheol.c9.io', port: 80 }
+  config.action_mailer.default_url_options = { host: 'foto-chohyejin.c9.io', port: 80 }
   # Settings specified here will take precedence over those in config/application.rb.
   
   # In the development environment your application's code is reloaded on

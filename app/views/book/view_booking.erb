@@ -1,6 +1,6 @@
 <div class="well" id="menu_font" style="font-size: 20px;" >
   <center><%=@date.to_date.year%>년 <%=@date.to_date.month%>월 <%=@date.to_date.day%>일<br><%=@class.building_name%> '<%=@class.room_number%>호'에 대한 예약현황입니다.
-  <br><a href="/book/booking?id=<%=@class.id%>&date=<%=@date%>" class="btn btn-warning" id="menu_font" style="font-size: 20px;">예약하기</a></center>
+  <br><br><a href="/book/booking?id=<%=@class.id%>&date=<%=@date%>" class="btn btn-warning" id="menu_font" style="font-size: 20px;">예약하기</a></center>
 </div>
 <br>
 
@@ -75,8 +75,9 @@
         <th>#</th>
 
         <th>사용자 이름</th>
-        <!--<th>사용날짜</th>-->
-        <th>사용날짜 및 시간</th>
+        <th>사용날짜</th>
+        <th>사용시간</th>
+        <th>[승인여부]</th>
         <th></th>
         <th></th>
         <th></th>
@@ -99,12 +100,17 @@
                   
                   <% if c.state=="승인대기" %>
                     <!--<input onclick="change(<=c.id%>)" type="button" value="승인하기" id="button<=c.id%>"></input>-->
-                    <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인하기</button>
-                    
+                    <div id = "menu_font">
+                    <button type="button" class="btn btn-primary" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인하기</button>
+                    </div>
                     
                   <% else %>
                     <!--<input onclick="change(%=c.id%>)" type="button" value="승인취소" id="button%=c.id%>"></input>-->
-                    <button type="button" class="btn btn-danger btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인취소</button>
+
+                    <div id = "menu_font">
+                      <button type="button" class="btn btn-primary btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인취소</button>
+                    </div>
+
                   <!--<input class="btn btn-primary btn-sm" onclick="change()" value="승인하기" id="<=c.id%>"></input>-->
                     
                   <%end%>
@@ -163,13 +169,13 @@
 </script>
             </td>
                
-            <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show<%=c.id%>"
+            <td><button class="btn btn-primary" data-toggle="modal" data-target="#show<%=c.id%>"
             style="text-align: center; font-size: 16px;" id="menu_font">상세보기</button></td>
             
             <td>
             <% if current_user %>
                        <% if User.find(c.user).email == current_user.email %>
-                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show_check<%=c.id%>" 
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#show_check<%=c.id%>" 
                         style="text-align: center; font-size: 16px;" id="menu_font">예약취소</button>
                        <% else %>
                          
@@ -201,9 +207,8 @@
           <label for="recipient-name" class="control-label">예약을 취소하시겠습니까?</label>
         </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             <form action="/book/delete/<%=c.id%>" method="POST">
-              <button type="submit" class="btn btn-primary">취소하기</button>
+              <button type="submit" class="btn btn-danger">취소하기</button>
             </form>
       </div>
       </div>
