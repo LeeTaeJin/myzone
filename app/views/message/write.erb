@@ -21,9 +21,13 @@
       <div class="form-group">
         <label for="select" class="col-lg-2 control-label" style="font-size: 20px;" id="menu_font">받는사람</label>
         <div class="col-lg-10">
-          <input type="text" class="form-control"style="font-size: 18px;" id="menu_font_t" value="관리자" disabled>
-          <input type="text" name="receiver" value="<%=User.where(email: "admin@ptu.ac.kr")%>">
-          
+          <% if current_user.email =="admin@ptu.ac.kr"%> <!--관리자라면 모든 학생에게 보냄-->
+            <input type="text" class="form-control"style="font-size: 18px;" id="menu_font_t" value="모든 학생" disabled>
+            <input type="hidden" name="receiver" value="모든학생">
+          <%else%>
+            <input type="text" class="form-control"style="font-size: 18px;" id="menu_font_t" value="관리자" disabled>
+            <input type="hidden" name="receiver" value="<%=User.where(email: "admin@ptu.ac.kr").first.id%>">
+          <%end%>
           <br>
         </div>
       </div>

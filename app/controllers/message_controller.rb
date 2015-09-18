@@ -13,12 +13,23 @@ class MessageController < ApplicationController
     end
     
     def write_process #쪽지 보내기 프로세스
-        
-        new_message=Message.new
-        new_message.sender=current_user.id #나중에 로그인한 사용자 이름으로 보내기로 변경할것
-        new_message.receiver=params[:receiver]
-        new_message.content=params[:content]
-        new_message.save
+        if params[:receiver] =="모든학생"
+          
+          User.all.each do |u|
+            new_message=Message.new
+            new_message.sender=current_user.id #나중에 로그인한 사용자 이름으로 보내기로 변경할것
+            new_message.receiver=u.id
+            new_message.content=params[:content]
+            new_message.save
+          end
+        else
+          new_message=Message.new
+          new_message.sender=current_user.id #나중에 로그인한 사용자 이름으로 보내기로 변경할것
+          new_message.receiver=params[:receiver]
+          new_message.content=params[:content]
+          new_message.save
+        end
+            
         
         redirect_to '/message/main'
     end

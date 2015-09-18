@@ -27,8 +27,9 @@
   </div>
   
   <center><a href="/message/main" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">메인으로 가기</a>
-          <a href="/message/write" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">답장보내기</a></center>
-  
+          <% if @message.receiver==current_user.id%>
+            <a href="/message/reply" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">답장보내기</a></center>
+          <%end%>
 </div>
 
 <div class="col-md-4"></div>

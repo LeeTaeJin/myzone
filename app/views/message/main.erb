@@ -5,7 +5,6 @@
 </div>
 <br>
 
-
 <div class="container">
   <div class="row">
             <div class= "col-md-12">
@@ -31,8 +30,8 @@
                           <% @receive_message.reverse.each do |m|%> <!--유저 디비를 생성하면 유저별로 메시지 출력해야되니까 user.messages.each do 하고 걸러줄것-->
                           <tr>
                            <td style="font-size: 18px;" id="menu_font_t"><%=m.id%></td>
-                           <td style=" font-size: 18px;" id="menu_font_t"><%=m.sender%></td>
-                            <td style="font-size: 18px;" id="menu_font_t"><%=m.created_at%></td>
+                           <td style=" font-size: 18px;" id="menu_font_t"><%=User.find(m.sender).student_name%></td>
+                           <td style="font-size: 18px;" id="menu_font_t"><%=m.created_at%></td>
                            <td style="font-size: 18px;" id="menu_font_t"><%=m.content%></td>
                            <td><a href="/message/read/<%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">쪽지보기</a>
                                <a href="/message/reply/<%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">답장보내기</a></td> <!--답장보낼때는 보낸이랑 받는이 뒤집에서 다시 보내기 수정할것--> 
@@ -66,7 +65,7 @@
           <% @send_message.reverse.each do |m|%> <!--유저 디비를 생성하면 유저별로 메시지 출력해야되니까 user.messages.each do 하고 걸러줄것-->
           <tr>
             <td style="font-size: 18px;" id="menu_font_t"><%=m.id%></td>
-            <td style="font-size: 18px;" id="menu_font_t"><%=User.find(m.receiver)%></td>
+            <td style="font-size: 18px;" id="menu_font_t"><%=User.find(m.receiver).student_name%></td>
             <td style="font-size: 18px;" id="menu_font_t"><%=m.created_at%></td>
             <td style="font-size: 18px;" id="menu_font_t"><%=m.content%></td>
             <td><a href="/message/read/<%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">쪽지보기</a></td>

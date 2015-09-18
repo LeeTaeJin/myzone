@@ -17,13 +17,15 @@
         <label for="inputprofessor" class="col-lg-2 control-label" style="font-size: 20px; height: 39px;" id="menu_font">보내는 사람</label>
          <div class="col-lg-10">
           <input type="text" class="form-control" name="sender" style="font-size: 18px;" id="menu_font_t" value="<%=User.find(@reply_message.receiver).student_name%> (<%=User.find(@reply_message.receiver).student_number%>)" disabled>
+        
         </div>
       </div>
       
       <div class="form-group">
         <label for="select" class="col-lg-2 control-label" style="font-size: 20px;" id="menu_font">받는사람</label>
         <div class="col-lg-10">
-          <input type="text" class="form-control" name="receiver"  style="font-size: 18px;" id="menu_font_t" value="<%=User.find(@reply_message.sender).student_name%> (<%=User.find(@reply_message.sender).student_number%>)" disabled >
+          <input type="text" class="form-control" style="font-size: 18px;" id="menu_font_t" value="<%=User.find(@reply_message.sender).student_name%> (<%=User.find(@reply_message.sender).student_number%>)" disabled >
+          <input type="hidden" name="receiver" value="<%=User.find(@reply_message.sender).id%>">
         </div>
       </div>
       
