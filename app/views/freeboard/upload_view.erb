@@ -29,7 +29,7 @@
                <br><%= @one_fb.fb_content %><br><br>
             </div><br><br>
             
-            
+            <a href="/freeboard/freeboards"><input type="submit" class="btn btn-primary btn-sm btn pull-right" style=" font-size: 18px;" id="menu_font" value="공지사항 목록으로 돌아가기"></a>
             <% if current_user.email == 'admin@ptu.ac.kr' %>
                 <a href="/freeboard/delete?id=<%= @one_fb.id %>"><input type="submit" class="btn btn-primary btn-sm btn pull-right" style=" font-size: 18px;" id="menu_font" value="삭제하기"></a>
                 &nbsp;&nbsp;&nbsp;&nbsp;

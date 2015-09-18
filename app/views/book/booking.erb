@@ -15,7 +15,7 @@
        <div class="form-group">
         <label for="inputprofessor" class="col-lg-2 control-label" style="font-size: 20px;" id="menu_font">사용자</label>
         <div class="col-lg-10">
-          <input type="text" class="form-control" name="user" style="font-size: 20px;" id="menu_font_t" value="<%=current_user.email%>" disabled>
+          <input type="text" class="form-control" name="user" style="font-size: 20px;" id="menu_font_t" value="<%=current_user.student_name%> (<%=current_user.student_number%>)" disabled>
 
         </div>
       </div>
@@ -76,7 +76,7 @@
       
       <div class="form-group">
         <div class="col-lg-10 col-lg-offset-2"  id ="menu_font">
-          <a href="/book/view_booking/<%=@class.id%>&show_date=<%=@date%>"><button type="submit" class="btn btn-default" style="font-size: 18px">Cancel</button></a>
+          <a href="/book/view_booking?id=<%=@class.id%>&show_date=<%=@date%>"><button type="submit" class="btn btn-default" style="font-size: 18px">Cancel</button></a>
             <button type="submit" class="btn btn-primary" id="suc" style="font-size: 18px">작성 완료</button>
         </div>
       </div>

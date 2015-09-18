@@ -1,6 +1,6 @@
 class FreeboardController < ApplicationController
  
- before_action :authenticate_user!, only: [:upload, :reply_write]
+ before_action :authenticate_user!, only: [:upload, :reply_write, :upload_view]
  
     # 게시판 홈
     def freeboards

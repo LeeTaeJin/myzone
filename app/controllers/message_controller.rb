@@ -16,7 +16,7 @@ class MessageController < ApplicationController
         
         new_message=Message.new
         new_message.sender=current_user.id #나중에 로그인한 사용자 이름으로 보내기로 변경할것
-        new_message.receiver=params[:receiver_id]
+        new_message.receiver=params[:receiver]
         new_message.content=params[:content]
         new_message.save
         
