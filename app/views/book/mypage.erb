@@ -4,67 +4,310 @@
 
 <br><br>
 
-<div class = "container">
-  <div class = "row">
-    <div class = "col-md-6" style="background-image: url(http://ffaass-leetaejin-1.c9.io/img/pit.png); height: 340px; width: 400px">
-     <p style = "font-size:40px;" id = "menu_font"> &nbsp;&nbsp; <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> &nbsp; My page</p>
-        <center>
+<!--<div class = "container">-->
+<!--  <div class = "row">-->
+<!--    <div class = "col-md-6" style="background-image: url(http://ffaass-leetaejin-1.c9.io/img/pit.png); height: 340px; width: 400px">-->
+<!--     <p style = "font-size:40px;" id = "menu_font"> &nbsp;&nbsp; <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> &nbsp; My page</p>-->
+<!--        <center>-->
+<!--        <p style = "font-size:22px;" id = "menu_font">성 명 : %= current_user.student_name%></p>-->
+<!--        <p style = "font-size:22px;" id = "menu_font">학 번 : %= current_user.student_number %></p>-->
+<!--        <p style = "font-size:22px;" id = "menu_font">학 과 : %= current_user.department %></p>-->
+<!--        <p style = "font-size:22px;" id = "menu_font">나의 예약 수 : %= Reservation.where(user: current_user.id).count %></p>-->
+<!--        <p style = "font-size:22px;" id = "menu_font">승인 대기중 : %= Reservation.where(state: "승인대기").count %></p>-->
+<!--        <p style = "font-size:22px;" id = "menu_font">승인 완료 : %= Reservation.where(state: "승인완료").count %></p>-->
+<!--        </center>-->
+
+<!--    </div>-->
+<!--  <div class= "col-md-4 col-md-offset-2">-->
+<!--        <br><br><br>-->
+<!--            <div class="list-group" >-->
+<!--              <a href="#user_menu" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>회원 정보 관리</center></a>-->
+              
+<!--              <div class="collapse" id="user_menu" >-->
+<!--                <ul class="list-group">-->
+<!--                  <a href="/users/edit" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;회원 정보 수정</a>-->
+                  <!--<a href="/users(.:format)" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;회원 탈퇴</a>-->
+<!--                </ul>-->
+<!--              </div> <br>-->
+              
+<!--              <a href="#reservation_menu" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>예약 현황 관리</center></a>-->
+<!--                <div class="collapse" id="reservation_menu" >-->
+<!--                  <ul class="list-group">-->
+<!--                    <a href="#" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;승인 대기 예약</a>-->
+<!--                    <a href="#" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;승인 완료 예약</a>-->
+<!--                  </ul>-->
+<!--                </div> <br>-->
+              
+<!--              <a href="#message_menu" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>나의 문의함</center></a>-->
+<!--                <div class="collapse" id="message_menu" >-->
+<!--                  <ul class="list-group">-->
+<!--                    <a href="#" id="all_message" class="list-group-item" id = "menu_font_t">통합 메일함</a>-->
+<!--                    <a href="#" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;내가 보낸 문의</a>-->
+<!--                    <a href="#" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;내가 받은 답장</a>-->
+<!--                  </ul>-->
+<!--                </div>-->
+                
+<!--            </div>-->
+        
+          
+<!--          <script>-->
+<!--            $('#all_message').on('click', function(){-->
+<!--              $('all_message_content').show()-->
+<!--              });-->
+              
+<!--          </script>-->
+          
+          
+        
+<!--    </div>-->
+<!--  </div>-->
+  
+<!--</div>-->
+
+<div class="col-md-offset-1">
+  <div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">나의 문의함</a></li>
+    <li role="presentation"><a href="#messages" aria-controls="messagess" role="tab" data-toggle="tab">예약현황</a></li>
+    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">아직없음</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home"><!--메인-->
+      <center>  
+        <p style = "font-size:40px;" id = "menu_font"> &nbsp;&nbsp; <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> &nbsp; My page</p>
+        
         <p style = "font-size:22px;" id = "menu_font">성 명 : <%= current_user.student_name%></p>
         <p style = "font-size:22px;" id = "menu_font">학 번 : <%= current_user.student_number %></p>
         <p style = "font-size:22px;" id = "menu_font">학 과 : <%= current_user.department %></p>
         <p style = "font-size:22px;" id = "menu_font">나의 예약 수 : <%= Reservation.where(user: current_user.id).count %></p>
-        <p style = "font-size:22px;" id = "menu_font">승인 대기중 : <%#= current_user.department %></p>
-        <p style = "font-size:22px;" id = "menu_font">승인 완료 : <%#= current_user.department %></p>
-        </center>
-
+        <p style = "font-size:22px;" id = "menu_font">승인 대기중 : <%= Reservation.where(state: "승인대기").count %></p>
+        <p style = "font-size:22px;" id = "menu_font">승인 완료 : <%= Reservation.where(state: "승인완료").count %></p>
         
+        <br>
+        <a href="/users/edit" style="width:30%"class="list-group-item" id = "menu_font_t">회원 정보 수정</a>
+      </center>
+
     </div>
-  <div class= "col-md-4 col-md-offset-2">
-        <br><br><br>
-            <div class="list-group" >
-              <a href="#user_menu" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>회원 정보 관리</center></a>
-              
-              <div class="collapse" id="user_menu" >
-                <ul class="list-group">
-                  <a href="/users/edit" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;회원 정보 수정</a>
-                  <!--<a href="/users(.:format)" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;회원 탈퇴</a>-->
-                </ul>
-              </div> <br>
-              
-              <a href="#reservation_menu" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>예약 현황 관리</center></a>
-                <div class="collapse" id="reservation_menu" >
-                  <ul class="list-group">
-                    <a href="#" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;승인 대기 예약</a>
-                    <a href="#" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;승인 완료 예약</a>
-                  </ul>
-                </div> <br>
-              
-              <a href="#message_menu" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>나의 문의함</center></a>
-                <div class="collapse" id="message_menu" >
-                  <ul class="list-group">
-                    <a href="#" id="all_message" class="list-group-item" id = "menu_font_t">통합 메일함</a>
-                    <a href="#" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;내가 보낸 문의</a>
-                    <a href="#" class="list-group-item" id = "menu_font_t">&nbsp;&nbsp;<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp;내가 받은 답장</a>
-                  </ul>
-                </div>
-                
+    
+    <div role="tabpanel" class="tab-pane" id="profile"><!--나의문의함-->
+      
+      <div class= "col-md-12">
+        <div class="list-group">
+        
+        <a href="#receiver_message" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>받은 메시지</center></a>
+          <div class="collapse" id="receiver_message" >
+            <ul class="list-group">
+              <table class="table table-striped table-hover ">
+                  <thead>
+                    <tr style="font-size: 18px;" id="menu_font_t">
+                      <th>#</th>
+                      <th>보낸 사람</th>
+                      <th>보낸 날짜</th>
+                      <th>내용 미리보기</th>
+                    </tr>
+                 </thead>
+                 
+                  <tbody>
+                    <% Message.where(receiver: current_user.id).reverse.each do |m|%> <!--유저 디비를 생성하면 유저별로 메시지 출력해야되니까 user.messages.each do 하고 걸러줄것-->
+                      
+                        <tr>
+                          <td style="font-size: 18px;" id="menu_font_t"><%=m.id%></td>
+                          <td style=" font-size: 18px;" id="menu_font_t"><%=User.find(m.sender).student_name%></td>
+                          <td style="font-size: 18px;" id="menu_font_t"><%=m.created_at%></td>
+                          <td style="font-size: 18px;" id="menu_font_t"><%=m.content%></td>
+                          <td><a href="/message/read/<%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">쪽지보기</a>
+                            <a href="/message/reply/<%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">답장보내기</a></td> <!--답장보낼때는 보낸이랑 받는이 뒤집에서 다시 보내기 수정할것--> 
+                        </tr> 
+                      
+                    <% end %>
+                  </tbody>
+                </table>
+            </ul>
+          </div>
+          
+        </div>
+        
+        <div class="list-group" >
+        
+          <a href="#send_message" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>보낸 메시지</center></a>
+            <div class="collapse" id="send_message">
+              <ul class="list-group">
+                <table class="table table-striped table-hover ">
+                  <thead>
+                    <tr style="font-size: 18px;" id="menu_font_t">
+                      <th>#</th>
+                      <th>보낸 사람</th>
+                      <th>보낸 날짜</th>
+                      <th>내용 미리보기</th>
+                    </tr>
+                  </thead>
+                 
+                  <tbody>
+                    <% Message.where(sender: current_user.id).reverse.each do |m|%> <!--유저 디비를 생성하면 유저별로 메시지 출력해야되니까 user.messages.each do 하고 걸러줄것-->
+                      
+                      <tr>
+                        <td style="font-size: 18px;" id="menu_font_t"><%=m.id%></td>
+                        <td style=" font-size: 18px;" id="menu_font_t"><%=User.find(m.receiver).student_name%></td>
+                        <td style="font-size: 18px;" id="menu_font_t"><%=m.created_at%></td>
+                        <td style="font-size: 18px;" id="menu_font_t"><%=m.content%></td>
+                        <td><a href="/message/read/<%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">쪽지보기</a>
+                            <a href="/message/reply/<%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">답장보내기</a></td> <!--답장보낼때는 보낸이랑 받는이 뒤집에서 다시 보내기 수정할것--> 
+                      </tr> 
+                      
+                    <% end %>
+                  </tbody>
+                </table>
+              </ul>
             </div>
+        </div><!--div list-group-->
         
-          
-          <script>
-            $('#all_message').on('click', function(){
-              $('all_message_content').show()
-              });
-              
-          </script>
-          
-          
+      </div><!--col-md-12-->
+    </div><!--<div role="tabpanel" class="tab-pane" id="profile"><!--나의문의함-->
+    
+    <div role="tabpanel" class="tab-pane" id="messages"><!--나의 예약-->
+      <div class="list-group">
         
-    </div>
-  </div>
+        <a href="#wait_reservation" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>승인 대기 예약 리스트</center></a>
+          <div class="collapse" id="wait_reservation" >
+            <ul class="list-group">
+              <table class="table table-striped table-hover" id="wait_table">
+                <thead>
+                  <tr class="info">
+                    <th>#</th>
+                    <th>사용자 이름</th>
+                    <th>사용날짜</th>
+                    <th>사용시간</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                 
+                  <% Reservation.where(state: "승인대기").where(user: current_user.id).each do |c| %>
+                    
+                    <tr>
+                      <td><%=c.id%></td>
+                      <td><%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)</td>
+                      <td><%=c.date%></td>
+                      <td><%=c.start_time.to_s(:db)%> ~ <%=c.finish_time.to_s(:db)%></td>
+                      <!--<td><span class="label label-info" id="view_state%=c.id%>" value="%=c.state%>">%=c.state%></span>    <!--현재 진행상태 보여줌->/td>-->
+                      
+                      <!--<td>-->
+                        <% if current_user %> <!--로그인 된 상태.-->
+                          
+                            <% if c.state=="승인대기" %>
+                              
+                              <td><span class="label label-info" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span> </td>
+                              
+                            <% else %>
+                              <td><span class="label label-primary" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span></td>
+                              
+                            <%end%>
+                                          
+                        <% end %> <!-- if current_user end -->
+                              
+          
+                      <!--</td>-->
+                         
+                      <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show<%=c.id%>">상세보기</button></td>
+                      
+                      <td>
+                      <% if current_user %>
+                         <% if User.find(c.user).email == current_user.email %>
+                          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show_check<%=c.id%>" >예약 취소</button>
+                         
+                         <%end%>
+                      
+                      <% end %>
+                      </td>
+                    </tr>
+                  
+                <% end %>
+              </tbody>
+            </table> 
+            </ul>
+          </div>
+          
+        </div>
+      
+        <div class="list-group">
+        
+        <a href="#ok_reservation" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>승인 완료 예약 리스트</center></a>
+          <div class="collapse" id="ok_reservation" >
+            <ul class="list-group">
+              <table class="table table-striped table-hover" id="wait_table">
+                <thead>
+                  <tr class="info">
+                    <th>#</th>
+                    <th>사용자 이름</th>
+                    <th>사용날짜</th>
+                    <th>사용시간</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                 
+                  <% Reservation.where(state: "승인완료").where(user: current_user.id).each do |c| %>
+                    
+                    <tr>
+                      <td><%=c.id%></td>
+                      <td><%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)</td>
+                      <td><%=c.date%></td>
+                      <td><%=c.start_time.to_s(:db)%> ~ <%=c.finish_time.to_s(:db)%></td>
+                      <!--<td><span class="label label-info" id="view_state%=c.id%>" value="%=c.state%>">%=c.state%></span>    <!--현재 진행상태 보여줌->/td>-->
+                      
+                      <!--<td>-->
+                        <% if current_user %> <!--로그인 된 상태.-->
+                          
+                            <% if c.state=="승인대기" %>
+                              
+                              <td><span class="label label-info" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span> </td>
+                              
+                            <% else %>
+                              <td><span class="label label-primary" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span></td>
+                              
+                            <%end%>
+                                          
+                        <% end %> <!-- if current_user end -->
+                              
+          
+                      <!--</td>-->
+                         
+                      <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show<%=c.id%>">상세보기</button></td>
+                      
+                      <td>
+                      <% if current_user %>
+                         <% if User.find(c.user).email == current_user.email %>
+                          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show_check<%=c.id%>" >예약 취소</button>
+                         
+                         <%end%>
+                      
+                      <% end %>
+                      </td>
+                    </tr>
+                  
+                <% end %>
+              </tbody>
+            </table> 
+            </ul>
+          </div>
+          
+        </div>
+    </div><!--div tabpane1 예약현황-->
+    <div role="tabpanel" class="tab-pane" id="settings">...3</div>
   
-</div>
-
+  </div><!--<div class="tab-content">-->
+  </div><!--div tabane-->
+  
+</div><!--div col-md-offset1-->
 <br><br><br><br><br><br> 
 
 
