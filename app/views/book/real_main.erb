@@ -48,61 +48,60 @@
               <p id="main_font_" style="text-align:right;">평택대학교 강의실 예약 시스템입니다.</p>
           </div>
           
-          <div class="col-md-6" style="text-align:right;">
+          <div class="col-md-4 col-md-offset-1" style="text-align:right;width: 420px;">
           
           <% if current_user %> <!-- 로그인이 되어있다면 --> 
           
             <!--오늘의 예약건수-->
-            <br><br><br><br>
+            <br><br><br><br><br><br><br>
             
             <!--<div id="menu_font" style="margin-left: 175px; padding-top: 20px;padding-left: 10px" >-->
              
              
               <!--아코디언-->
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                
                   <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingOne">
-                      <h4 class="panel-title">
-
+                      <div class="panel-title" id="menu_font" style="font-size:18px;">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                          <%=current_user.student_name%>님의 정보 </a>
+                          <%=current_user.student_name%> 님의 정보
+                        </a>&nbsp;
                            <a href="/book/mypage">
-                             <button type="button" class="btn btn-default btn-xs" style="padding-top:5px">바로가기</button>
-                           </a>
-                        
-                      </h4>
+                             <button type="button" class="btn btn-default btn-xs" style="padding-top:5px; font-size:17px;">바로가기</button>
+                           </a>  
+                      </div>
                     </div>
+                    
                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                       <div class="panel-body">
                         <!--<div class="alert alert-danger" role="alert">-->
-                          
-                          
-                          
-                          
+ 
                           <div id = "menu_font" style = "font-size:17px">
                             총 예약수 : <%= Reservation.where(user: current_user.id).count %> &nbsp;&nbsp;&nbsp;
                             승인 대기중 : <%= Reservation.where("user = ? and state = ?",current_user.id,"승인대기").count %> &nbsp;&nbsp;&nbsp; 
-                            승인 완료 : <%= Reservation.where("user = ? and state = ?",current_user.id,"승인완료").count %><br>
-                            
+                            승인 완료 : <%= Reservation.where("user = ? and state = ?",current_user.id,"승인완료").count %><br>  
                           </div>
-                        
                         <!--</div>--><br>
+                        <div id = "menu_font_t" style = "font-size:15px">
                         이름  : <%=current_user.student_name%><br>
                         학번  : <%=current_user.student_number%><br>
                         학과  : <%=current_user.department%><br>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  
                   <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingTwo">
-                      <h4 class="panel-title">
+                      <div class="panel-title"  id="menu_font" style="font-size:18px;">
                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                           예약 승인 완료 현황
                         </a>
-                      </h4>
+                      </div>
                     </div>
                     <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                      <div class="panel-body">
+                      <div class="panel-body" id = "menu_font_t" style = "font-size:15px">
                         
                         <% if Reservation.where("user = ? and state = ?",current_user.id,"승인완료").count==0 %>
                           승인완료 된 예약이 없습니다.
@@ -115,16 +114,17 @@
                       </div>
                     </div>
                   </div>
+                  
                   <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingThree">
-                      <h4 class="panel-title">
+                      <div class="panel-title"  id="menu_font" style="font-size:18px;">
                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                           예약 승인 대기 현황
                         </a>
-                      </h4>
+                      </div>
                     </div>
                     <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                      <div class="panel-body">
+                      <div class="panel-body"  id = "menu_font_t" style = "font-size:15px">
                         
                         <% if Reservation.where("user = ? and state = ?",current_user.id,"승인대기").count==0 %>
                           승인대기 된 예약이 없습니다.
@@ -137,6 +137,7 @@
                       </div>
                     </div>
                   </div>
+                  
                 </div>
 <!--아코디언 끝-->
             
@@ -148,12 +149,12 @@
                   <form class="new_user" id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="kRl81tHWKzxcUUvagXUXiCSvVvipE2p5muJR0dP9Gy600BAvnC8R8rOq47T/9CQrCJ47i7Bl/YjQImveK4Q2EQ==">
                       
                       <label for="user_email" style="font-size: 22px; color:white" id="menu_font_t">Email&nbsp;</label>
-                      <div style="font-size: 20px;" id="menu_font">
+                      <div style="font-size: 16px;" id="menu_font">
                       <input autofocus="autofocus" type="email" style="height: 30px; width:205px;" value="" name="user[email]" id="user_email">
                       </div>
                       
                       <label for="user_password" style="font-size: 22px; color:white" id="menu_font_t">&nbsp;&nbsp;Password</label>
-                      <div style="font-size: 20px; color:black;">
+                      <div style="font-size: 16px; color:black;">
                       <input autocomplete="off" type="password"  style="height: 30px; width:205px;" name="user[password]" id="user_password">
                       </div>
                       
@@ -173,6 +174,8 @@
 
         </div>
       </div>
+      </div>
+
       <br><br><br>
     
       <!--페이지 내리는거(손가락)-->
@@ -197,25 +200,27 @@
      <br><br><br><br><br><br><br><br>
         <div itemscope="" itemtype="http://schema.org/LocalBusiness" class="container">
           <div class="row">
+           
             <div class="full">
-
-              <h1 class="text-center" id="menu_font" style="font-size:30px">공지사항
-              <a href = "/freeboard/freeboards" style = "color:black">
+              <div class="text-center" id="menu_font" style="font-size:30px">
+                <a href = "/freeboard/freeboards" style = "color:red">
                   <p class="glyphicon glyphicon-list-alt" aria-hidden="true" style="font-size:30px; top: 5px;"></p>
               </a>
-                </h1><br><br>
+              공지사항
+                <br>
             </div>
           </div>
   
           <div class="row" id="menu_font_t">
             <div class="one-half">
-              <p><strong>여기다가는 전체 공지사항 게시판에서 최신글 몇개만 주르륵 불러와서 나오게 할거임.</strong></p>
+              <h4><strong>최신글 3개<br>(위의 아이콘을 클릭하여 공지사항 게시판으로 이동이 가능합니다 &<br>
+              &nbsp;아래의 게시글을 클릭하여 해당 글로 이동이 가능합니다.)</strong></h4>
             </div>
-            <div class="one-half">
-              
-
+            </div>
+            
+            <div class="one-half">            
               <div class="list-group">
-                <% Freeboard.last(5).reverse.each do |f| %>--><!--지연이 주석 5개
+                <% Freeboard.last(3).reverse.each do |f| %>--><!--지연이 주석 5개
 
               <h1 class="text-center" id="menu_font" style="font-size:30px"> <p class="glyphicon glyphicon-list-alt" aria-hidden="true" style = "font-size:30px; color:red;"></p>&nbsp;공지사항</h1>
               <br>
@@ -235,14 +240,17 @@
               
                   <a href="/freeboard/upload_view/<%=f.id%>" class="list-group-item">
                     <div class="row">
+                      
                       <div class="col-md-5">
                         <h4 class="list-group-item-heading"><strong><%=f.fb_title%> (<%=f.replies.count()%>)</strong><br><br>
                         <small><%=f.id%> | <%=User.find(f.fb_user_id).student_name%> </small>
                         </h4>
                       </div>
+                     
                       <div class="col-md-7">
                         <small class="list-group-item-text"><%=f.fb_content.first(30)%>...</small>
                       </div>
+                      
                     </div>
                     
                   </a>
@@ -251,6 +259,7 @@
 
             </div>
           </div>
+        </div>
       
         <!--      <div class="row" id="menu_font_t">-->
         <!--        <div class="one-half">-->
@@ -265,12 +274,13 @@
       <br><br>
 
   <!--이용방법-->
-  <div class = "how" id ="howtouse">
+  <div class = "how" id ="howtouse"></div>
+  
   <br><br><br><br><br><br><br><br>
   
         <!--수평선-->
       	<div class="other-focuses">
-		      <div class="section-footer-title" id="menu_font" style = "text-align:center"> How To Use</div>
+		      <div class="section-footer-title" id="menu_font" style = "text-align:center">How To Use</div>
 	      </div>
    
     <div class="content-section-a">
@@ -279,8 +289,8 @@
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <div class="section-heading" id="menu_font" style="font-size: 30px">① 로그인</div>
-                    <p class="lead" id="menu_font_t">그림에 마우스 올려놓으면 뭐 뜨게하기.</p>
+                    <div class="section-heading" id="menu_font" style="font-size: 20px">① 로그인</div>
+                    <h4 class="lead" id="menu_font_t" style="font-size:18px;">회원가입한 정보로 로그인을 합니다.<br> (회원이 아니신 경우에는 예약이 불가능 합니다.)</h4>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_two.png"/>
@@ -297,8 +307,8 @@
                 <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <div class="section-heading" id="menu_font" style="font-size: 30px">② 버튼 누르기</div>
-                    <p class="lead" id="menu_font_t">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by Visit their website to download some of their awesome, free photoshop actions!</p>
+                    <div class="section-heading" id="menu_font" style="font-size: 20px">② 예약하기-1</div>
+                    <div class="lead" id="menu_font_t" style="font-size:18px;"> 상단 메뉴바의 예약하기 버튼을 클릭한 후<br> 예약을 원하는 건물 과 강의실 선택합니다.</div>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
                     <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage.png" alt="">
@@ -314,8 +324,8 @@
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                     <div class="section-heading" id="menu_font" style="font-size: 30px">③ 선택하기</div>
-                    <p class="lead" id="menu_font_t"> for providing the photographs that you see in this template. Visit their website to become a member.</p>
+                     <div class="section-heading" id="menu_font" style="font-size: 20px">③ 예약하기-2</div>
+                    <p class="lead" id="menu_font_t"> 예약하기 버튼을 클릭한 후 신청서를 작성하여<br> 강의실 예약을 신청합니다.</p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_three.png"/>
@@ -332,8 +342,8 @@
                 <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                     <div class="section-heading" id="menu_font" style="font-size: 30px">④ 선택하기</div>
-                    <p class="lead" id="menu_font_t">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by Visit their website to download some of their awesome, free photoshop actions!</p>
+                     <div class="section-heading" id="menu_font" style="font-size: 20px">④ 예약 확인</div>
+                    <p class="lead" id="menu_font_t">예약한 날짜를 조회하여 예약신청이<br> 정상적으로 되었음을 확인합니다. <br> * 이후 예약한 강의실 사용은 관리자의<br> &nbsp;&nbsp;&nbsp;예약완료 승인이 있어야만 가능합니다. <br>( 예약승인 여부는 날짜별 조회 또는 마이페이지를 통해 확인이 가능합니다. )</p>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
                     <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_four.png">
@@ -341,7 +351,46 @@
             </div>
         </div>
     </div>
-  </div>  
+    
+    <br>
+    
+     <div class="content-section-a" >
+        <div class="container"   >
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                     <div class="section-heading" id="menu_font" style="font-size: 20px">+ 공지사항 게시판 이용방법</div>
+                    <p class="lead" id="menu_font_t"> 상단바의 '공지사항' 메뉴를 선택 하거나 <br>메인화면의 공지사항 최신글을 통해 확인할 수<br> 있습니다.</p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_three.png"/>
+                </div>
+            </div>
+        </div>
+      </div>
+    
+    <br>
+    
+    <div class="content-section-b">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                     <div class="section-heading" id="menu_font" style="font-size: 20px">+ 마이페이지 이용방법</div>
+                    <p class="lead" id="menu_font_t">상단바의 오른쪽에 위치한 '마이페이지' 메뉴 또는 메인화면의<%#=current_user.student_name%>님의 정보 <br>
+                    옆의 '더보기' 버튼을 클릭하여 <br>이용할 수 있습니다.<br></p>
+                </div>
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_four.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+ 
     
    <!--R.eservation S.ystem Bar-->
    <br><br><br><br><br><br>
@@ -350,7 +399,7 @@
       <p style = "color:black; text-align: center; font-size:120px;" id="menu_font">Reservation System</p>
       <p style = "color:black; text-align: center; font-size:35px" id="menu_font">Pyeongtaek University<p>
     </div>
-    
+
     <!--문의하기 버튼 눌렀을 때 이동-->
     <div id="bottom"></div>
     <br><br><br><br><br><br>
@@ -359,6 +408,7 @@
     <!--동그라미 3개-->   
     <center>
       <div class="container">
+      
         <div class="col-lg-4 col-sm-4 focus-box red wow fadeInLeft animated animated" data-wow-offset="30" data-wow-duration="1.5s" data-wow-delay="0.15s" style="visibility: visible;-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;">
     			<div class="service-icon1">
       			<img src="https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/11891267_832017333580965_4922852121499772665_n.jpg?oh=c6bbb44a9ce4277289d2c7099225684f&oe=563BFA27&__gda__=1449830733_44379e5949f24753633b012a75ff42b0" style="margin-top: 26px; width: 70px;" id = "icon1">
@@ -389,6 +439,7 @@
       			<p id = "picon3" id="menu_font_t" style="font-size: 17px;">평택대학교 :<br>경기도 평택시 서동대로 3825번지<br>(구 용이동 111번지)</p>
   		    </div>
   		  </div>
+  		  
       </div>
     </center><br><br><br><br>
            
@@ -403,9 +454,7 @@
       </div>
       </center>
       <br> <br>
-      
-</div>
-</div>
+  
 
       
 

@@ -23,17 +23,19 @@
   </div>
   
   <div id="menu_font" style="font-size: 20px;">내용 :</div>
-  <div id="menu_font_t" style="font-size: 18px;"><%=@message.content%><br><br><br>
-  </div>
+
   
-  <center><a href="/message/main" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">메인으로 가기</a>
-          <% if @message.receiver==current_user.id%>
-            <a href="/message/reply" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">답장보내기</a></center>
-          <%end%>
+  <pre id="menu_font_t" style="font-size: 18px;"><%=@message.content%></pre><br>
+    
+  <a href="/message/main" class="btn btn-primary btn-sm" style="font-size: 18px;" id="menu_font">메인으로 가기</a>
+    <% if @message.receiver==current_user.id%>
+      <a href="/message/write" class="btn btn-primary btn-sm" style="font-size: 18px;" id="menu_font">답장보내기</a>
+    <%end%>
+
 </div>
 
 <div class="col-md-4"></div>
 
 </div></div>
 
-<br><br><br><br><br><br><br>
+<br><br><br><br>

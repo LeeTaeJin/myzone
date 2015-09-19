@@ -50,6 +50,8 @@ class BookController < ApplicationController
         @save_result = params[:save_result]
         
         
+        
+        
         #신청양식
     end
     
@@ -139,25 +141,6 @@ class BookController < ApplicationController
         redirect_to :back
     end
     
-    def condition
-        
-        @class = Reservation.all
-        
-        if current_user     #로그인이 되어있고
-                # redirect_to :back        
-            if current_user.email == "admin@ptu.ac.kr" # 관리자라면 입장
-            
-            else #관리자가 아니면 백
-                
-            redirect_to action:"real_main", mode: "false"
-            end  
-            
-        elsif current_user.nil?
-            redirect_to action:"real_main", mode: "blank"
-      
-        end
-    end    
-    
     def test
         @a="ff"
     end
@@ -174,6 +157,15 @@ class BookController < ApplicationController
     def tip
         
     end
+    
+    def admin_menu
+    
+         
+        
+       
+         
+    end
+    
     
 end
                 
