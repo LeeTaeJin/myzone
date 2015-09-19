@@ -39,12 +39,61 @@ class BookController < ApplicationController
         @class=Room.find(params[:id])
         @date=params[:date]
         
-      
-          
         @save_result = params[:save_result]
+        @user_department=User.find(current_user.id).department
         
-        
-        
+        case @user_department 
+        when "신학과"
+          @professor=["한동구","유윤종","조상열","김동수","신현수","안명준","김문기","이광희","류원렬","양유성","권평","김현진", "윤천석","조덕영","김희진"]
+        when "국어국문학과"
+          @professor=["조일규","김대숙","이덕화","김용희"]
+        when "도시및부동산개발학과"
+          @professor=["장정민","민창기","윤혜정","이시화"]
+        when "행정학과"
+          @professor=["박승용","진세혁","강휘원","사공영호"]
+        when "사회복지학과"
+          @professor=["이혜경","신은주","신승연","최현미","손병돈","최승희","한정우","이상무","박지현"] 
+        when "아동청소년복지학과"
+          @professor=["정하성","이장현","유진이","이민희","조민자","김정희"]
+        when "재활복지학과"
+          @professor=["정하성","이장현","유진이","이민희","조민자","김정희"]
+        when "경영학과"
+          @professor=["변용범","하정복","김승욱","최완수","백상미"]
+        when "무역/물류학과"
+          @professor=["조현수","백종실","김기홍","이동현"]
+        when "광고홍보학과"
+          @professor=["염성원","오현숙","이치형","양정은","최문규"]
+        when "미국학과"
+          @professor=["황영순","김남균","손세호","박진임","니콜"]
+        when "중국학과"
+          @professor=["지세화","박기철","오일환","박종우","곽상"]
+        when "일본학과"
+          @professor=["김은숙","구견서","선재원","모치다유미꼬"]
+        when "컴퓨터학과"
+          @professor=["문원식","윤석규","김동철","양단희","조영희","장희선"]
+        when "정보통신학과"
+          @professor=["이경희","문필주","변진욱","이갑래"]
+        when "데이터정보학과"
+          @professor=["정혜정","이훈자","곽민정","박종태"]
+        when "음악학과"
+          @professor=["이루사","임옥란","김형기","정영안","김세은"]
+        when "실용음악학과"
+          @professor=["오은영","유성은","이태윤","이현욱"]
+        when "방송연예학과"
+          @professor=["이윤선","서나영","김진욱","김성진","이한위"]
+        when "시각디자인학과"
+          @professor=["최종란","조현승","신성철","박인성"]
+        when "영상디자인학과"
+          @professor=["이영헌","김경수","김혜성","김미숙"]
+        when "패션디자인및브랜딩학과"
+          @professor=["박혜숙","구본영","이재영","손우진","박성주"]
+        when "간호학과"
+          @professor=["이미라","남현아","정은숙","박현정"]
+        when "환경융합시스템학과"
+          @professor=["윤영훈","조영일","이철민","김호현","김중구"]
+        else # the else optional
+          @professor=["없음(교수본인 or 외부 이용자)","교양교수님(필히 사용목적에 교양교수님 성함을 적어주세요.)"]  
+        end
         
         #신청양식
     end

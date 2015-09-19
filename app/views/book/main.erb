@@ -1,6 +1,31 @@
 <div class="well" id="menu_font" style="font-size: 20px;" >
   <center>오늘의 예약 건수 : <span class="badge"><%=Reservation.where(date: Time.zone.today).count%></span>
-    <br>현재시간 : <%=Time.zone.now.to_s(:default)%> <%#=Time.zone_offset('Seoul')%>
+  <!--<script src="http://www.clocklink.com/embed.js"></script> <script type="text/javascript" language="JavaScript">obj=new Object;obj.clockfile="5031-blue.swf";obj.TimeZone="Afghanistan_Kabul"; obj.width=145;obj.height=50;obj.wmode="transparent";showClock(obj);</script>-->
+    <!--<iframe src="http://free.timeanddate.com/clock/i4utl4d3/n235/tlkr47/fs18/th2/ts1" frameborder="0" width="89" height="27"></iframe>-->
+<script type="text/javascript">
+function GetClock(){
+var d=new Date();
+var nhour=d.getHours(),nmin=d.getMinutes(),nsec=d.getSeconds(),ap;
+
+if(nhour==0){ap=" AM";nhour=12;}
+else if(nhour<12){ap=" AM";}
+else if(nhour==12){ap=" PM";}
+else if(nhour>12){ap=" PM";nhour-=12;}
+
+if(nmin<=9) nmin="0"+nmin;
+if(nsec<=9) nsec="0"+nsec;
+
+document.getElementById('clockbox').innerHTML=""+nhour+":"+nmin+":"+nsec+ap+"";
+}
+
+window.onload=function(){
+GetClock();
+setInterval(GetClock,1000);
+}
+</script>
+
+
+    <br><%=Time.zone.today%> <p id="clockbox"></p>
     <br><br>* 예약할 강의실을 선택해주세요.<br>
   </center>
 </div>

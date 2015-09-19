@@ -451,7 +451,7 @@
       		<div id = "menu_font">
       			<h3 class="red-border-bottom" id = "picon1" >Contact</h3><br>
       			<p id = "picon1" id="menu_font" style="font-size: 17px;">사용 중 불편하거나 건의사항이 있으면<br>아래의 쪽지보내기를 통해<br>관리자에게 쪽지를 보내주세요.</p>
-      			<a href ="/message/write" > <button id = "picon1" style="color:#FFFFFF; font-size: 17px" class="btn btn-success"> 쪽지 보내기</button> </a> 
+      			<button  data-toggle="modal" data-target="#send_message" id = "picon1" style="color:#FFFFFF; font-size: 17px" class="btn btn-success"> 쪽지 보내기</button>
   		    </div>
   		  </div>
   		
@@ -489,12 +489,74 @@
       </div>
       </center>
       <br> <br>
+<<<<<<< HEAD
       
       
       
       
       
 
+=======
+  
+<div id="send_message" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"><!--예약상세보기-->
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel"> 관리자에게 문의하기 </h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" action="/message/write_process" method="POST">
+          <fieldset>
+             <div class="form-group">
+              <label for="inputprofessor" class="col-lg-2 control-label" style="font-size: 20px; height: 39px;" id="menu_font">보내는 사람</label>
+              <div class="col-lg-10">
+               <input type="text" class="form-control" name="sender" style="font-size: 18px;" id="menu_font_t" value="<%=current_user.student_name%>" disabled>
+              </div>
+            </div>
+          
+            <div class="form-group">
+              <label for="select" class="col-lg-2 control-label" style="font-size: 20px;" id="menu_font">받는사람</label>
+              <div class="col-lg-10">
+                <% if current_user.email =="admin@ptu.ac.kr"%> <!--관리자라면 모든 학생에게 보냄-->
+                  <input type="text" class="form-control"style="font-size: 18px;" id="menu_font_t" value="모든 학생" disabled>
+                  <input type="hidden" name="receiver" value="모든학생">
+                <%else%>
+                  <input type="text" class="form-control"style="font-size: 18px;" id="menu_font_t" value="관리자" disabled>
+                  <input type="hidden" name="receiver" value="<%=User.where(email: "admin@ptu.ac.kr").first.id%>">
+                <%end%>
+                <br>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="inputpurpose" class="col-lg-2 control-label" style="font-size: 20px;" id="menu_font">내용</label>
+              <div class="col-lg-10">
+                  <textarea class="form-control" rows="3" name="content" style="font-size: 18px;" id="menu_font_t" required></textarea>
+              </div>
+            </div>
+           
+      </div>
+      
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        
+        <button type="submit" id="send_msg" class="btn btn-primary"  style="font-size: 18px" id="menu_font">쪽지 보내기</button>
+>>>>>>> mini
 
+      </div>
+      </fieldset>
+    </form>
+    </div>
+  </div>
+</div>
 
-
+<% @alert=params[:alert_message]%>  
+<% if @alert=="true" %>
+  <script>
+    alert("메시지 전송완료!!");
+  </script>
+  <% @alert="false"%>
+<%end%>
+      
