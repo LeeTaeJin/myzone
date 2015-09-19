@@ -75,14 +75,21 @@
     <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
     <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> &nbsp;
     나의 문의함</a></li>
-    <li role="presentation"><a href="#messages" aria-controls="messagess" role="tab" data-toggle="tab">예약현황</a></li>
+    <li role="presentation"><a href="#messages" aria-controls="messagess" role="tab" data-toggle="tab">
+    <span class="glyphicon glyphicon-align-center" aria-hidden="true"></span>&nbsp;
+    예약현황</a></li>
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="home"><!--메인-->
+    <br><br>
       <center>  
-        <p style = "font-size:40px;" id = "menu_font"> &nbsp;&nbsp; <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> &nbsp; My page</p>
+      
+       <br>
+        <p style = "font-size:40px;" id = "menu_font"> &nbsp;&nbsp;
+        
+         My page</p>
         
         <p style = "font-size:22px;" id = "menu_font">성 명 : <%= current_user.student_name%></p>
         <p style = "font-size:22px;" id = "menu_font">학 번 : <%= current_user.student_number %></p>
