@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+gem 'nokogiri'
 gem 'mailgun_rails'
 gem 'validates_overlap'
 gem 'devise'

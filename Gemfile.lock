@@ -183,6 +183,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   mailgun_rails
+  nokogiri
   rails (= 4.2.1)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
@@ -193,6 +194,3 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   validates_overlap
   web-console (~> 2.0)
-
-BUNDLED WITH
-   1.10.3
