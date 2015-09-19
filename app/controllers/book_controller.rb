@@ -27,13 +27,7 @@ class BookController < ApplicationController
     def view_booking
         #해당 강의실의 예약현황을 보여줌
         @class=Room.find(params[:id])
-        
-        if @date.nil?
-            @date=Time.zone.today
-            
-        else
-            @date=params[:show_date]
-        end
+        @date=params[:show_date]
         
         
         
@@ -131,7 +125,7 @@ class BookController < ApplicationController
     end
     
     def mypage
-      
+       
     end
     
     def delete #예약 지울때

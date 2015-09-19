@@ -175,6 +175,8 @@
         </div>
       </div>
       </div>
+      
+  
 
       <br><br><br>
     
@@ -207,58 +209,77 @@
                   <p class="glyphicon glyphicon-list-alt" aria-hidden="true" style="font-size:30px; top: 5px;"></p>
               </a>
               공지사항
-                <br>
+                <br><br>
             </div>
-          </div>
+            </div>
   
-          <div class="row" id="menu_font_t">
-            <div class="one-half">
-              <h4><strong>최신글 3개<br>(위의 아이콘을 클릭하여 공지사항 게시판으로 이동이 가능합니다 &<br>
-              &nbsp;아래의 게시글을 클릭하여 해당 글로 이동이 가능합니다.)</strong></h4>
-            </div>
-            </div>
+            <br>
             
-            <div class="one-half">            
-              <div class="list-group">
-                <% Freeboard.last(3).reverse.each do |f| %>--><!--지연이 주석 5개
+            <!--최신글 테이블-->
+            
+             <div class = "container">
+              <div class = "row">
+                <div class = "col-md-6">
+                  <form id="form1">
+                    <table class="table table-condensed" id="table" style="padding-top:1px; padding-bottom:1px; background:rgba(0,0,0,0); align:center">
+                      <center><p id="menu_font" style="font-size: 30px;">   
 
-              <h1 class="text-center" id="menu_font" style="font-size:30px"> <p class="glyphicon glyphicon-list-alt" aria-hidden="true" style = "font-size:30px; color:red;"></p>&nbsp;공지사항</h1>
-              <br>
+                        <tr style = "background:orange"> 
+                          <th style="font-size: 20px;" id="menu_font_t">Title </th>
+                          <th style="font-size: 20px;" id="menu_font_t">Content</th>
+                          <th style="font-size: 20px;" id="menu_font_t">Writer </th>
+                        </tr>
+                        
+
+                            <% Freeboard.last(5).reverse.each do |f| %>
+                  
+                             <a href="/freeboard/upload_view/<%=f.id%>" class="yeah">
+                               <div class = "yeah">                            
+                                  <tr class="datas">
+          
+                                      <td  style="font-size: 18px; width: 210px;" id="menu_font">         
+                                      <a href="/freeboard/upload_view/<%=f.id%>" style = "color:black">
+                                      <%=f.fb_title%> (<%=f.replies.count()%>)</td></a>
+                                      <td  style="font-size: 18px;" id="menu_font">
+                                      <%=f.fb_content.first(30)%>..</td>
+                                      <td  style="font-size: 18px;" id="menu_font">
+                                      <%=User.find(f.fb_user_id).student_name%></td>                                    
+                                     
+                                  </tr>
+                                  
+                                </div>
+                        <% end %>
+                    </table> 
+                    </div>
+                        
+                        
+            <!--게시판 그림-->
+            <div class="col-md-6">
+            
                    <center>
                    <div id = "menu_font" style="background-image: url(http://foto-chohyejin.c9.io/img/board.png); height: 370px; width: 550px">
+            
+            <div class="row" id="menu_font_t" style="color:white; font-size: 20px;">
+            <div class="one-half">
+               <br><br><br><br>
+               <strong>&nbsp;&nbsp;※ &nbsp;최신글 (5개)<br><br>&nbsp;&nbsp;&nbsp; 
+               위의 공지사항 아이콘 및 좌측의 게시글 Title을 <br> 클릭하면 게시글을 볼 수 있습니다.</strong>
+               <br><br><button class = "btn btn-default" style="height: 40px; width: 150px;"><a href = "/freeboard/freeboards">게시판 바로가기</a> </button>
+            </div>
+            </div>
 
-                   <a href = "/freeboard/freeboards" style = "font-size:24px; color:white">
-                    
-                    <br><br><br>
-                    해당 글을 클릭하여<br>
-                    공지사항 게시판으로 이동해주세요!<br><br>
-                    ※공시사항은 필독해주시기 바랍니다. </a>
+            
                   </div>
                   
-                  </center>-->
-
-              
-                  <a href="/freeboard/upload_view/<%=f.id%>" class="list-group-item">
-                    <div class="row">
-                      
-                      <div class="col-md-5">
-                        <h4 class="list-group-item-heading"><strong><%=f.fb_title%> (<%=f.replies.count()%>)</strong><br><br>
-                        <small><%=f.id%> | <%=User.find(f.fb_user_id).student_name%> </small>
-                        </h4>
-                      </div>
-                     
-                      <div class="col-md-7">
-                        <small class="list-group-item-text"><%=f.fb_content.first(30)%>...</small>
-                      </div>
-                      
-                    </div>
-                    
-                  </a>
-                <%end%>
-              </div>
-
+                  </center>
+            
             </div>
-          </div>
+            
+                </div>
+              </div>
+              
+              
+        </div>
         </div>
       
         <!--      <div class="row" id="menu_font_t">-->
@@ -271,7 +292,7 @@
         <!--      </div>-->
         <!--    </div><br><br><br><br>-->
         <!--  </section>-->
-      <br><br>
+      <br><br><br><br>
 
   <!--이용방법-->
   <div class = "how" id ="howtouse"></div>
@@ -289,11 +310,15 @@
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <div class="section-heading" id="menu_font" style="font-size: 20px">① 로그인</div>
-                    <h4 class="lead" id="menu_font_t" style="font-size:18px;">회원가입한 정보로 로그인을 합니다.<br> (회원이 아니신 경우에는 예약이 불가능 합니다.)</h4>
+                    <div class="section-heading" id="menu_font" style="font-size: 22px">① 로그인 하기</div><br>
+                    <div class="lead" id="menu_font_t" style="font-size:20px;">회원가입한 정보로 로그인을 합니다.<br>
+                    (회원이 아닌 경우에는 홈페이지 사용이 제한됩니다.)<br>
+                    회원가입을 할 때에는 실명과 학과 학번을 정확히 기재해주시기 바랍니다.<br>
+                    회원정보를 수정할 사항이 있으면 위의 마이페이지를 클릭해 정보를 수정해주시기 바랍니다.
+                    </div>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_two.png"/>
+                    <img src="http://khu-p-chohyejin.c9.io/img/login.png" width = "600px" height = "400px"/>
                 </div>
             </div>
         </div>
@@ -307,11 +332,14 @@
                 <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <div class="section-heading" id="menu_font" style="font-size: 20px">② 예약하기-1</div>
-                    <div class="lead" id="menu_font_t" style="font-size:18px;"> 상단 메뉴바의 예약하기 버튼을 클릭한 후<br> 예약을 원하는 건물 과 강의실 선택합니다.</div>
+                    <div class="section-heading" id="menu_font" style="font-size: 22px">② 예약 하기-1</div><br>
+                    <div class="lead" id="menu_font_t" style="font-size:20px;">상단 메뉴바의 예약하기 버튼을 클릭한 후<br>
+                    예약을 원하는 건물과 강의실 호수를 선택합니다.<br>
+                    예약을 하시기 전에 왼쪽의 날짜검색 버튼을 통하여 해당 날짜의 예약현황을 확인 후 진행해주시기 바랍니다.<br>
+                    (중복되는 시간에는 예약이 불가능합니다.)</div>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage.png" alt="">
+                    <img src="http://khu-p-chohyejin.c9.io/img/reservation.png" alt=""  width = "600px" height = "400px">
                 </div>
             </div>
         </div>
@@ -324,11 +352,14 @@
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                     <div class="section-heading" id="menu_font" style="font-size: 20px">③ 예약하기-2</div>
-                    <p class="lead" id="menu_font_t"> 예약하기 버튼을 클릭한 후 신청서를 작성하여<br> 강의실 예약을 신청합니다.</p>
+                     <div class="section-heading" id="menu_font" style="font-size: 22px">③ 예약 하기-2</div><br>
+                      <div class="lead" id="menu_font_t" style="font-size:20px;">주황색 예약하기 버튼을 클릭한 후 신청서를 작성하여 강의실 예약을 신청합니다.<br>
+                      지도교수의 허락하에 예약이 이루어지는 시스템이기 때문에 담당 교수님을 정확히 기재해주시기 바랍니다.<br>
+                      예약 시간은 30분 단위로만 예약이 가능하며 이미 예약이 되어있는 시간을 예약시에는 경고창이 뜹니다.<br>
+                      예약시 주의사항을 꼼꼼히 읽어주시고 동의하기를 클릭해주십시오.</div>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_three.png"/>
+                    <img src="http://khu-p-chohyejin.c9.io/img/write.png" width = "600px" height = "400px"/>
                 </div>
             </div>
         </div>
@@ -342,11 +373,13 @@
                 <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                     <div class="section-heading" id="menu_font" style="font-size: 20px">④ 예약 확인</div>
-                    <p class="lead" id="menu_font_t">예약한 날짜를 조회하여 예약신청이<br> 정상적으로 되었음을 확인합니다. <br> * 이후 예약한 강의실 사용은 관리자의<br> &nbsp;&nbsp;&nbsp;예약완료 승인이 있어야만 가능합니다. <br>( 예약승인 여부는 날짜별 조회 또는 마이페이지를 통해 확인이 가능합니다. )</p>
+                     <div class="section-heading" id="menu_font" style="font-size: 20px">④ 예약 확인</div><br>
+                     <div class="lead" id="menu_font_t" style="font-size:20px;">예약한 날짜를 조회하여 예약신청이 정상적으로 되었음을 확인합니다.<br><br>
+                     * 이후 예약한 강의실 사용은 관리자의 예약완료 승인이 있어야만 가능합니다.<br>
+                     (예약승인 여부는 날짜별 조회 또는 마이페이지를 통해 확인이 가능합니다.)</div>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_four.png">
+                    <img src="http://khu-p-chohyejin.c9.io/img/st.png" width = "600px" height = "400px">
                 </div>
             </div>
         </div>
@@ -360,11 +393,13 @@
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                     <div class="section-heading" id="menu_font" style="font-size: 20px">+ 공지사항 게시판 이용방법</div>
-                    <p class="lead" id="menu_font_t"> 상단바의 '공지사항' 메뉴를 선택 하거나 <br>메인화면의 공지사항 최신글을 통해 확인할 수<br> 있습니다.</p>
+                     <div class="section-heading" id="menu_font" style="font-size: 20px">+ 공지사항 게시판 이용방법</div><br>
+                      <div class="lead" id="menu_font_t" style="font-size:20px;">상단바의 '공지사항' 메뉴를 선택 하거나<br>
+                      메인화면의 공지사항 최신글을 통해 확인할 수 있습니다.<br>
+                      게시글을 클릭했을 시 공지사항 메인 게시판으로 넘어가며 로그인을 하지 않았을 때에는 사용이 불가능합니다. (게시판을 필독해주시기 바랍니다.)</div>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_three.png"/>
+                    <img src="http://khu-p-chohyejin.c9.io/img/notice.png" width = "600px" height = "400px"/>
                 </div>
             </div>
         </div>
@@ -378,12 +413,12 @@
                 <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                     <div class="section-heading" id="menu_font" style="font-size: 20px">+ 마이페이지 이용방법</div>
-                    <p class="lead" id="menu_font_t">상단바의 오른쪽에 위치한 '마이페이지' 메뉴 또는 메인화면의<%#=current_user.student_name%>님의 정보 <br>
-                    옆의 '더보기' 버튼을 클릭하여 <br>이용할 수 있습니다.<br></p>
+                     <div class="section-heading" id="menu_font" style="font-size: 20px">+ 마이페이지 이용방법</div><br>
+                      <div class="lead" id="menu_font_t" style="font-size:20px;"> 상단바의 오른쪽에 위치한 '마이페이지' 메뉴 또는 메인화면의 ***님의 정보 옆의 '바로가기' 버튼을 클릭하여 이용하실 수 있습니다.<br>
+                      나의 문의함, 예약현황, 기본정보에 대해 확인이 가능하며 회원정보 수정도 이곳에서 가능합니다.</div>
                 </div>
-                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                    <img class="img-responsive" src="http://deco-chohyejin.c9.io/img/mainpage_four.png">
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6" >
+                    <img src="http://khu-p-chohyejin.c9.io/img/mypage.png" width = "600px" height = "400px" >
                 </div>
             </div>
         </div>
@@ -393,7 +428,7 @@
  
     
    <!--R.eservation S.ystem Bar-->
-   <br><br><br><br><br><br>
+   <br><br><br><br><br><br>   <br><br><br><br><br><br>   <br><br><br><br><br><br>
     <div class="jumbotron_down" style="background-image: url(https://scontent.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/12039257_844909875625044_5934146598989575588_n.jpg?oh=60d4ebae3a73e09e7bf9b56b1b497c3a&oe=569D22A6); background-size: cover; height:500px;" >
       <br><br><br><br><br><br><br><br>
       <p style = "color:black; text-align: center; font-size:120px;" id="menu_font">Reservation System</p>
@@ -454,9 +489,12 @@
       </div>
       </center>
       <br> <br>
-  
-
       
+      
+      
+      
+      
+
 
 
 

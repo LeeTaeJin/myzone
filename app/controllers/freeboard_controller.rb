@@ -66,10 +66,10 @@ class FreeboardController < ApplicationController
     
     
     # 삭제 페이지
-    def delete
-        @id = params[:id]
+    # def delete
+    #     @id = params[:id]
         
-    end
+    # end
     # 삭제 페이지 끝
     
     
@@ -85,9 +85,7 @@ class FreeboardController < ApplicationController
                 
             redirect_to '/freeboard/freeboards'
              
-        else
-             
-            redirect_to :back
+        
         end
         
     end

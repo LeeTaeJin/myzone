@@ -1,13 +1,16 @@
+
+
 <div class="well" id="menu_font" style="font-size: 20px;" >
   <center><%=@date.to_date.year%>년 <%=@date.to_date.month%>월 <%=@date.to_date.day%>일<br><%=@class.building_name%> '<%=@class.room_number%>호'에 대한 예약현황입니다.
-  <br><a href="/book/booking?id=<%=@class.id%>&date=<%=@date%>" class="btn btn-warning" id="menu_font" style="font-size: 20px;">예약하기</a></center>
+  <br><div style="color:red">(예약 현황을 볼 날짜를 선택해주세요)</div>
+  <a href="/book/booking?id=<%=@class.id%>&date=<%=@date%>" class="btn btn-warning" id="menu_font" style="font-size: 20px;">예약하기</a></center>
 </div>
 <br>
 
 <div class="containter"> 
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
-  <div class="well" >한눈에 보는 예약(시간순)
+  <div class="well" id="menu_font" style="font-size: 18px;">한눈에 보는 예약(시간순)
     <div class="progress">
       <% @class.reservations.where(date: @date).order(:start_time).each do |c| %>
        <%@reservation_width=(c.finish_time-c.start_time)/450%>
@@ -42,15 +45,15 @@
 
   <div class="panel panel-info">
     <div class="panel-heading">
-      <h3 class="panel-title"><center>예약 현황을 볼 날짜를 선택해라</center></h3>
+      <h3 class="panel-title" id="menu_font" style="font-size:18px;"><center>예약 현황을 볼 날짜를 선택해라</center></h3>
     </div>
     <div class="panel-body">
       <center>
       <!--<div class="well">-->
         <form action="/book/view_booking" method="POST">
-          <input type="date" name="show_date" required> 
-          <input type="hidden" name="id" value="<%=@class.id%>"> 
-          <button type="submit"class="btn btn-primary btn-sm">날짜 검색</button>
+          <input type="date" name="show_date" id="menu_font" style="font-size:18px;" required> 
+          <input type="hidden" name="id" value="<%=@class.id%>" id="menu_font" style="font-size:18px;"> 
+          <button type="submit"class="btn btn-primary btn-sm" id="menu_font" style="font-size:18px;">날짜 검색</button>
         </form>
       <!--</div>-->
        </center>
@@ -70,7 +73,7 @@
       <tr class="info" >
         
 
-      <tr class="info" style="text-align: center; font-size: 20px;" id="menu_font_t">
+      <tr class="info" style="text-align: center; font-size: 18px;" id="menu_font_t">
         <th>#</th>
 
         <th>사용자 이름</th>
@@ -86,11 +89,11 @@
       <% @class.reservations.where(date: @date).order(:start_time).each do |c| %>
           <tr>
             
-            <td><%=c.id%></td>
-            <td><%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)</td>
-            <td><%=c.date%></td>
-            <td><%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%></td>
-            <td><span class="label label-info" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span>    <!--현재 진행상태 보여줌--></td>
+            <td style="text-align: center; font-size: 16px;" id="menu_font_t"><%=c.id%></td>
+            <td style="text-align: center; font-size: 16px;" id="menu_font_t"><%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)</td>
+            <td style="text-align: center; font-size: 16px;" id="menu_font_t"><%=c.date%></td>
+            <td style="text-align: center; font-size: 16px;" id="menu_font_t"><%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%></td>
+            <td style="text-align: center; font-size: 16px;" id="menu_font_t"><span class="label label-info" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span>    <!--현재 진행상태 보여줌--></td>
             
             <td>
               <% if current_user %> <!--로그인 된 상태.-->
@@ -100,7 +103,7 @@
                   <% if c.state=="승인대기" %>
                     <!--<input onclick="change(<=c.id%>)" type="button" value="승인하기" id="button<=c.id%>"></input>-->
                     <div id = "menu_font">
-                    <button type="button" class="btn btn-success btn btn-primary" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인하기</button>
+                    <button type="button" class="btn btn-success btn btn-primary" id="button<%=c.id%>" onclick="change(<%=c.id%>)" style="font-size: 16px;">승인하기</button>
                     </div>
                     
                   <% else %>
@@ -140,7 +143,7 @@
               document.getElementById(view_state).innerHTML="승인완료";
               document.getElementById(button).innerHTML="승인취소";
               document.getElementById(button1).innerHTML="승인취소";
-              
+  
               document.getElementById(view_state).className="label label-primary";
               document.getElementById(button).className="btn btn-danger btn-primary";
               document.getElementById(button1).className="btn btn-danger btn-primary";
@@ -210,15 +213,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">예약 취소</h4>
+        <h4 class="modal-title" id="exampleModalLabel" id="menu_font">예약 취소</h4>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label for="recipient-name" class="control-label">예약을 취소하시겠습니까?</label>
+          <label for="recipient-name" class="control-label" style="font-size:16px;">예약을 취소하시겠습니까?</label>
         </div>
       <div class="modal-footer">
             <form action="/book/delete/<%=c.id%>" method="POST">
-              <button type="submit" class="btn btn-danger">취소하기</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
+              <button type="submit" class="btn btn-danger" id="menu_font" style="font-size:16px;">취소하기</button>
             </form>
       </div>
       </div>
@@ -239,38 +243,47 @@
       <div class="modal-body">
         
         <div class="form-group">
-          <label for="recipient-name" class="control-label">사용자</label>
+          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용자 : </label>
+          <span id="menu_font_t" style="font-size: 16px;">
           <%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)
+          </span>
         </div>
         
         <div class="form-group">
-          <label for="recipient-name" class="control-label">사용날짜</label>
+          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용날짜 : </label>
+          <span id="menu_font_t" style="font-size: 16px;">
           <%=c.date%>
+          </span>
         </div>
         
         <div class="form-group">
-          <label for="recipient-name" class="control-label">사용시간</label>
+          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용시간 : </label>
+          <span id="menu_font_t" style="font-size: 16px;">
           <%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%>
+          </span>
         </div>
         
         <div class="form-group">
-          <label for="recipient-name" class="control-label">사용목적</label>
+          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용목적 : </label>
+           <span id="menu_font_t" style="font-size: 16px;">
           <%=c.purpose%>
+          </span>
         </div>
         
         <div class="form-group">
-          <label for="recipient-name" class="control-label">담당 교수</label>
+          <label for="recipient-name" class="control-label" style="font-size: 16px;">담당교수 : </label>
+          <span id="menu_font_t" style="font-size: 16px;">
           <%=c.professor%>            
+          </span>
         </div>
       </div>
       
       
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <div class="modal-footer" id="menu_font" style="font-size:18px;">
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
       <% if current_user.email == "admin@ptu.ac.kr" %>
         <button type="button" class="btn btn-success btn-primary" id="button1<%=c.id%>" onclick="change(<%=c.id%>)">승인하기</button>
       <% end %>  
-
       </div>
     </div>
   </div>
@@ -279,7 +292,4 @@
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <%end%>
 
-
-</div>
-
-
+</div><br><br><br>

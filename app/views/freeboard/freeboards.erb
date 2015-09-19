@@ -85,7 +85,7 @@
                         <td  style="text-align :center; font-size: 18px;" id="menu_font_t"> <p style = "color:black">  (<%= a.replies.count %>) </p> </td>
 
                     <% else %>    
-                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t"><a href="/users/sign_in"><%= a.fb_title %></p></a> </td>
+                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t"><a href="/users/sign_in"> <p style = "color:black"><%= a.fb_title %></p></a> </td>
                         <td  style="text-align :center; font-size: 18px;" id="menu_font_t"> <p style = "color:black">  (<%= a.replies.count %>) </p> </td>
                     <% end %>
                         <td  style="text-align :center; font-size: 18px;" id="menu_font_t"><%=a.created_at.in_time_zone("Seoul")%></td>
@@ -98,8 +98,9 @@
 
                   <% else %>
                     <br>
-                    <input class="btn btn-primary" type ="button" style="font-size: 18px;" id="writeadmin" id = "menu_font" value = "작성하기"></input>
-
+                    <span id="menu_font">
+                    <input class="btn btn-primary btn-sm" type ="button" style="font-size: 18px;" id="writeadmin" value = "작성하기"></input>
+                    </span>
 
                                        
                     <script type="text/javascript"> 

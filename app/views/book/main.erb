@@ -8,6 +8,55 @@
 <br>
 
 
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+    <img src="http://khu-p-chohyejin.c9.io/make/박상철.jpg">
+      <!--<center>-->
+      <!--<img src="http://www.ptu.ac.kr/ptu/include/img/contents/campus_map/campus_map_s.jpg">-->
+      <!--</center>-->
+    </div>
+    
+    <div class="col-md-6">
+    <div class="col-md-9">
+        <table class="table table-bordered">    
+          <tbody >
+              <tr >
+                <td class="active"  style="text-align:center">대학원동</td>
+                <td class="active"  style="text-align:center">예술탑</td>
+                <td class="active"  style="text-align:center">대학원동</td>
+              </tr>
+              <tr >
+                <td class="active"  style="text-align:center">대학원동</td>
+                <td class="active"  style="text-align:center">예술탑</td>
+                <td class="active"  style="text-align:center">예술탑</td>
+              </tr>
+              <tr >
+                <td class="active"  style="text-align:center">대학원동</td>
+                <td class="active"  style="text-align:center">예술탑</td>
+                <td class="active"  style="text-align:center">대학원동</td>
+              </tr>
+            </tbody>  
+        </table>
+        </div>
+      </div>
+  
+    <div class="col-md-5">          
+      <% @building.each do |b| %>
+      
+      <a href="/book/detail_info/<%=b.id%>" class="btn btn-success" style="margin-bottom:10px; text-align: center; font-size: 18px;" id="menu_font"><%=b.name%></a><br>
+      
+      <%end%>   
+            
+    </div>
+
+  </div>
+</div>
+
+<br><br><br><br><br>
+
+
+
 <!--<div class="col-md-6">-->
 <!--    <div class="panel panel-info">-->
 <!--      <div class="panel-heading">-->
@@ -55,26 +104,4 @@
 <!--      </div>-->
 <!--    </div>-->
 <!--</div>-->
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-7">
-      <center>
-      <img src="http://www.ptu.ac.kr/ptu/include/img/contents/campus_map/campus_map_s.jpg">
-      </center>
-    </div>
-  
-    <div class="col-md-5">           
-      <% @building.each do |b| %>
-      
-      <a href="/book/detail_info/<%=b.id%>" class="btn btn-success" style="margin-bottom:10px; text-align: center; font-size: 18px;" id="menu_font"><%=b.name%></a><br>
-      
-      <%end%>   
-            
-    </div>
-
-  </div>
-</div>
-
-<br><br><br><br><br>
 
