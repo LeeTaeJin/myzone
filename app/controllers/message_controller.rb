@@ -29,9 +29,10 @@ class MessageController < ApplicationController
           new_message.content=params[:content]
           new_message.save
         end
-            
-        
-        redirect_to '/message/main'
+          redirect_to :controller => 'book', :action => 'real_main', :alert_message => 'true'
+        #   redirect_to :back , alert_message:"true"   
+        # redirect_to controller:"book", action:"real_main", alert_message:true
+        # redirect_to :back 
     end
     
     def read #쪽지 상세보기 페이지
