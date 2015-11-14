@@ -1,0 +1,116 @@
+
+<div style="background-color:lightgray; padding-top:150px;padding-bottom:150px" id="menu_font">
+  
+  <div class="row">
+    
+    <div class="col-md-2 col-md-xs-2"></div>
+      
+      <div class="col-md-8 col-md-xs-8" align="center">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <h2>N O T I C E</h2>
+            <p> '<%=@searching_keyword%>'에 대한 검색 결과 입니다.
+            <hr>
+            <div class="col-md-4 col-sm-12">
+      
+              
+              <form action="/freeboard/search" method="POST">
+                <div class="input-group" style="background:lightgray">
+                  <!--<span class="input-group-addon" id="basic-addon1">검색</span>-->
+                  <input type="text" name="searching_keyword" class="form-control" value="<%=@searching_keyword%>" aria-describedby="basic-addon1">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">검색</button>
+                  </span>
+                </div>
+              </form>
+              
+              <br>
+              <% if current_user.email=="admin@ptu.ac.kr"%>
+                <a href="/freeboard/upload" class="btn btn-info btn-lg btn-block" >글 작성</a>
+              <%end%>
+            </div>
+            
+            <div class="col-md-8 col-sm-12">
+                
+            <% if defined?(@search_output)%>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성 일시</th>
+                    <% if current_user.email=="admin@ptu.ac.kr"%>
+                      <th>수정-삭제</th>
+                    <%end%>
+                  </tr>
+                </thead>
+                
+                <tbody>
+                  <% @search_output.each do |p|%>
+                    
+                    <tr>
+                      
+                        <td><%= p.id %></td>
+                        <td><a href="/freeboard/upload_view?id=<%= p.id %>"><%= p.fb_title %></a></td>
+                        <td>관리자</td>
+                        <td><%= p.created_at.in_time_zone("Seoul")%></td>
+                        <% if current_user.email=="admin@ptu.ac.kr"%>
+                        <td>
+                          <div class="btn-group">
+                            <a href="/freeboard/delete_action?id=<%= p.id %>" class="btn btn-default btn-sm">삭제</a>
+                            <a href="/freeboard/modify?id=<%= p.id %>" class="btn btn-default btn-sm">수정</a>
+                          </div>
+                        </td>
+                        <%end%>
+                    </tr>
+                  <% end %>
+                
+                <% else %>
+                  검색 결과가 없습니다.
+                <%end%>
+   
+                </tbody>
+              </table>
+            </div>
+            
+            
+          </div><!--<div class="panel-body">-->
+        </div><!--<div class="panel panel-default">-->
+      </div><!--<div class="col-md-8 col-md-xs-8">-->
+      
+    <div class="col-md-2 col-md-xs-2" id="menu_font">
+      
+      <div class="alert alert-danger alert-dismissible" role="alert" style="margin-right:30px">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         혹시 조건에 맞는 강의실을 찾고싶으세요?<br><br>
+         <a href="/book/searching?searching_scale=0&searching_building=선택안함"><button type="button" class="btn btn-default">강의실 검색 바로가기</button></a>
+      </div>
+      
+    </div>
+    
+  </div><!--div class row-->
+</div><!--<div style="background-color:lightgray">-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

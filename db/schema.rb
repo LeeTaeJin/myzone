@@ -11,10 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150909040858) do
+ActiveRecord::Schema.define(version: 20151109095854) do
 
   create_table "buildings", force: :cascade do |t|
     t.string   "name"
+    t.string   "en_name"
+    t.string   "img"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -31,8 +33,9 @@ ActiveRecord::Schema.define(version: 20150909040858) do
     t.string   "sender"
     t.string   "receiver"
     t.string   "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "opinion_select"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "replies", force: :cascade do |t|
@@ -45,23 +48,34 @@ ActiveRecord::Schema.define(version: 20150909040858) do
   end
 
   create_table "reservations", force: :cascade do |t|
+    t.string   "building"
     t.integer  "room_id"
     t.string   "user"
+    t.string   "department"
     t.string   "professor"
     t.date     "date"
     t.datetime "start_time"
     t.datetime "finish_time"
     t.string   "purpose"
     t.string   "state"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "accept_people"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "rooms", force: :cascade do |t|
     t.string   "building_name"
     t.string   "room_number"
+    t.integer  "accept_people"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+  end
+
+  create_table "sidealerts", force: :cascade do |t|
+    t.string   "content"
+    t.string   "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

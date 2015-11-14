@@ -1,38 +1,148 @@
-<div class="well" id="menu_font" style="font-size: 20px;" >
-  <center>관리자는 공지사항을 작성한 후 아래의 작성하기 버튼을 눌러 게시하세요.<br>
-</div>
-<br>
 
-<center>	       
-    <p  id="menu_font" style="font-size: 30px;"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;게시글 등록</p><br>
-<%= form_tag("/freeboard/write", method: "post") do %>
+<div style="background-color:lightgray; padding-top:150px;padding-bottom:150px" id="menu_font">
+  
+  <div class="row">
     
-    <% if user_signed_in? %>
-          <center>   
-            <div style="text-align: center; font-size: 20px;" id="menu_font"><br> 이름 </div>
-            <div style="padding-top:1px; padding-bottom:1px; background:rgba(80,80,80,0.15); align:center; width: 700px; font-size: 18px;" id="menu_font_t">
-               <br><div type= "text" name = "users"><%= current_user.student_name %></div><br>
-            </div>
-          </center>
-    <% end %>
+    <div class="col-md-2 col-md-xs-2"></div>
+      
+      <div class="col-md-8 col-md-xs-8" align="center">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <h2>N E W  N O T I C E</h2>
+            <hr>
+            
+            <%= form_tag("/freeboard/write", method: "post") do %>
+              <div class="col-md-2 col-sm-1"></div>
+            
+              <div class="col-md-8 col-sm-10">
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">제목</span>
+                  <input type="text"  class="form-control"  placeholder="제목을 입력해주세요 :D" name="user_title"  required>
+                </div>
+                
+                <br>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">내용</span>
+                  <textarea name="user_content" class="form-control" placeholder="내용을 입력해주세요 :D" rows="20" cols="70"  required></textarea>
+                </div>
+                
+                <br>
+                
+                <input class="btn btn-info btn-lg btn-block" type ="submit" value = "작성완료"></input>
+                <br><br>
+              </div>
+              
+              <div class="col-md-2 col-sm-1"></div>
+            <%end%>
+            <!--<div class="col-md-4 col-sm-12">-->
+              
+             
+            <!--  <br>-->
+            <!--  % if current_user.email=="admin@ptu.ac.kr"%>-->
+            <!--    <a href="/freeboard/upload" class="btn btn-info btn-lg btn-block" >글 작성</a>-->
+            <!--  %end%>-->
+            <!--</div>-->
+            
+            <!--<div class="col-md-8 col-sm-12">-->
+              
+            <!--</div>-->
+            
+            
+          </div><!--<div class="panel-body">-->
+        </div><!--<div class="panel panel-default">-->
+      </div><!--<div class="col-md-8 col-md-xs-8">-->
+      
+    <div class="col-md-2 col-md-xs-2" id="menu_font">
+      
+      <div class="alert alert-danger alert-dismissible" role="alert" style="margin-right:30px">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         혹시 조건에 맞는 강의실을 찾고싶으세요?<br><br>
+         <a href="/book/searching?searching_scale=0&searching_building=선택안함"><button type="button" class="btn btn-default">강의실 검색 바로가기</button></a>
+      </div>
+      
+    </div>
     
-    <br><br>
-    <div style="text-align: center; font-size: 20px;" id="menu_font">제목</div> 
-    <input type="text" name="user_title" placeholder="Title"  style="font-size: 18px; height: 40px;" id="menu_font_t" required>
-    <br><br><br>
-    <div style="text-align: center; font-size: 20px;" id="menu_font">내용</div> 
-    <textarea name="user_content" placeholder="Content" rows="20" cols="70"   style="font-size: 18px;" id="menu_font_t" required></textarea>
-    <br><br>
+     <br> <br> <br>
+
+  </div><!--div class row-->
+</div><!--<div style="background-color:lightgray">-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="well" id="menu_font" style="font-size: 20px;" >-->
+<!--  <center>관리자는 공지사항을 작성한 후 아래의 작성하기 버튼을 눌러 게시하세요.<br>-->
+<!--</div>-->
+<!--<br>-->
+
+<!--<center>	       -->
+<!--    <p  id="menu_font" style="font-size: 30px;"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;게시글 등록</p><br>-->
+<!--%= form_tag("/freeboard/write", method: "post") do %>-->
+    
+<!--    % if user_signed_in? %>-->
+<!--          <center>   -->
+<!--            <div style="text-align: center; font-size: 20px;" id="menu_font"><br> 이름 </div>-->
+<!--            <div style="padding-top:1px; padding-bottom:1px; background:rgba(80,80,80,0.15); align:center; width: 700px; font-size: 18px;" id="menu_font_t">-->
+<!--               <br><div type= "text" name = "users">%= current_user.student_name %></div><br>-->
+<!--            </div>-->
+<!--          </center>-->
+<!--    % end %>-->
+    
+<!--    <br><br>-->
+<!--    <div style="text-align: center; font-size: 20px;" id="menu_font">제목</div> -->
+<!--    <input type="text" name="user_title" placeholder="Title"  style="font-size: 18px; height: 40px;" id="menu_font_t" required>-->
+<!--    <br><br><br>-->
+<!--    <div style="text-align: center; font-size: 20px;" id="menu_font">내용</div> -->
+<!--    <textarea name="user_content" placeholder="Content" rows="20" cols="70"   style="font-size: 18px;" id="menu_font_t" required></textarea>-->
+<!--    <br><br>-->
     <!--<input type="hidden" name="user_name" value="%= current_user.student_name %>">-->
     <!--<input type="hidden" name="user_major" value="<%#= current_user.major %>">-->
     <!--<input type="hidden" name="user_hakbun" value="%= current_user.student_number %>">-->
-    <br>
+<!--    <br>-->
         <!--<div style="text-align: center; font-size: 18px;" id="menu_font">-->
         <!--    * 게시글의 비밀번호를 입력해주세요.<br>-->
         <!--    (수정 및 삭제시 사용됩니다)<br>-->
         <!--</div>-->
     <!--<input type="password" name="user_passowrd" placeholder="Password" style="font-size: 15px; height: 30px;" id="menu_font_t">&nbsp;-->
-    <input class="btn btn-primary btn-sm" type ="submit" style="font-size: 18px;" id="menu_font" id = "writeadmin" value = "작성하기"></input> <br> <br> <br>
+<!--    <input class="btn btn-primary btn-sm" type ="submit" style="font-size: 18px;" id="menu_font" id = "writeadmin" value = "작성하기"></input> <br> <br> <br>-->
 
-<% end %>
-</center><br><br><br><br><br>
+<!--% end %>-->
+<!--</center><br><br><br><br><br>-->

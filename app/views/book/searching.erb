@@ -1,0 +1,262 @@
+
+
+<div style="background-color:lightgray; padding-top:150px;padding-bottom:150px" id="menu_font">
+  
+  <div class="row">
+    
+    <div class="col-md-2 col-md-xs-2"></div>
+      
+      <div class="col-md-8 col-md-xs-8" align="center">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <h2>강의실 검색</h2>
+            <hr>
+            <form action="/book/searching" method="POST">
+              <div class="input-group" style="margin-right:50px; margin-left:50px; margin-bottom:30px">
+                <span class="input-group-addon" id="basic-addon1">수용 가능 인원</span>
+                <input type="number" class="form-control" name="searching_scale" value="<%=@searching_scale%>">
+                <span class="input-group-addon" id="basic-addon1">원하는 건물</span>
+                <select name="searching_building" aria-controls="dataTables-example" class="form-control" value="<%=@searching_building%>">
+                        
+                  <option value="선택안함">선택안함</option><!--선택 안함 옵션-->
+                  <% Building.all.each do |b|%><!--빌딩 리스트-->
+                    <option value="<%=b.name%>"><%=b.name%></option>
+                  <%end%>
+                  
+                </select>
+                <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default">검색</button>
+                </span>
+                
+              </div>
+            </form>
+            
+            <div class="row" id="table_div">
+              <div class="col-sm-12">
+                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="searching_table" role="grid" aria-describedby="dataTables-example_info">
+                  <thead>
+                    <tr role="row">
+                      <th class="sorting" aria-sort="ascending" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 321.667px;">건물 이름</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 389.667px;">강의실 호수</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 363.667px;">수용 가능 인원</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 283.667px;">컴퓨터 여부</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 220px;"></th></tr>
+                  </thead>
+                  <!--테이블 업데이트시 이프문을 거침(빌딩 선택 유무)-->
+                  
+                  <% if @searching_building =="선택안함" %>
+                    <tbody>
+                      <% Room.where("accept_people >= ?", @searching_scale).each do |b| %>  
+                        <tr class="gradeA odd" role="row">
+                          <td><%=b.building_name%></td>
+                          <td><%=b.room_number%>호</td>
+                          <td>약 <%=b.accept_people%>명</td>
+                          <td>미기입</td>
+                          <td><a href="/book/view_booking?id=<%=b.id%>&date=<%=Time.zone.today%>" class="btn btn-default btn-sm">예약하러가기</a></td>
+                        </tr>
+                      <%end%>
+                    </tbody>
+                    
+                  <% else %>
+                    <tbody>
+                      <% Room.where("accept_people >= ? and building_name =?", @searching_scale, @searching_building).each do |b| %>  
+                        <tr class="gradeA odd" role="row">
+                          <td><%=b.building_name%></td>
+                          <td><%=b.room_number%>호</td>
+                          <td>약 <%=b.accept_people%>명</td>
+                          <td>미기입</td>
+                          <td><a href="/book/view_booking?id=<%=b.id%>&date=<%=Time.zone.today%>" class="btn btn-default">예약하러가기</a></td>
+                        </tr>
+                      <%end%>
+                    </tbody>
+                    
+                  <%end%>
+              
+                </table>
+              </div>
+            </div>
+            
+            
+          </div><!--<div class="panel-body">-->
+        </div><!--<div class="panel panel-default">-->
+      </div><!--<div class="col-md-8 col-md-xs-8">-->
+      
+    <div class="col-md-2 col-md-xs-2" id="menu_font" style="padding-right:30px">
+      <div class="alert alert-warning" role="alert">
+        강의실 예약 전 <strong>공지사항을 꼭 읽어주세요!</strong><br><br>
+        <a href="/freeboard/freeboards"><button type="button" class="btn btn-default">공지사항 바로가기</button></a>
+      
+      </div>
+      
+      <div class="alert alert-danger alert-dismissible" role="alert" >
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         혹시 조건에 맞는 강의실을 찾고싶으세요?<br><br>
+         <a href="/book/searching?searching_scale=0&searching_building=선택안함"><button type="button" class="btn btn-default">강의실 검색 바로가기</button></a>
+      </div>
+      
+    </div>
+    
+  </div><!--div class row-->
+</div><!--<div style="background-color:lightgray">-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="panel panel-default" style="margin-right:50px; margin-left:50px">-->
+<!--  <div class="panel-heading">-->
+<!--      강의실 조건 검색-->
+<!--  </div>-->
+  <!-- /.panel-heading -->
+<!--  <div class="panel-body">-->
+<!--      <div class="dataTable_wrapper">-->
+<!--          <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">-->
+            
+<!--            <div class="row">-->
+<!--              <div class="col-sm-6">-->
+                
+<!--                <form action="/book/searching" method="POST">-->
+<!--                <div class="dataTables_length" id="dataTables-example_length">-->
+<!--                  <label>수용 가능 인원 :  <input type="number" class="form-control input-sm" name="searching_scale" value="%=@searching_scale%>">-->
+<!--                  <label>원하는 건물 :-->
+<!--                    <select name="searching_building" aria-controls="dataTables-example" class="form-control input-sm" value="%=@searching_building%>">-->
+                      
+<!--                      <option value="선택안함">선택안함</option><!--선택 안함 옵션-->
+                      
+<!--                      % Building.all.each do |b|%><!--빌딩 리스트-->
+<!--                        <option value="%=b.name%>">%=b.name%></option>-->
+<!--                      %end%>-->
+                      
+<!--                    </select>-->
+<!--                  </label>-->
+                  
+<!--                  <label>-->
+                    <!--onclick="data_load(input_people_scale.value, input_building.value)"-->
+<!--                    <button type="submit" class="btn btn-default btn-sm">검색</button>-->
+<!--                  </label>-->
+<!--                </div><!--<div class="dataTables_length" id="dataTables-example_length">-->
+<!--                </form>-->
+                
+<!--              </div><!--<div class="col-sm-6">-->
+<!--            </div><!--div class="row-->
+            
+<!--            <div class="row" id="table_div">-->
+<!--              <div class="col-sm-12">-->
+<!--                <table class="table table-striped table-bordered table-hover dataTable no-footer" id="searching_table" role="grid" aria-describedby="dataTables-example_info">-->
+<!--                  <thead>-->
+<!--                    <tr role="row">-->
+<!--                      <th class="sorting" aria-sort="ascending" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 321.667px;">건물 이름</th>-->
+<!--                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 389.667px;">강의실 호수</th>-->
+<!--                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 363.667px;">수용 가능 인원</th>-->
+<!--                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 283.667px;">컴퓨터 여부</th>-->
+<!--                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 220px;"></th></tr>-->
+<!--                  </thead>-->
+                  <!--테이블 업데이트시 이프문을 거침(빌딩 선택 유무)-->
+                  
+<!--                  % if @searching_building =="선택안함" %>-->
+<!--                    <tbody>-->
+<!--                      % Room.where("accept_people >= ?", @searching_scale).each do |b| %>  -->
+<!--                        <tr class="gradeA odd" role="row">-->
+<!--                          <td>%=b.building_name%></td>-->
+<!--                          <td>%=b.room_number%>호</td>-->
+<!--                          <td>약 %=b.accept_people%>명</td>-->
+<!--                          <td>미기입</td>-->
+<!--                          <td><a href="/book/view_booking?id=%=b.id%>&date=%=Time.zone.today%>" class="btn-default">예약하러가기</a></td>-->
+<!--                        </tr>-->
+<!--                      %end%>-->
+<!--                    </tbody>-->
+                    
+<!--                  % else %>-->
+<!--                    <tbody>-->
+<!--                      % Room.where("accept_people >= ? and building_name =?", @searching_scale, @searching_building).each do |b| %>  -->
+<!--                        <tr class="gradeA odd" role="row">-->
+<!--                          <td>%=b.building_name%></td>-->
+<!--                          <td>%=b.room_number%>호</td>-->
+<!--                          <td>약 %=b.accept_people%>명</td>-->
+<!--                          <td>미기입</td>-->
+<!--                          <td><a href="/book/view_booking?id=%=b.id%>&date=%=Time.zone.today%>" class="btn-default">예약하러가기</a></td>-->
+<!--                        </tr>-->
+<!--                      %end%>-->
+<!--                    </tbody>-->
+                    
+<!--                  %end%>-->
+              
+<!--                </table>-->
+<!--              </div>-->
+<!--            </div>-->
+            
+<!--          </div>-->
+<!--      </div>-->
+      <!-- /.table-responsive -->
+    
+<!--  </div>-->
+  <!-- /.panel-body -->
+<!--</div>-->
+
+<!--<script>-->
+<!--  $("select[name='searching_building'] option[value='%=@searching_building%>']").attr("selected", "selected");-->
+<!--</script>-->
+
+
+<!--<script>-->
+
+<!--function data_load(scale,building){-->
+<!--  $.ajax({-->
+<!--            data: {-->
+<!--              searching_scale: scale,-->
+<!--              searching_building: building-->
+<!--            },-->
+<!--            url: "/book/searching",-->
+<!--            success: function(){-->
+<!--              // var table = dataTable();-->
+<!--              // var table = document.getElementById("searching_table");-->
+<!--              // $('#searching_table').load('#searching_table');// 테이블 리로드..-->
+              <!--
+<!--              // $("#searching_table").load(location.href + " #searching_table>*", "");-->
+<!--              // $('#searching_table').load(location.href + '#searching_table');-->
+<!--              // $('#searching_table').load();-->
+<!--              // var table=$('#searching_table').DataTable();-->
+<!--              // table.ajax.reload();-->
+<!--              // $('#searching_table').dataTable().ajax.reload(null, false);-->
+<!--              // $('#searching_table').bootstrapTable('refresh');-->
+<!--              // $("#searching_table").ajax.reloadData();-->
+<!--              $("#searching_table").load(window.location + " #searching_table");-->
+<!--              alert(scale + building);-->
+            
+<!--            },-->
+<!--            error:function(request,status,error){-->
+<!--            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);-->
+<!--            }-->
+<!--          });-->
+<!--  // % @search_scale = keyword%>-->
+<!--  // $("#searching_table").load(window.location + " #searching_table");-->
+<!--};-->
+<!--</script>-->

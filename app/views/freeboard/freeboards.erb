@@ -1,148 +1,217 @@
-<!--freeboard css-->
-	
-	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/earlyaccess/hanna.css">
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/earlyaccess/jejugothic.css">
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
-  <link rel="stylesheet" type="text/css" href="https://www.jqueryscript.net/css/jquerysctipttop.css">
-	
-	<link rel="stylesheet" type="text/css" href="https://www.jqueryscript.net/css/jquerysctipttop.css">
 
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
 
- 	<script>
+<div style="background-color:lightgray; padding-top:150px;padding-bottom:300px" id="menu_font">
+  
+  <div class="row">
     
-	$(function () {
-			load = function() {
-				window.tp = new Pagination('#tablePaging', {
-					itemsCount: <#= @fb_all.count %>,
-					onPageSizeChange: function (ps) {
-						console.log('changed to ' + ps);
-					},
-					onPageChange: function (paging) {
-						//custom paging logic here
-						console.log(paging);
-						var start = paging.pageSize * (paging.currentPage - 1),
-							end = start + paging.pageSize,
-							$rows = $('#table').find('.data');
+    <div class="col-md-2 col-md-xs-2"></div>
+      
+      <div class="col-md-8 col-md-xs-8" align="center">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <h2>N O T I C E</h2>
+            <hr>
+            <div class="col-md-4 col-sm-12">
+      
+              
+              <form action="/freeboard/search" method="POST">
+                <div class="input-group" style="background:lightgray">
+                  <!--<span class="input-group-addon" id="basic-addon1">검색</span>-->
+                  <input type="text" name="searching_keyword" class="form-control" placeholder="1글자 이상 입력해주세요 :D" aria-describedby="basic-addon1">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">검색</button>
+                  </span>
+                </div>
+              </form>
+              
+              <br>
+              <% if current_user.email=="admin@ptu.ac.kr"%>
+                <a href="/freeboard/upload" class="btn btn-info btn-lg btn-block" >글 작성</a>
+              <%end%>
+            </div>
+            
+            <div class="col-md-8 col-sm-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성 일시</th>
+                    <% if current_user.email=="admin@ptu.ac.kr"%>
+                      <th>수정-삭제</th>
+                    <%end%>
+                  </tr>
+                </thead>
+                
+                <tbody>
+                  <% @fb_all.reverse_each do |a| %>
+                  
+                    <tr>
+                      
+                        <td><%= a.id %></td>
+                        <td><a href="/freeboard/upload_view?id=<%= a.id %>"><%= a.fb_title %></a></td>
+                        <td>관리자</td>
+                        <td><%= a.created_at.in_time_zone("Seoul")%></td>
+                        <% if current_user.email=="admin@ptu.ac.kr"%>
+                        <td>
+                          <div class="btn-group">
+                            <a href="/freeboard/delete_action?id=<%= a.id %>" class="btn btn-default btn-sm">삭제</a>
+                            <a href="/freeboard/modify?id=<%= a.id %>" class="btn btn-default btn-sm">수정</a>
+                          </div>
+                        </td>
+                        <%end%>
+                    </tr>
+                  
+                  <% end %>
+                  
+   
+                </tbody>
+              </table>
+            </div>
+            
+            
+          </div><!--<div class="panel-body">-->
+        </div><!--<div class="panel panel-default">-->
+      </div><!--<div class="col-md-8 col-md-xs-8">-->
+      
+    <div class="col-md-2 col-md-xs-2" id="#side">
+       <%= render "book/side" %>
+    </div>
+    
+  </div><!--div class row-->
+</div><!--<div style="background-color:lightgray">-->
 
-						$rows.hide();
 
-						for (var i = start; i < end; i++) {
-							$rows.eq(i).show();
-						}
-					}
-				});
-			}
 
-		load();
-	});
- 	</script>
-	</head>
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--<body style="background-image:url('http://www.ucorean.com/files/attach/images/3959561/691/787/008/peaceful_summer_day-1920x1080.jpg'); background-size:cover;"><br>-->
 
-<div class="containter"><!--풋터를 위한 디브-->
-<div class="row">
+<!--<div class="containter"><!--풋터를 위한 디브-->
 
-<div class="well" id="menu_font" style="font-size: 20px;" >
-  <center>강의실 예약 전, 공지사항을 꼭 필독바랍니다!<br>(공지사항은 관리자만 작성이 가능합니다)<br>
-</div>
-<br>
-
-<div class="col-md-6 col-md-offset-3">
-<!--<div class="panel panel-info">-->
-<!--      <div class="panel-heading">-->
-<!--        <h3 class="panel-title"><center>공지사항</center></h3>-->
-<!--      </div>-->
-<!--      <div class="panel-body">-->
+<!--  <div class="row">-->
   
-  <!--게시판-->
-
-  <!--<div class="container">-->
-     <!--<div class="jumbotron" style="width:600px height:600px">-->
-      <form id="form1">
-        <table class="table table-condensed" id="table" style="padding-top:1px; padding-bottom:1px; background:rgba(0,0,0,0); align:center">
-          <center><p id="menu_font" style="font-size: 30px;">   
-          <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> &nbsp;공지사항 </p></center><br>
+  <!--<div class="well" id="menu_font" style="font-size: 20px;" >-->
+  <!--  <center>강의실 예약 전, 공지사항을 꼭 필독바랍니다!<br>(공지사항은 관리자만 작성이 가능합니다)<br>-->
+  <!--</div>-->
+<!--  <br>-->
+<!--    <div class= "col-md-2"></div>-->
+<!--    <div class="col-md-8">-->
+<!--      <form id="form1">-->
+<!--        <table class="table table-condensed" id="table" style="padding-top:1px; padding-bottom:1px; background:rgba(0,0,0,0); align:center">-->
+<!--          <center><p id="menu_font" style="font-size: 30px;">   -->
+<!--          <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> &nbsp;공지사항 </p></center><br>-->
           
-            <tr> 
-              <th style="text-align: center; font-size: 20px;" id="menu_font_t">Num </th>
-              <th style="text-align: center; font-size: 20px;" id="menu_font_t">글쓴이 </th>
-              <th style="text-align: center; font-size: 20px;" id="menu_font_t">제목 </th>
-              <th style="text-align: center; font-size: 20px;" id="menu_font_t">댓글수 </th>
-              <th style="text-align: center; font-size: 20px;" id="menu_font_t">작성일</th>
-            </tr>
-          <% @fb_all.reverse_each do |a| %>
-                <tr class="data">
-                    <td  style="text-align :center; font-size: 18px;" id="menu_font_t"><%= a.id %></td>
+<!--            <tr> -->
+<!--              <th style="text-align: center; font-size: 20px;" id="menu_font_t">Num </th>-->
+<!--              <th style="text-align: center;font-size: 20px;" id="menu_font_t">글쓴이 </th>-->
+<!--              <th style="text-align: center;font-size: 20px;" id="menu_font_t">제목 </th>-->
+<!--              <th style="text-align: center;font-size: 20px;" id="menu_font_t">댓글수 </th>-->
+<!--              <th style="text-align: center; font-size: 20px;" id="menu_font_t">작성일</th>-->
+<!--            </tr>-->
+<!--          % @fb_all.reverse_each do |a| %>-->
+<!--                <tr class="data">-->
+<!--                    <td  style="text-align :center; font-size: 18px;" id="menu_font_t">%= a.id %></td>-->
                 
-                    <td  style="text-align :center; font-size: 18px;" id="menu_font_t"><%= User.find(a.fb_user_id).student_name %></td>
-                     
-                    <% if user_signed_in? %>
-                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t"> <a href="/freeboard/upload_view?id=<%= a.id %>"> <p style = "color:black"> <%= a.fb_title %></p></a> </td>
-                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t"> <p style = "color:black">  (<%= a.replies.count %>) </p> </td>
-
-                    <% else %>    
-                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t"><a href="/users/sign_in"> <p style = "color:black"><%= a.fb_title %></p></a> </td>
-                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t"> <p style = "color:black">  (<%= a.replies.count %>) </p> </td>
-                    <% end %>
-                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t"><%=a.created_at.in_time_zone("Seoul")%></td>
-                </tr>
-            <% end %>
-        </table>
-        <% if user_signed_in? %>
-                 <% if current_user.email == 'admin@ptu.ac.kr' %> <br>
-                    <a href="/freeboard/upload"><input type = "button"  class="btn btn-primary btn-sm" style="font-size: 18px;" id="menu_font" value = "작성하기"></input></a>
-
-                  <% else %>
-                    <br>
-                    <span id="menu_font">
-                    <input class="btn btn-primary btn-sm" type ="button" style="font-size: 18px;" id="writeadmin" value = "작성하기"></input>
-                    </span>
-
-                                       
-                    <script type="text/javascript"> 
-                      $(function() {
-                          $("#writeadmin").click(function() {
-                              $("#dialog").dialog({
-                                  title: "알림",
-                              
-
-                                  width: 300,               //dialog
-                                  height: 200,
-                                  modal: true,
-                                  buttons: {
-                                      Close:
-                                      function() {
-                                          $("#dialog").dialog('close');
-                                      }
-                                  }
-                              });
-                          });
-                      });
-                  </script>
-                    
-                    <div id="dialog" id = "menu_font_t" title="Basic dialog" style="display :none">
-                        * 관리자가 아닙니다. <br>
-                         (관리자에게만 권한이 있습니다.)
-                    </div>
-         
-                  <% end %>
-        <% else %>
-          <!-- 로그인 창으로 넘어간다. -->
-        <% end %>
-        <div class="paging-container" id="tablePaging"> </div>
-        <div style="clear: both;"></div>
-      </form>
-    <!--</div>-->
-
-
+<!--                    <td  style="text-align :center; font-size: 18px;" id="menu_font_t">관리자</td>-->
+                   
+<!--                    % if user_signed_in? %>-->
+<!--                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t"> <a href="/freeboard/upload_view?id=%= a.id %>"> <p style = "color:black"> %= a.fb_title %></p></a> </td>-->
+<!--                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t"> <p style = "color:black">  (%= a.replies.count %>) </p> </td>-->
   
-<!--</div><!--패널-->
-<!--</div><!--전체패널-->
-</div>
+<!--                    % else %>    -->
+<!--                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t"><a href="/users/sign_in"> <p style = "color:black">%= a.fb_title %></p></a> </td>-->
+<!--                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t"> <p style = "color:black">  (%= a.replies.count %>) </p> </td>-->
+<!--                    % end %>-->
+<!--                        <td  style="text-align :center; font-size: 18px;" id="menu_font_t">%=a.created_at.in_time_zone("Seoul")%></td>-->
+<!--                </tr>-->
+<!--          % end %>-->
+<!--        </table>-->
+<!--        % if user_signed_in? %>-->
+<!--                 % if current_user.email == 'admin@ptu.ac.kr' %> <br>-->
+<!--                    <a href="/freeboard/upload"><input type = "button"  class="btn btn-primary btn-sm" style="font-size: 18px;" id="menu_font" value = "작성하기"></input></a>-->
+  
+<!--                  % else %>-->
+<!--                    <br>-->
+<!--                    <span id="menu_font">-->
+<!--                    <input class="btn btn-primary btn-sm" type ="button" style="font-size: 18px;" id="writeadmin" value = "작성하기"></input>-->
+<!--                    </span>-->
+  
+                                       
+<!--                    <script type="text/javascript"> -->
+<!--                      $(function() {-->
+<!--                          $("#writeadmin").click(function() {-->
+<!--                              $("#dialog").dialog({-->
+<!--                                  title: "알림",-->
+                              
+  
+                                  <!--width: 300,               //dialog-->
+<!--                                  height: 200,-->
+<!--                                  modal: true,-->
+<!--                                  buttons: {-->
+<!--                                      Close:-->
+<!--                                      function() {-->
+<!--                                          $("#dialog").dialog('close');-->
+<!--                                      }-->
+<!--                                  }-->
+<!--                              });-->
+<!--                          });-->
+<!--                      });-->
+<!--                  </script>-->
+                    
+<!--                    <div id="dialog" id = "menu_font_t" title="Basic dialog" style="display :none">-->
+<!--                        * 관리자가 아닙니다. <br>-->
+<!--                         (관리자에게만 권한이 있습니다.)-->
+<!--                    </div>-->
+         
+<!--                  % end %>-->
+<!--        % else %>-->
+          <!-- 로그인 창으로 넘어간다. -->
+<!--        % end %>-->
+<!--        <div class="paging-container" id="tablePaging"> </div>-->
+<!--        <div style="clear: both;"></div>-->
+<!--      </form>  -->
+<!--    </div><!--div class="col-md-8"-->
+<!--    <div class="col-md-2"></div>-->
+<!--  </div><!--div class="row-->
 
 
    
@@ -161,9 +230,9 @@
     
      <!--</script>-->
 
-</div>
-</div>
+<!--</div>-->
+<!--</div>-->
 	
-	<br><br><br><br>
-</body>
-</html>
+<!--	<br><br><br><br>-->
+<!--</body>-->
+<!--</html>-->

@@ -1,46 +1,93 @@
-<div class="well" id="menu_font" style="font-size: 20px;" >
-   <center>회원가입 시 입력하신 이메일로 비밀번호를 보내드립니다.<br>
-   </center>
+<div class="row" style="background:url(http://www.mrwallpaper.com/wallpapers/gradient-background.jpg); padding-top:110px; padding-bottom:110px">
+  <div class="col-md-4"></div>
+  <div class="col-md-4" id="menu_font">
+    <div class="panel panel-default" style="margin-right:50px;margin-left:50px">
+      <div class="panel-body">
+        <p align="center"  id="menu_font" style="font-size:30px; margin-bottom:30px; margin-top:10px" id = "menu_font_t">비밀번호를 잊어버리셨나요?</p>
+        <h5 align="center">회원가입 시 입력하신 이메일을 적어주세요</h5>
+        <div class="jumbotron">
+          <div id = "menu_font" style="padding-right:20px; padding-left:20px">
+           <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+            <%= devise_error_messages! %>
+      
+            <div class="input-group" style = "font-size:20px">
+              <span class="input-group-addon" id="basic-addon1">이메일</span>
+              <%= f.email_field :email, autofocus: true, :class => "form-control", :placeholder => "필수", required: true%>
+            </div>
+            
+            <br><br><br>
+            
+            <div class="actions" id = "menu_font" style = "font-size:25px">
+              <input type="submit" name="commit" class="btn btn-info btn-lg btn-block" value="전송하기">
+             <%#= f.submit "로그인" %> 
+            </div>
+            
+          <% end %>
+        
+      <%= render "devise/shared/links" %>
+        </div><!--jumbotron-->
+      </div><!--panel body-->
+    </div><!--panel panel-default-->
+  </div><!--<div class="col-md-4" id="menu_font">-->
+  <div class="col-md-4"></div>
 </div>
-<br>
 
-<center>
-  <div id = "menu_font" style="font-size: 30px;">
-    <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color:red"></span>
-    &nbsp; 비밀번호를 잊어버리셨나요?
-  </div>
-  <br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="well" id="menu_font" style="font-size: 20px;" >-->
+<!--   <center>회원가입 시 입력하신 이메일로 비밀번호를 보내드립니다.<br>-->
+<!--   </center>-->
+<!--</div>-->
+<!--<br>-->
+
+<!--<center>-->
+<!--  <div id = "menu_font" style="font-size: 30px;">-->
+<!--    <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color:red"></span>-->
+<!--    &nbsp; 비밀번호를 잊어버리셨나요?-->
+<!--  </div>-->
+<!--  <br><br>-->
   
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
+<!--%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>-->
+<!--  %= devise_error_messages! %>-->
 
-  <div id = "menu_font_t" style = "font-size:20px">
-    <div class="field">
-      <%= f.label :email %><br />
-      (비밀번호를 받을 email을 적어주세요.)<br><br>
-      <%= f.email_field :email, autofocus: true %>
-    </div> 
-  </div>
-  </br>
+<!--  <div id = "menu_font_t" style = "font-size:20px">-->
+<!--    <div class="field">-->
+<!--      %= f.label :email %><br />-->
+<!--      (비밀번호를 받을 email을 적어주세요.)<br><br>-->
+<!--      %= f.email_field :email, autofocus: true %>-->
+<!--    </div> -->
+<!--  </div>-->
+<!--  </br>-->
 
-  <div class="actions" id = "menu_font" style = "font-size:25px">
-    <input type="submit" name="commit" value="전송하기" style="height: 40px; width: 300px; background-color: #FFFFFF;">
+<!--  <div class="actions" id = "menu_font" style = "font-size:25px">-->
+<!--    <input type="submit" name="commit" value="전송하기" style="height: 40px; width: 300px; background-color: #FFFFFF;">-->
     <%#= f.submit "확인" %>
-  </div>
-<% end %>
+<!--  </div>-->
+<!--% end %>-->
 
-<br>
-<br>
+<!--<br>-->
+<!--<br>-->
 
 <%#= render "devise/shared/links" %>
-<div id="menu_font" style="font-size: 20px;margin-top: 10px;">
-  <%- if controller_name != 'sessions' %>
-   <%= link_to "로그인", new_session_path(resource_name) %>&nbsp;&nbsp;
-  <% end -%>
+<!--<div id="menu_font" style="font-size: 20px;margin-top: 10px;">-->
+<!--  %- if controller_name != 'sessions' %>-->
+<!--   %= link_to "로그인", new_session_path(resource_name) %>&nbsp;&nbsp;-->
+<!--  % end -%>-->
 
-<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-   <%= link_to "회원가입", new_registration_path(resource_name) %><br /><br><br>
-<% end -%>
-</div>
+<!--%- if devise_mapping.registerable? && controller_name != 'registrations' %>-->
+<!--   %= link_to "회원가입", new_registration_path(resource_name) %><br /><br><br>-->
+<!--% end -%>-->
+<!--</div>-->
 
-</center>
+<!--</center>-->

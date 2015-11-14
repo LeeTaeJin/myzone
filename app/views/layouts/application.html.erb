@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="margin-top: 100px;">
+<html>
 <head>
   <title>My Zone (평택대학교 '강의실 예약 서비스')</title>
   
@@ -9,8 +9,12 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   
   <!--지연스 .js-->
+
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
   <%= csrf_meta_tags %>
   
     <!--디자인 css-->
@@ -35,105 +39,237 @@
  </head>
 
 <body>
-    
+
   <!--메뉴바-->
-  <div class = "container">
-    <div class = "row">
-      <nav class="navbar navbar-default navbar-fixed-top">
-      
-        <div class = "col-md-6">
-                <ul class="nav navbar-nav" id="menu_font" style="padding-left:70px">
-                      <li>
-                          <a href="/"><img src="https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/12042967_844909862291712_7048667495249600641_n.jpg?oh=371f6f0014cd5c42bc10e1a60ce5d0b6&oe=565F7C09&__gda__=1453379427_226d49d179d2932dc1e144b87435172e" /></a>
-                      </li>
-                      <li class="page-scroll">
-                        <% if current_page?(controller: 'book', action: 'real_main') %>        
-                            <a id="11" class="scroll-down1"  href="#notice_slidedown" style = "margin-top: 17px; font-size:20px;">공지사항</a>
-                        <% else %>
-                            <a id="11" class="scroll-down1"  href="/freeboard/freeboards" style = "margin-top: 17px; font-size:20px;">공지사항</a>
-                        <% end %>
-                      </li>
-                      <li>
-                          <a id="11" class="page-scroll" href="/book/main" style="margin-top: 17px; font-size:20px;">예약하기</a>
-                      </li>
-                      
-                      <li class="page-scroll">
-                          <% if current_page?(controller: 'book', action: 'real_main') %>        
-                          <a id="11" class="scroll-down1" href="#bottom" style="margin-top: 17px; font-size:20px;">문의하기</a>
-                          <% else %>
-                          <a id="11" class="scroll-down1" href="/book/real_main#bottom" style="margin-top: 17px; font-size:20px;">문의하기</a>
-                          <% end %>     
-                      </li>  
-                </ul>
-        </div>
-               
-        <div class = "col-md-6 col-offset-md-3">
-                <ul class="nav navbar-nav navbar-right" id="menu_font" style="padding-right:100px">
+  <% if current_user %> <!-- 로그인이 되어 있다면 -->
+  <!--<div class="navbar navbar-default navbar-fixed-top topnav" id="bs-example-navbar-collapse-1" role="navigation" data-0="line-height:100px; height:100px; background-color:rgba(0,0,0,0.3);" data-300="line-height:60px; height:60px; background-color:rgba(0,0,0,1);" style="line-height: 100px; height: 100px; background-color: rgba(0, 0, 0, 0);">-->
+  <div class="navbar navbar-fixed-top skrollable skrollable-between" id="menu_bar" role="navigation" data-0="line-height:100px; height:100px; background-color:rgba(0,0,0,0.3);" data-300="line-height:60px; height:60px; background-color:rgba(0,0,0,1);" style="line-height: 100px; height: 70px; background-color: rgba(0, 0, 0, 0.298039);">
+			 <div class="container" id="menu_font" >
+			   
+			   <div class="row">
+			     
+			     <a href="/book/real_main">
+			     <!--<div class="col-md-2 col-xs-2" style="background-color:#353535; color:white; font-size:20px;" align="center" >-->
+			     <div class="col-md-2 col-xs-2" style="background-color:black; color:white; font-size:20px; padding-top:5px; padding-bottom:5px" align="center" >
+			       MY ZONE
+			     </div>
+			     </a>
+			     <div class="col-md-5 col-xs-5">
+			      <!--<div class="col-md-5 col-xs-5">-->
+			        <div class="navbar-collapse collapse">
+  			       <!--<ul class="nav navbar-nav skrollable skrollable-between" data-0="margin-top:20px;" data-300="margin-top:5px;" style="margin-top: 25px; font-size:17px">-->
+                <ul class="nav navbar-nav skrollable skrollable-between" data-0="margin-top:20px;" data-300="margin-top:5px;" style="margin-top: 10px; font-size:15px">
                 
-                    <% if current_user %> <!-- 로그인이 되어 있다면 -->
-                      <li>
-                        <p id="11" href="#" class="page-scroll" style="margin-top: 30px; font-size: 15px;color: #333131;"><%= current_user.student_name %> 님 반갑습니다.</p>
+                  <li class=""><a href="/book/real_main"  style="color:#D5D5D5">HOME</a></li>
+                  
+                  <li class=""><a href="/freeboard/freeboards"  style="color:#D5D5D5">NOTICE</a></li>
+                  <!--<li class=""><a href="#section-works"  style="color:#D5D5D5">문의하기</a></li>-->
+                  <li class=""><a href="/book/main"  style="color:#D5D5D5">RESERVATION</li></a>
+                  <!--<li class=""><a href="#section-contact"><button type="button" class="btn btn-default btn-circle btn-lg"><i class="glyphicon glyphicon-log-out"></i></button></a></li>-->
+                </ul>
+              </div><!--/.navbar-collapse -->
+			      </div>
+			     
+			     
+			     
+			          
+			     <div class="col-md-5 col-xs-5">
+			     <!--<div class="col-md-5 col-xs-5">-->
+			       
+			       <div class="navbar-collapse collapse">
+  			     			          
+                    <!--<i class="glyphicon glyphicon-heart-empty" style="color:white;"><%#= current_user.student_name %>님 반갑습니다</i> -->
+                    <!--<ul class="nav navbar-nav skrollable skrollable-between" data-0="margin-top:20px;" data-300="margin-top:5px;" style="margin-top: 25px; font-size:17px">-->
+                    <ul class="nav navbar-nav skrollable skrollable-between" data-0="margin-top:20px;" data-300="margin-top:5px;" style="margin-top: 10px; font-size:15px">
+                    <% if current_user.email=="admin@ptu.ac.kr"%>
+                      <li class=""><a href="/book/admin_menu"  style="color:#D5D5D5">ADMIN</a></li>
+                    <%end%>
+                    
+                      <li class="" style="color:white"><a href="/book/mypage"  style="color:#D5D5D5">MY_PAGE</a></li>
+                      <li style="color:white">
+                        <a href="" style="color:white"><i class="glyphicon glyphicon-heart-empty" style="color:white;"></i><%= current_user.student_name %>님 반갑습니다</a>
                       </li>
+              
+                    </ul>
+                    &nbsp;
+                    <a href="/users/sign_out"><button type="button" class="btn btn-default btn-circle btn-lg" style="margin-top:40px"><i class="glyphicon glyphicon-log-out"></i></button></a>
+
+              </div><!--/.navbar-collapse -->
+			     </div>
+			     
+			     
+			     
+				<!--<div class="navbar-header">-->
+				<!--	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">-->
+				<!--		<span class="fa fa-bars color-white"></span>-->
+				<!--	</button>-->
+				<!--	<h1><a class="navbar-brand skrollable skrollable-between" href="index.html" data-0="line-height:90px;" data-300="line-height:50px;" style="line-height: 90px;">			Amoeba-->
+				<!--	</a></h1>-->
+				<!--</div>-->
+				<!--<div class="navbar-collapse collapse">-->
+				<!--	<ul class="nav navbar-nav skrollable skrollable-between" data-0="margin-top:20px;" data-300="margin-top:5px;" style="margin-top: 20px;">-->
+				<!--		<li class=""><a href="index.html">Home</a></li>-->
+				<!--		<li class=""><a href="#section-about">About</a></li>-->
+				<!--		<li class=""><a href="#section-works">Portfolio</a></li>-->
+				<!--		<li class=""><a href="#section-contact">Contact</a></li>-->
+				<!--	</ul>-->
+				<!--</div><!--/.navbar-collapse -->
+				</div>
+			</div>
+		</div>
+  <!--<div class = "container">-->
+  <!--  <div class = "row">-->
+  <!--    <nav class="navbar navbar-default navbar-fixed-top">-->
+      
+  <!--      <div class = "col-md-6">-->
+  <!--              <ul class="nav navbar-nav" id="menu_font" style="padding-left:70px">-->
+  <!--                    <li>-->
+  <!--                        <a href="/"><img src="https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xpf1/v/t1.0-9/12042967_844909862291712_7048667495249600641_n.jpg?oh=371f6f0014cd5c42bc10e1a60ce5d0b6&oe=565F7C09&__gda__=1453379427_226d49d179d2932dc1e144b87435172e" /></a>-->
+  <!--                    </li>-->
+  <!--                    <li class="page-scroll">-->
+  <!--                      % if current_page?(controller: 'book', action: 'real_main') %>        -->
+  <!--                          <a id="11" class="scroll-down1"  href="#notice_slidedown" style = "margin-top: 17px; font-size:20px;">공지사항</a>-->
+  <!--                      % else %>-->
+  <!--                          <a id="11" class="scroll-down1"  href="/freeboard/freeboards" style = "margin-top: 17px; font-size:20px;">공지사항</a>-->
+  <!--                      % end %>-->
+  <!--                    </li>-->
+  <!--                    <li>-->
+  <!--                        <a id="11" class="page-scroll" href="/book/main" style="margin-top: 17px; font-size:20px;">예약하기</a>-->
+  <!--                    </li>-->
                       
-                      <li>
-                       <a id="11" class="page-scroll" href="/book/mypage" style = "margin-top: 17px; font-size:20px">마이페이지</a>
-                       </li>
+  <!--                    <li class="page-scroll">-->
+  <!--                        % if current_page?(controller: 'book', action: 'real_main') %>        -->
+  <!--                        <a id="11" class="scroll-down1" href="#bottom" style="margin-top: 17px; font-size:20px;">문의하기</a>-->
+  <!--                        % else %>-->
+  <!--                        <a id="11" class="scroll-down1" href="/book/real_main#bottom" style="margin-top: 17px; font-size:20px;">문의하기</a>-->
+  <!--                        % end %>     -->
+  <!--                    </li>  -->
+  <!--              </ul>-->
+  <!--      </div>-->
+               
+  <!--      <div class = "col-md-6 col-offset-md-3">-->
+  <!--              <ul class="nav navbar-nav navbar-right" id="menu_font" style="padding-right:100px">-->
+                
+                    
+  <!--                    <li>-->
+  <!--                      <p id="11" href="#" class="page-scroll" style="margin-top: 30px; font-size: 15px;color: #333131;"><%= current_user.student_name %> 님 반갑습니다.</p>-->
+  <!--                    </li>-->
                       
-                      <%if current_user.email=="admin@ptu.ac.kr"%>
-                        <li>
-                          <a id="11" class="page-scroll" href="/book/admin_menu" style = "margin-top: 17px; font-size:20px">관리자 메뉴</a>
-                        </li>
-                      <%end%>
+  <!--                    <li>-->
+  <!--                     <a id="11" class="page-scroll" href="/book/mypage" style = "margin-top: 17px; font-size:20px">마이페이지</a>-->
+  <!--                     </li>-->
+                      
+  <!--                    %if current_user.email=="admin@ptu.ac.kr"%>-->
+  <!--                      <li>-->
+  <!--                        <a id="11" class="page-scroll" href="/book/admin_menu" style = "margin-top: 17px; font-size:20px">관리자 메뉴</a>-->
+  <!--                      </li>-->
+  <!--                    %end%>-->
                       <!-- <li>-->
                       <!--  <a id="11" class="page-scroll" href="/users/edit" style = "margin-top: 17px; font-size:20px">회원정보 수정</a>-->
                       <!--</li>-->
                       
-                      <li>
-                        <a id="11" class="page-scroll" href="/users/sign_out" style="margin-top: 17px; font-size:20px">로그아웃</a>
-                      </li>          
+  <!--                    <li>-->
+  <!--                      <a id="11" class="page-scroll" href="/users/sign_out" style="margin-top: 17px; font-size:20px">로그아웃</a>-->
+  <!--                    </li>          -->
                       
-                    <%else%>    <!-- 로그인 안됨 -->
                     
-                     <li>
-                       <a id="11" class="page-scroll" href="/users/sign_in" style = "margin-top: 17px; font-size:20px">로그인</a>
-                     </li>
+                     <!--<li>-->
+                     <!--  <a id="11" class="page-scroll" href="/users/sign_in" style = "margin-top: 17px; font-size:20px">로그인</a>-->
+                     <!--</li>-->
 
                      <!--<li>-->
                      <!--  <a id="11" class="page-scroll" href="/book/mypage" style = "margin-top: 17px; font-size:20px">마이페이지</a>-->
                      <!--</li>-->
                      
-                     <li>
-                       <a id="11" class="page-scroll" href="/users/sign_up" style = "margin-top: 17px; font-size:20px">회원가입</a>
-                     </li>
+                     <!--<li>-->
+                     <!--  <a id="11" class="page-scroll" href="/users/sign_up" style = "margin-top: 17px; font-size:20px">회원가입</a>-->
+                     <!--</li>-->
                      
-                    <%end%>       
+                          
                               
-                </ul>              
-        </div>   
-      </nav>     
-    </div>
-  </div> <!-- 상단 고정 메누바 끝 -->
-  
+  <!--              </ul>              -->
+  <!--      </div>   -->
+  <!--    </nav>     -->
+  <!--  </div>-->
+  <!--</div> <!-- 상단 고정 메누바 끝 -->
+<%end%> 
+
       <%= yield %>
   
   
   <!--마지막 copyright 부분-->
-  
+<% if current_user %>  
   <footer>
-    <center>      
-      <div style="background-color:#0C5838;">
-      <br><br><br>
-        <p style = "color: white; font-size:19px;">Copyright © Company Tip+_one 2015, All Rights Reserved.<br></p>
-        <p style="color: white; font-size:17px;">E-mail : um135@naver.com<br>
-                                                 Pyeongtaek University URL : link( <a href = "www.ptu.ac.kr" style="color:white">www.ptu.ac.kr</a> )
-      <br> 
-      Made by <a href = "/book/tip" style = "color:white">Tip+_one</a>
-      </p>
+    <center>
+      
+      <div style="background-color:#253340;" id="menu_font">      
+      <!--<div style="background-color:#0C5838;" id="menu_font">-->
+      <div class="row">
+        <div class="col-md-2 col-sm-2">
+        </div>
+        
+        <div class="col-md-8 col-sm-8">
+          
+          <div class="row">
+            
+            <div class="col-md-6 col-sm-6" style="padding-top:30px">
+              <!--<div class="well well-sm" style="background-color:gray">-->
+                <div style="padding-right:50px; padding-left:50px;background-color:#253340">
+                  <h3 align="center" style="color:#D5D5D5">의 견 보 내 기 
+                    <button onclick ="change_icon();" aria-expanded="true" data-toggle="collapse" data-target="#send_opinion" type="button" class="btn btn-default btn-circle btn-lg" style="margin-top:40px align:center;padding-top:16px">
+                      <i id="icon" class="glyphicon glyphicon-chevron-down"></i>
+                    </button>
+                  </h3>
+                  <!--<hr>-->
+              
+                  <form action="/message/write_process" method="POST">
+                    <input type="hidden" name="sender" value="<%=current_user.id%>">
+                    
+                    <div  class="collapse" id="send_opinion"><!--입력폼-->
+                      <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">구분</span>
+                        <select class="form-control" name="opinion_select"  required>
+                          <option value="불편사항">불편 사항</option>
+                          <option value="기능제안">기능 제안</option>
+                        </select>
+                      </div>
+                      
+                      <br>
+                      
+                      <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">내용</span>
+                        <textarea name="content" class="form-control" placeholder="내용을 입력해주세요 :D" rows="10" cols="70"  required></textarea>
+                      </div>
+                      
+                      <br>
+                      
+                      <input class="btn btn-info btn-lg btn-block" type ="submit" onclick="alert('당신의 생각이 전송되었습니다!');" value = "작성완료"></input>
+                    </div>  
+                  </form>
+                <br><br>
+                </div><!--div well-->
+              <!--</div>-->
+            </div><!--div class="col-md-6"-->
+            
+            <div class="col-md-6 col-sm-6" align="left" style="color:white;padding-top:50px">
+              Copyright © Company Tip+_one 2015, All Rights Reserved.<br>
+              
+              Made by <a href = "/book/tip" style = "color:white">Tip+_one</a><br>
+              
+              <a href="http://www.ptu.ac.kr/" target="_blank"><img src="http://ptuniv.ac.kr/images_std/kor/login/img_loginLogo.gif"></a><br>
+              
+            </div>
+        
+        <div class="col-md-2 col-sm-1">
+          
+        </div>
+        
+        
       <br><br>
       </div>
     </center>
   </footer>
-  
+<%end%>  
   
       <!--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
       <script type="text/javascript" src="http://www.ironsummitmedia.com/js/modernizr.custom.82681.js"></script>
@@ -144,7 +280,9 @@
       <!--달력-->
       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
       <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-  
+
+<!--reservation 제이커리-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
   </body>
 </html>

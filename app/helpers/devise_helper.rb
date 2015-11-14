@@ -14,13 +14,13 @@ module DeviseHelper
                       resource: resource.class.model_name.human.downcase)
 
     html = <<-HTML
-
-<div id="menu_font" style="font-size:18px">
-    <div id="error_explanation">
-      <div>#{messages}</div>
-    </div>
+<div class="alert alert-danger alert-dismissible" role="alert" id="menu_font">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <div id="error_explanation">
+    <div>#{messages}</div>
+  </div>
 </div>
-<br>
+
     
     HTML
 

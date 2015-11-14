@@ -1,9 +1,10 @@
 class FreeboardController < ApplicationController
  
- before_action :authenticate_user!, only: [:upload, :reply_write, :upload_view]
+ before_action :authenticate_user!, only: [:upload, :reply_write, :upload_view, :freeboards]
  
     # 게시판 홈
     def freeboards
+        
        @fb_all = Freeboard.all
        
     end
@@ -136,6 +137,11 @@ class FreeboardController < ApplicationController
             
             redirect_to :back
         end
+    end
+    
+    def search #검색
+      @searching_keyword=params[:searching_keyword]
+      @search_output=Freeboard.where("fb_title LIKE ? or fb_content LIKE ?", "%#{@searching_keyword}%", "%#{@searching_keyword}%")
     end
     # 리플 삭제 끝
     

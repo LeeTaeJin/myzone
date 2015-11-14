@@ -1,6 +1,6 @@
 class BookController < ApplicationController
     
-     before_action :authenticate_user!, only: [:booking, :view_booking]
+     before_action :authenticate_user!, only: [:booking, :view_booking,:real_main,:main,:booking_process,:mypage,:delete, :update_state,:tip,:searching]
     
     
     def real_main  # 메인페이지
@@ -12,9 +12,6 @@ class BookController < ApplicationController
     def main 
         @building=Building.all
         
-      
-       
-      
     end
     
     def detail_info
@@ -27,11 +24,8 @@ class BookController < ApplicationController
     def view_booking
         #해당 강의실의 예약현황을 보여줌
         @class=Room.find(params[:id])
-        @date=params[:show_date]
+        @date=params[:date]
         
-        
-        
-    
         
     end
     
@@ -100,7 +94,7 @@ class BookController < ApplicationController
     
 
     
-    def booking_process
+    def booking_process #중복
     
         @date=params[:date].to_time
         @all_reservation=Reservation.where(room_id: params[:id]).where(date: params[:date])
@@ -113,45 +107,65 @@ class BookController < ApplicationController
         # @save_result = true # 초기값 설정을 true 에서 "" 로 바꿔놈.
          
         if (( Time.zone.now<= @start_time.to_s(:db)) and (@start_time.to_s(:db) < @finish_time.to_s(:db))) # true여야함
-          if @all_reservation.count==0
-             @save_result=true
+          
+          if @all_reservation.count==0 #예약된게 없으면 무조건 예약하게함
+             @save_result="true" #예약이 가능하도록 한다.
           
           else
-            @all_reservation.each do |r| #부들부들 
-              if ((@start_time.between?(r.start_time, r.finish_time)) or 
-                  (@finish_time.between?(r.start_time, r.finish_time)) or
-                  ((@start_time < r.start_time) and (r.finish_time < @finish_time)))
-  
-                @save_result = false    #중복일 때 false
-                
-              else #안겹치면 저장
-                
-                @save_result = true
-              end
+            @all_reservation.each do |r| #예약이 겹치면
+                  if ((@start_time.between?(r.start_time, r.finish_time)) or
+                      (@finish_time.between?(r.start_time, r.finish_time)) or
+                      ((@start_time < r.start_time) and (r.finish_time < @finish_time)))
+                    
+                    #저장 안됨
+                    @save_result = "false_overlap"  
+                    
+                  else #예약이 안겹치면
+                    
+                              #안겹친거 확인되면, 2주 뒤인지 확인함. 그래서 2주 뒤일때,
+                              if Time.zone.today + 2.weeks > params[:date].to_date
+                                
+                                    #예약이 안되게함.
+                                    @save_result = "false_over_2week"
+                                    
+                              else #2주 뒤가 아닐때,
+                              
+                             #저장 ok  
+                              @save_result = "true"
+                              end    
+                  end 
             end #all_reservation.each do  
+            ######################################################               
+            
+                    
           end #@all_reservation.count==0
          
         else
-            @save_result = false
+            @save_result = "false_not_later"
           
-        end #Time.zone.now
+        end #현재시간보다 나중이어야하고 시작시간이 현재시간보다 전이어야함 if
         
         #걸러줌!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
-        if @save_result == true
+        
+        
+        if @save_result == "true" 
           
-            @reservation=Reservation.new #새로운 예약 db를 생성
+            @reservation=Reservation.new
+            @reservation.building=params[:building]
+            @reservation.department=current_user.department
             @reservation.room_id=params[:id]
-            @reservation.user=current_user.id #여기다가는 유저 이름을 저장한다.(나중에 수정할것)
+            @reservation.user=current_user.id 
             @reservation.professor=params[:professor]
             @reservation.date=params[:date]
             @reservation.start_time=@start_time
             @reservation.finish_time=@finish_time
             @reservation.purpose=params[:purpose]
+            @reservation.accept_people=params[:people_scale]
             @reservation.state="승인대기"
             @reservation.save
             
-            redirect_to action:"view_booking", id: params[:id], show_date: params[:date]
+            redirect_to action:"view_booking", id: params[:id], date: params[:date]
             
         # elsif @all_reservation.nil?
         #   @reservation=Reservation.new #새로운 예약 db를 생성
@@ -166,8 +180,12 @@ class BookController < ApplicationController
           
         #   redirect_to action:"view_booking", id: params[:id], show_date: params[:date]
           
-        else
-          redirect_to action:"booking", id: params[:id], show_date: params[:date], save_result: "false1"
+        elsif @save_result =="false_overlap"
+          redirect_to action:"booking", id: params[:id], date: params[:date], save_result: "false_overlap"
+        elsif @save_result=="false_over_2week"
+          redirect_to action:"booking", id: params[:id], date: params[:date], save_result: "false_over_2week"
+        elsif @save_result=="false_not_later"
+          redirect_to action:"booking", id: params[:id], date: params[:date], save_result: "false_not_later"
         end
         
             
@@ -184,9 +202,6 @@ class BookController < ApplicationController
         redirect_to :back
     end
     
-    def test
-        @a="ff"
-    end
    
    def update_state
        update_state=Reservation.find(params[:reservation_num])
@@ -203,12 +218,40 @@ class BookController < ApplicationController
     
     def admin_menu
     
-         
-        
-       
-         
     end
     
+    def searching #조건검색
+      @searching_scale=params[:searching_scale]
+      @searching_building=params[:searching_building]
+      
+    end
+    
+    def upload_alert
+      
+      @new_alert=Sidealert.new
+      @new_alert.color=params[:alert_color]
+      @new_alert.content=params[:alert_content]
+      @new_alert.save
+      
+      redirect_to '/book/admin_menu'
+      
+    end
+    
+    def delete_alert
+      delete_alert = Sidealert.find(params[:id])
+      delete_alert.destroy
+      
+      redirect_to :back
+    end
+    
+    def reser_admin
+      @reservation_time = params[:reservation_time]
+      @reservation_date = params[:reservation_date]
+      @reservation_building = params[:reservation_building]
+      @reservation_department=params[:reservation_department]
+      
+      
+    end
     
 end
                 

@@ -1,157 +1,324 @@
-<script type="text/javascript">
-function GetClock(){
-var d=new Date();
-var nhour=d.getHours(),nmin=d.getMinutes(),nsec=d.getSeconds(),ap;
-
-if(nhour==0){ap=" AM";nhour=12;}
-else if(nhour<12){ap=" AM";}
-else if(nhour==12){ap=" PM";}
-else if(nhour>12){ap=" PM";nhour-=12;}
-
-if(nmin<=9) nmin="0"+nmin;
-if(nsec<=9) nsec="0"+nsec;
-
-document.getElementById('clockbox').innerHTML=""+nhour+":"+nmin+":"+nsec+ap+"";
-}
-
-window.onload=function(){
-GetClock();
-setInterval(GetClock,1000);
-}
-</script> 
 
 
-<div class="well" id="menu_font" style="font-size: 20px;" >
+<div style="background-color:lightgray; padding-top:150px;padding-bottom:150px" id="menu_font">
   
-   <center>현재시간 :     <br><%=Time.zone.today%> <p id="clockbox"></p><br>
-  '<%=@class.room_number%>호' 대여 신청서를 작성해주세요.</center>
-</div>
-<br>
-
-<div class="container">
-<div class="row">
-
-<div class="col-md-2"></div>
-<div class="col-md-8">
-  <form class="form-horizontal" action="/book/booking_process/<%=@class.id%>" method="POST">
-     <!--<fieldset>-->
-       <div class="form-group">
-        <label for="inputprofessor" class="col-lg-2 control-label" style="font-size: 20px;" id="menu_font">사용자</label>
-        <div class="col-lg-10">
-          <input type="text" class="form-control" name="user" style="font-size: 20px;" id="menu_font_t" value="<%=current_user.student_name%> (<%=current_user.student_number%>)" disabled>
-
-        </div>
-      </div>
-      
-      <div class="form-group">
-       <label for="inputprofessor" class="col-lg-2 control-label" style="font-size: 20px;" id="menu_font">지도 교수</label>
-        <div class="col-lg-10">
-          <!--학과 선택시 교수가 보임 자바스크립트-->
-          <!--<input type="text" class="form-control" name="professor" style="font-size: 20px;" id="menu_font_t" required>-->
-          <select name="professor">
-            <% @professor.each do |r|%>
-            <option value="volvo"><%=r%></option>
-            <%end%>
-          </select>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="inputdate" class="col-lg-2 control-label" style="font-size: 20px;" id="menu_font">사용 날짜</label>
-        <div class="col-lg-10">
-          <input type="date" class="form-control" name="date" style="font-size: 20px;" id="menu_font_t" required>
-        </div>
-      </div>
-      
-      <div class="form-group">
-         <label for="inputtime" class="col-lg-2 control-label" style="font-size: 20px;" id="menu_font">사용 시간</label>
-        <div class="col-lg-10">
-          <div class="col-lg-5">
-            <input type="time" class="form-control" name="start_time" required style="width: 200px; font-size: 20px;" id="menu_font_t"> 
-          </div>
-          <div class="col-lg-1">
-            <center>~</center>
-          </div>
-          <div class="col-lg-5">
-            <input type="time" class="form-control" name="finish_time" required style="width: 200px; font-size: 20px;" id="menu_font_t"> 
-          </div>
-        </div>
-        
-      </div>
-      
-      <div class="form-group">
-        <label for="inputpurpose" class="col-lg-2 control-label" style="font-size: 20px;" id="menu_font">사용 목적</label>
-        <div class="col-lg-10">
-          <input type="text" class="form-control" name="purpose" style="font-size: 20px;" id="menu_font_t" style="width: 105px; font-size: 20px;" id="menu_font_t"required>
-        </div>
-      </div>
-      
-      <div class="form-group">
-         <label for="select" class="col-lg-2 control-label" style="font-size: 20px;" id="menu_font">예약시 주의사항</label>
-        <div class="col-lg-10">
-          <div style="overflow:auto; width:500px; font-size: 18px;" id="menu_font">
-           <br>사용약관입니다.<br>
-           <br>1. 강의실에서는 간단한 다과 이외의 주류, 외부 음식물은 반입할 수 없습니다. 
-           <br>2. 쓰레기는 강의실에서 나가실 때 가지고 나가셔야 합니다.
-           <br>3. 사용하신 PC는 반드시 끄셔야 합니다. 
-           <br>4. 강의실에 아무도 없을 경우 강의실 불은 반드시 꺼주시기 바랍니다.
-           <br>5. PC가 있는 강의실에는 게임이나 온갖 툴바, 다운로더를 설치하실 수 없습니다.
-           <br>6. 기물파손이나 낙서 등의 피해가 확인되었을 경우에는 불이익이 적용됩니다.
-           <br>7. 소음, 음주, 사행성 등 불건전한 행위 적발시 즉시 퇴실 조치 합니다.
-           <br>8. 퇴실 시 두고가는 물건 없는지 확인하시기 바랍니다. 분실물에 대해서는 책임지지 않으며, 분실물 발견 후 1주일내에 연락이 없으시면 폐기 처리합니다.
-            <br><br>
-            
-          </div><br><br>
-           <input type="checkbox" style="font-size: 20px;" id = "menu_font" required> 동의합니다.<br><br>
-      </div>
-      
-      </div>
-      
-      <div class="form-group">
-        <div class="col-lg-10 col-lg-offset-2"  id ="menu_font">
-          <a href="/book/view_booking?id=<%=@class.id%>&show_date=<%=@date%>"><button type="submit" class="btn btn-default" style="font-size: 18px">Cancel</button></a>
-            <button type="submit" class="btn btn-primary" id="suc" style="font-size: 18px">작성 완료</button>
-        </div>
-      </div>
-      
-    <!--</fieldset>-->
-  </form>
-</center>
-
-<script>
-  $(function() {
-    $("#suc").click(
-      function(){
-        confirm("예약하시겠습니까?");
-      }
-      );
-  });
-</script>
-
-<% if @save_result == "false1" %>
-  <script>
-    alert("지정한 시간에는 이미 예약이 있습니다.");
-  </script>
+  <div class="row">
     
-<% end %>
+    <div class="col-md-2 col-md-xs-2"></div>
+      
+      <div class="col-md-8 col-md-xs-8" align="center">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <p style="margin-bottom:-20px; margin-top:20px">[ <%=@class.building_name%> <%=@class.room_number%>호 ]</p>
+            <h2>대 여 신 청 서</h2>
+            <hr>
+            
+            <div class="col-md-2 col-md-sm-1"></div>
+            
+            <div class="col-md-8 col-md-sm-10">
+              <form class="form-horizontal" action="/book/booking_process/<%=@class.id%>" method="POST">
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">사용자</span>
+                  <input type="text" class="form-control" name="user" value="<%=current_user.student_name%> (<%=current_user.student_number%>)" disabled>
+                </div>
+                
+                <br>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">소속</span>
+                  <input type="text" class="form-control" name="user" value="<%=current_user.department%>" disabled>
+                </div>
+                
+                <br>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">지도 교수</span>
+                  <select class="form-control input" name="professor">
+                    <% @professor.each do |r|%>
+                      <option value="<%=r%>"><%=r%></option>
+                    <%end%>
+                  </select>
+                </div>
+                
+                <br>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">사용 날짜</span>
+                  <input type="date" class="form-control" name="date" required>
+                </div>
+                
+                <br>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">사용 시간</span>
+                  <input type="time" class="form-control" name="start_time" required>
+                  <span class="input-group-addon"> ~  </span>
+                  <input type="time" class="form-control" name="finish_time" required> 
+                </div>
+                
+                <br>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">사용 목적</span>
+                  <input type="text" class="form-control" name="purpose" required>
+                </div>
+                
+                <br>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">사용 인원</span>
+                  <input type="number" class="form-control" name="people_scale" required>
+                </div>
+                
+                <br>
+                <input type="hidden" name="building_name" value="<%=@class.building_name%>">
+                
+                <div style="background:lightgray; padding-top:10px; padding-bottom:10px" align="left">
+                  <h4 align="center">사용 약관</h4>
+                  <h5 style="padding-left:20px; padding-right:20px">
+                  <br>1. 강의실에서는 간단한 다과 이외의 주류, 외부 음식물은 반입할 수 없습니다. 
+                  <br><br>2. 쓰레기는 강의실에서 나가실 때 가지고 나가셔야 합니다.
+                  <br><br>3. 사용하신 PC는 반드시 끄셔야 합니다. 
+                  <br><br>4. 강의실에 아무도 없을 경우 강의실 불은 반드시 꺼주시기 바랍니다.
+                  <br><br>5. PC가 있는 강의실에는 게임이나 온갖 툴바, 다운로더를 설치하실 수 없습니다.
+                  <br><br>6. 기물파손이나 낙서 등의 피해가 확인되었을 경우에는 불이익이 적용됩니다.
+                  <br><br>7. 소음, 음주, 사행성 등 불건전한 행위 적발시 즉시 퇴실 조치 합니다.
+                  <br><br>8. 퇴실 시 두고가는 물건 없는지 확인하시기 바랍니다. 분실물에 대해서는 책임지지 않으며, 분실물 발견 후 1주일내에 연락이 없으시면 폐기 처리합니다.                      
+                  <br><br><br><br>
+                  <h4 align="center"><input type="checkbox" required> 동의합니다.</h4>
+                  </h5>
+                </div>
+                
+                <br>
+                
+                
+                  <div class="col-md-6 col-md-6" style="padding-bottom:30px">
+                    
+                    <a href="/book/view_booking?id=<%=@class.id%>&date=<%=@date%>" type="submit" class="btn btn-default btn-lg btn-block" >취 소</a>
+                  </div>
+                  
+                  <div class="col-md-6 col-md-6">
+                    <button type="submit" class="btn btn-info btn-lg btn-block" id="suc" >작성 완료</button>
+                   
+                  </div>
+                
+              
+                
+              </form>
+            </div>
+            
+            <div class="col-md-2 col-md-xs-2">
+               
+            </div>
+              
+          </div><!--<div class="panel-body">-->
+        </div><!--<div class="panel panel-default">-->
+      </div><!--<div class="col-md-8 col-md-xs-8">-->
+      
+    <div class="col-md-2 col-md-xs-2" id="#side">
+       <%= render "book/side" %>
+    </div>
+    
+  </div><!--div class row-->
+</div><!--<div style="background-color:lightgray">-->
 
-<!--<div class="col-md-4"></div>-->
 
-<!--<p>-->
-<!--만약 102호를 클릭하고 예약하기를 클릭하면<br> -->
-<!--예약하는 호수는 102호로 한정하기<br>-->
-<!--<br>-->
-<!--그리고 신청 양식이 있다<br>-->
-<!--사용목적, 사용시간, 깨끗히 사용할 것이며 만약 기물파손시 배상한다는 뭐 그런 서약?(사용약관)<br>-->
-<!--<br>-->
-<!--만약 현재예약되어있는 시간이랑 사용자가 기입한 사용시간이 같으면 경고가 뜨고 다시 폼양식으로 redirect 한다.<br>-->
-<!--예약 완료시 예약완료ㅇ되었다는 alert뜸-->
-<!--</p>-->
-</div>
-<div class="col-md-2"></div>
 
-</div>
-</div>
 
-<br><br><br>
 
+<% if @save_result== "false_overlap" %>
+  <script>
+    alert("예약시간이 겹칩니다! 다시 예약해주세요!");
+  </script>
+<% elsif @save_result=="false_over_2week" %>
+  <script>
+    alert("2주 후 예약은 할 수 없습니다!");
+  </script>
+<% elsif @save_result=="false_not_later"%>
+  <script>
+    alert("지난 날은 예약이 안되며, 마침시간은 시작시간보다 전이어야 합니다!");
+  </script>
+<%end%>
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<script type="text/javascript">//시계
+//     function GetClock(){ 
+      
+//       var d=new Date();
+//       var nhour=d.getHours(),nmin=d.getMinutes(),nsec=d.getSeconds(),ap;
+      
+//       if(nhour==0){ap=" AM";nhour=12;}
+//       else if(nhour<12){ap=" AM";}
+//       else if(nhour==12){ap=" PM";}
+//       else if(nhour>12){ap=" PM";nhour-=12;}
+//       if(nmin<=9) nmin="0"+nmin;
+//       if(nsec<=9) nsec="0"+nsec;
+//       document.getElementById('clockbox').innerHTML=""+nhour+":"+nmin+":"+nsec+ap+"";    
+   
+//     }
+    
+//     window.onload=function(){
+      
+//       GetClock();
+//       setInterval(GetClock,1000);
+      
+//     }   
+// </script> -->
+
+
+<!--<div class="well" id="menu_font" style="font-size: 20px;" > -->
+<!--   <center>-->
+     <!--현재시간 :<br>%=Time.zone.today%><p id="clockbox"></p><br>-->
+     
+<!--   </center>-->
+<!--</div><br>-->
+
+<!--<div class="container">-->
+<!--<div class="row">-->
+
+<!--  <div class="col-md-2"></div>-->
+  
+<!--  <div class="col-md-8">-->
+<!--    <div class="well"> -->
+<!--      <div id="menu_font" style="font-size: 20px; margin-bottom:50px; margin-top:30px;" align="center">-->
+<!--        %=@class.building_name%> %=@class.room_number%>호 대여 신청서를 작성해주세요.-->
+<!--      </div>-->
+<!--      <form class="form-horizontal" action="/book/booking_process/%=@class.id%>" method="POST">-->
+<!--        <div class="form-group">-->
+          <!--사용자 이름-->
+<!--          <label for="inputprofessor" class="col-lg-2 control-label" style="font-size: 17px;" id="menu_font">사용자</label>-->
+<!--          <div class="col-lg-10">-->
+<!--            <input type="text" class="form-control" name="user" style="font-size: 17px;" id="menu_font_t" value="%=current_user.student_name%> (%=current_user.student_number%>)" disabled>-->
+<!--          </div>-->
+<!--        </div>-->
+        
+<!--        <div class="form-group">-->
+          <!--학과-->
+<!--          <label for="inputprofessor" class="col-lg-2 control-label" style="font-size: 17px;" id="menu_font">학과</label>-->
+<!--          <div class="col-lg-10">-->
+<!--            <input type="text" class="form-control" name="user" style="font-size: 17px;" id="menu_font_t" value="%=current_user.department%>" disabled>-->
+<!--          </div>-->
+<!--        </div>    -->
+        
+        <!--교수명-->
+<!--        <div class="form-group">-->
+<!--          <label for="inputprofessor" class="col-lg-2 control-label" style="font-size: 17px;" id="menu_font">지도 교수</label>-->
+<!--          <div class="col-lg-10">-->
+            
+            <!--<input type="text" class="form-control" name="professor" style="font-size: 20px;" id="menu_font_t" required>-->
+<!--            <select class="form-control input" style="font-size: 17px;" id="menu_font" name="professor">-->
+<!--              % @professor.each do |r|%>-->
+<!--              <option value="%=r%>">%=r%></option>-->
+<!--              %end%>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--        </div>-->
+        
+        <!--사용날짜-->
+<!--        <div class="form-group">-->
+<!--          <label for="inputdate" class="col-lg-2 control-label" style="font-size: 17px;" id="menu_font">사용 날짜</label>-->
+<!--          <div class="col-lg-10">-->
+<!--            <input type="date" class="form-control" name="date" style="font-size: 17px;" id="menu_font_t" required>-->
+<!--          </div>-->
+<!--        </div>  -->
+        
+        
+<!--        <div class="form-group">-->
+<!--          <label for="inputtime" class="col-lg-2 control-label" style="font-size: 17px;" id="menu_font">사용 시간</label>-->
+<!--          <div class="col-lg-10">-->
+            
+<!--              <div class="input-group">-->
+<!--                <span class="input-group-addon"> 시작시간  </span>-->
+<!--                <input type="time" class="form-control" name="start_time" required style=" font-size: 17px;" id="menu_font_t">-->
+<!--                <span class="input-group-addon"> 마침시간  </span>-->
+<!--                <input type="time" class="form-control" name="finish_time" required style=" font-size: 17px;" id="menu_font_t"> -->
+<!--              </div>-->
+            
+<!--          </div>       -->
+<!--        </div>   -->
+        
+<!--        <div class="form-group">-->
+<!--          <label for="inputpurpose" class="col-lg-2 control-label" style="font-size: 17px;" id="menu_font">사용 목적</label>-->
+<!--          <div class="col-lg-10">-->
+<!--            <input type="text" class="form-control" name="purpose" style="font-size: 17px;" id="menu_font_t" style="width: 105px; font-size: 20px;" id="menu_font_t"required>-->
+<!--          </div>-->
+<!--        </div> -->
+        
+<!--        <div class="form-group">-->
+<!--          <label for="select" class="col-lg-2 control-label" style="font-size: 17px;" id="menu_font">예약시<br>주의사항</label>-->
+<!--          <div class="col-lg-10">-->
+<!--            <div style="overflow:auto; width:500px; font-size: 18px;" id="menu_font">-->
+<!--             <br>사용약관입니다.<br>-->
+<!--             <br>1. 강의실에서는 간단한 다과 이외의 주류, 외부 음식물은 반입할 수 없습니다. -->
+<!--             <br>2. 쓰레기는 강의실에서 나가실 때 가지고 나가셔야 합니다.-->
+<!--             <br>3. 사용하신 PC는 반드시 끄셔야 합니다. -->
+<!--             <br>4. 강의실에 아무도 없을 경우 강의실 불은 반드시 꺼주시기 바랍니다.-->
+<!--             <br>5. PC가 있는 강의실에는 게임이나 온갖 툴바, 다운로더를 설치하실 수 없습니다.-->
+<!--             <br>6. 기물파손이나 낙서 등의 피해가 확인되었을 경우에는 불이익이 적용됩니다.-->
+<!--             <br>7. 소음, 음주, 사행성 등 불건전한 행위 적발시 즉시 퇴실 조치 합니다.-->
+<!--             <br>8. 퇴실 시 두고가는 물건 없는지 확인하시기 바랍니다. 분실물에 대해서는 책임지지 않으며, 분실물 발견 후 1주일내에 연락이 없으시면 폐기 처리합니다.                      -->
+<!--            </div>-->
+<!--            <br><br><br><br>-->
+<!--            <input type="checkbox" style="font-size: 20px;" id = "menu_font" required> 동의합니다.<br><br>-->
+<!--          </div>     -->
+<!--        </div>      -->
+<!--        <div class="form-group">-->
+<!--          <div class="col-lg-10 col-lg-offset-2"  id ="menu_font">-->
+<!--            <a href="/book/view_booking?id=%=@class.id%>&show_date=%=@date%>"><button type="submit" class="btn btn-default" style="font-size: 18px">Cancel</button></a>-->
+<!--              <button type="submit" class="btn btn-primary" id="suc" style="font-size: 18px">작성 완료</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--  </div> <!--div class=well-->
+
+    <script>
+      $(function() {
+        
+        $("#suc").click(
+          
+          function(){
+            confirm("예약하시겠습니까?");
+          }
+          
+          );
+          
+      });
+    </script>
+   
+<!--  </div>-->
+<!--  <div class="col-md-2"></div>-->
+
+<!--</div><!--row div-->
+<!--</div><!--container div-->
+<!--<br><br>-->

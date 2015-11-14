@@ -5,6 +5,7 @@ class CreateMessages < ActiveRecord::Migration
       t.string :sender
       t.string :receiver
       t.string :content
+      t.string :opinion_select
       
       t.timestamps null: false
     end

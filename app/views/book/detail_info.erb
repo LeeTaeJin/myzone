@@ -1,19 +1,58 @@
-<div class="well" id="menu_font" style="font-size: 20px;" >
-  <center>'<%=@building.name%>'에 대한 예약 가능한 강의실 정보입니다.</center>
- </div>
-<br>
 
-<div class="container">
+
+<div style="background-color:lightgray; padding-top:150px;padding-bottom:150px" id="menu_font">
+  
   <div class="row">
-    <center>
-    <% @class_list.each do |c| %>
-    <!--층별로 나눠주는 코드 작성할것 -->
-     
-        <a href="/book/view_booking?id=<%=c.id%>&show_date=<%=Time.zone.today%>" class="btn btn-success" style="margin-bottom:10px; text-align: center; font-size: 18px;" id="menu_font"><%=c.room_number%>호</a> 
     
-    <%end%>
-    </center>
-  </div>
-</div>
+    <div class="col-md-2 col-md-xs-2"></div>
+      
+      <div class="col-md-8 col-md-xs-8" align="center">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <h2>R E S E R V A T I O N</h2>
+            <hr>
+            
+              
+            <div class="jumbotron">
+                
+                <% (1..5).reverse_each do |floor| %>
+                  <%=floor%>층
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                      <% @class_list.each do |c| %>
+                      
+                        <% if c.room_number.first==floor.to_s%>
+                          <a href="/book/view_booking?id=<%=c.id%>&date=<%=Time.zone.today%>" ><button type="button" class="btn btn-default"><%=c.room_number%>호</button></a>  
+                        <%end%>
+        
+                      <%end%> 
+                      <hr>
+                <%end%>
+                
+                지하 1층
+                <% @class_list.each do |c| %>
+                          <% if c.room_number.first=='B' %>
+                          <a href="/book/view_booking?id=<%=c.id%>&date=<%=Time.zone.today%>" ><button type="button" class="btn btn-default"><%=c.room_number%>호</button></a>  
+                          <% end %>
+                <% end %>
+            </div>
+                     
+          </div><!--<div class="panel-body">-->
+        </div><!--<div class="panel panel-default">-->
+      </div><!--<div class="col-md-8 col-md-xs-8">-->
+      
+    <div class="col-md-2 col-md-xs-2" id="#side">
+       <%= render "book/side" %>
+    </div>
+    
+  </div><!--div class row-->
+</div><!--<div style="background-color:lightgray">-->
+
+
+
+
+
+
+
+
+

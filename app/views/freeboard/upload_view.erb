@@ -1,93 +1,218 @@
 
+<div style="background-color:lightgray; padding-top:150px;padding-bottom:150px" id="menu_font">
+  
+  <div class="row">
+    
+    <div class="col-md-2 col-md-xs-2"></div>
+      
+      <div class="col-md-8 col-md-xs-8" align="center">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <h2>N O T I C E</h2>
+            <hr>
+            
+            
+              <div class="col-md-2 col-sm-1"></div>
+            
+              <div class="col-md-8 col-sm-10">
+                <div class="panel panel-default">
+                  
+                  <div class="panel-body">
+                    <h4><%= @one_fb.fb_title %></h4>
+                    <hr>
+                    
+                    <h5><pre style="border:0px; background:white " align="left" id="menu_font">
+                      <%= @one_fb.fb_content %>
+                    </pre></h5><br>
+                    
+                    <hr>
+                    
+                    <table class="table" style="background:white">
+                  
+                      <tbody>
+                        <% @one_fb.replies.each do |r| %>
+                        <tr>
+                          <th><%= r.rp_name %></th>
+                          <td><%= r.rp_content %></td>
+                          
+                          <% if current_user.id==r.user_id%>
+                          <td>
+                            <form action="/freeboard/reply_delete" method="GET">
+                              <input type="submit" class="btn btn-danger btn-sm btn-block" value="삭제" >                               
+                              <input type="hidden" name="rp_id" value="<%= r.id %>">
+                            </form>
+                          </td>
+                          <%end%>
+                        </tr>
+                        <%end%>
+                      </tbody>
+                    </table>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <%= form_tag("/freeboard/reply_write", method: "post") do %>
+                      <div class="input-group">
+                        <!--<span class="input-group-addon" id="sizing-addon2">댓글</span>-->
+                        <input type="text" name="rp_content" class="form-control" placeholder="바르고 고운말 :D">
+                        
+                        <span class="input-group-btn">
+                          <input type="hidden" name="freeboard_id" value="<%= @one_fb.id %>">
+                          <input type="hidden" name="rp_name" value="<%= current_user.student_name %>">
+                          <input type="hidden" name="rp_hakbun" value="<%= current_user.student_number %>"> &nbsp;&nbsp;
+                          <input type="submit" class="btn btn-default" value="달기">
+                         
+                          <!--<button class="btn btn-default" type="button">달기</button>-->
+                        </span>
+                      </div><!-- /input-group -->
+                    <%end%>
+                    
+                  </div>
+                  
+                </div>
+                
+            </div>
+            <div class="col-md-2 col-sm-1">
+            <% if current_user.email=="admin@ptu.ac.kr"%>
+                        <td>
+                        
+                          <a href="/freeboard/delete_action?id=<%= @one_fb.id %>" class="btn btn-default btn-sm btn-block">삭제</a>
+                          <a href="/freeboard/modify?id=<%= @one_fb.id %>" class="btn btn-info btn-sm btn-block">수정</a>
+                        
+                        </td>
+                        <%end%>
+            
+            </div>
+          </div><!--<div class="panel-body">-->
+        </div><!--<div class="panel panel-default">-->
+      </div><!--<div class="col-md-8 col-md-xs-8">-->
+      
+    <div class="col-md-2 col-md-xs-2" id="menu_font">
+      
+      <div class="alert alert-danger alert-dismissible" role="alert" style="margin-right:30px">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         혹시 조건에 맞는 강의실을 찾고싶으세요?<br><br>
+         <a href="/book/searching?searching_scale=0&searching_building=선택안함"><button type="button" class="btn btn-default">강의실 검색 바로가기</button></a>
+      </div>
+      
+    </div>
+    
+     <br> <br> <br>
+
+  </div><!--div class row-->
+</div><!--<div style="background-color:lightgray">-->
 
 
-<style>
-    .jumbotron { 
-        min-height: 650px; 
-        color:black;
-        background: #ffffff;
-        background: rgba(255, 255, 255, 0.5);
-    }
-</style>
 
-<div class="well" id="menu_font" style="font-size: 20px;" >
-  <center>강의실 예약 전, 공지사항을 꼭 필독바랍니다!<br>(공지사항은 관리자만 작성이 가능합니다)<br>
-</div>
-<br>
 
-    <div class="container">
-   <div class="row">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<style>-->
+<!--    .jumbotron { -->
+<!--        min-height: 650px; -->
+<!--        color:black;-->
+<!--        background: #ffffff;-->
+<!--        background: rgba(255, 255, 255, 0.5);-->
+<!--    }-->
+<!--</style>-->
+
+<!--<div class="well" id="menu_font" style="font-size: 20px;" >-->
+<!--  <center>강의실 예약 전, 공지사항을 꼭 필독바랍니다!<br>(공지사항은 관리자만 작성이 가능합니다)<br>-->
+<!--</div>-->
+<!--<br>-->
+
+<!--    <div class="container">-->
+<!--   <div class="row">-->
          
-        <div class="col-md-2"></div>
-        <div class="col-md-8"> 
-            <div style="font-size: 20px;" id="menu_font"> 제목 </div>
-            <div style="padding-top:1px; padding-bottom:1px; background:rgba(80,80,80,0.15); align:center; font-size: 18px;" id="menu_font_t">
-               <br>&nbsp;&nbsp;<%= @one_fb.fb_title %><br><br>
-            </div><br><br> 
+<!--        <div class="col-md-2"></div>-->
+<!--        <div class="col-md-8"> -->
+<!--            <div style="font-size: 20px;" id="menu_font"> 제목 </div>-->
+<!--            <div style="padding-top:1px; padding-bottom:1px; background:rgba(80,80,80,0.15); align:center; font-size: 18px;" id="menu_font_t">-->
+<!--               <br>&nbsp;&nbsp;%= @one_fb.fb_title %><br><br>-->
+<!--            </div><br><br> -->
                 
 
-          <div style="font-size: 20px;" id="menu_font"> 내용 </div>
-             <pre style="padding-top:1px; padding-bottom:1px; background:rgba(80,80,80,0.15); font-size: 18px;" id="menu_font_t">
-              <br><%= @one_fb.fb_content %><br><br> 
-            </pre><br>
+<!--          <div style="font-size: 20px;" id="menu_font"> 내용 </div>-->
+<!--             <pre style="padding-top:1px; padding-bottom:1px; background:rgba(80,80,80,0.15); font-size: 18px;" id="menu_font_t">-->
+<!--              <br>%= @one_fb.fb_content %><br><br> -->
+<!--            </pre><br>-->
      
 
-            <% if current_user.email == 'admin@ptu.ac.kr' %>
-                <a href="/freeboard/delete_action?id=<%= @one_fb.id %>"><input type="submit" class="btn btn-primary btn-sm btn pull-right" style=" font-size: 18px;" id="menu_font" value="삭제하기"></a>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="/freeboard/modify?id=<%= @one_fb.id %>"><input type="submit" class="btn btn-primary btn-sm btn pull-right" style=" font-size: 18px;" id="menu_font" value="수정하기"></a>
-                <a href="/freeboard/freeboards"><span style=" font-size: 18px;" id="menu_font">메인으로 가기</span></a>
-            <% else %>
-                <a href="/freeboard/freeboards"><span style=" font-size: 18px;" id="menu_font">메인으로 가기</span></a>
-            <% end %>
-        </center>
+<!--            % if current_user.email == 'admin@ptu.ac.kr' %>-->
+<!--                <a href="/freeboard/delete_action?id=%= @one_fb.id %>"><input type="submit" class="btn btn-primary btn-sm btn pull-right" style=" font-size: 18px;" id="menu_font" value="삭제하기"></a>-->
+<!--                &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                <a href="/freeboard/modify?id=%= @one_fb.id %>"><input type="submit" class="btn btn-primary btn-sm btn pull-right" style=" font-size: 18px;" id="menu_font" value="수정하기"></a>-->
+<!--                <a href="/freeboard/freeboards"><span style=" font-size: 18px;" id="menu_font">메인으로 가기</span></a>-->
+<!--            % else %>-->
+<!--                <a href="/freeboard/freeboards"><span style=" font-size: 18px;" id="menu_font">메인으로 가기</span></a>-->
+<!--            % end %>-->
+<!--        </center>-->
       
-          <br><br><br><br>            
-          <div style=" font-size: 20px;" id="menu_font">댓글</div><br>
+<!--          <br><br><br><br>            -->
+<!--          <div style=" font-size: 20px;" id="menu_font">댓글</div><br>-->
                     
-              <% @one_fb.replies.each do |r| %>
+<!--              % @one_fb.replies.each do |r| %>-->
                         
                       
-          <div class="panel panel-default">
-              <div class="panel-body" style="padding-top: 4px;padding-bottom: 4px;">
-                  <div class="<%= r.id %>">   
-                    <form action="/freeboard/reply_delete" method="GET">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                          <span style="font-size: 18px;" id="menu_font_t"><%= r.rp_name %> : <%= r.rp_content %> </span>  
-                        <input type="submit" class="btn btn-danger btn pull-right" style=" font-size: 15px; text-align: right;" id="menu_font_t" value="삭제" >                               
-                        <input type="hidden" name="rp_id" value="<%= r.id %>">
-                    </form>            
+<!--          <div class="panel panel-default">-->
+<!--              <div class="panel-body" style="padding-top: 4px;padding-bottom: 4px;">-->
+<!--                  <div class="%= r.id %>">   -->
+<!--                    <form action="/freeboard/reply_delete" method="GET">-->
+<!--                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>-->
+<!--                          <span style="font-size: 18px;" id="menu_font_t">%= r.rp_name %> : %= r.rp_content %> </span>  -->
+<!--                        <input type="submit" class="btn btn-danger btn pull-right" style=" font-size: 15px; text-align: right;" id="menu_font_t" value="삭제" >                               -->
+<!--                        <input type="hidden" name="rp_id" value="%= r.id %>">-->
+<!--                    </form>            -->
 
-                  </div>  
-              </div>
-          </div>
+<!--                  </div>  -->
+<!--              </div>-->
+<!--          </div>-->
 
 
 
 
                             
-                            <% end %> 
+<!--                            % end %> -->
                           
-                          <br>
-                            <%= form_tag("/freeboard/reply_write", method: "post") do %>
-                                <% if user_signed_in? %>
-                                    <div style=" font-size: 20px;" id="menu_font">댓글작성&nbsp;
-                                    (작성자 : <%= current_user.student_name %>)</div>
-                                <% end %><br>
+<!--                          <br>-->
+<!--                            %= form_tag("/freeboard/reply_write", method: "post") do %>-->
+<!--                                % if user_signed_in? %>-->
+<!--                                    <div style=" font-size: 20px;" id="menu_font">댓글작성&nbsp;-->
+<!--                                    (작성자 : %= current_user.student_name %>)</div>-->
+<!--                                % end %><br>-->
 
-                                <textarea type="text" name="rp_content"  placeholder="댓글을 달아주세요" rows="4" cols="65" style="font-size: 18px;" id="menu_font" id = "writeadmin"></textarea>
-                                <input type="hidden" name="freeboard_id" value="<%= @one_fb.id %>">
-                                <input type="hidden" name="rp_name" value="<%= current_user.student_name %>">
-                                <input type="hidden" name="rp_hakbun" value="<%= current_user.student_number %>"> &nbsp;&nbsp;
-                                <input type="submit" class="btn btn-primary btn-sm" style=" font-size: 18px;" id="menu_font" value="댓글달기">
+<!--                                <textarea type="text" name="rp_content"  placeholder="댓글을 달아주세요" rows="4" cols="65" style="font-size: 18px;" id="menu_font" id = "writeadmin"></textarea>-->
+<!--                                <input type="hidden" name="freeboard_id" value="%= @one_fb.id %>">-->
+<!--                                <input type="hidden" name="rp_name" value="%= current_user.student_name %>">-->
+<!--                                <input type="hidden" name="rp_hakbun" value="%= current_user.student_number %>"> &nbsp;&nbsp;-->
+<!--                                <input type="submit" class="btn btn-primary btn-sm" style=" font-size: 18px;" id="menu_font" value="댓글달기">-->
                                
-                            <% end %>
+<!--                            % end %>-->
                  
-</div>
+<!--</div>-->
 
-	<div class="col-md-2"></div>
-<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
-</div> 
-</div>
+<!--	<div class="col-md-2"></div>-->
+<!--<script src="https://code.jquery.com/jquery-2.1.4.js"></script>-->
+<!--</div> -->
+<!--</div>-->
 
-	<br><br><br><br><br>
+<!--	<br><br><br><br><br>-->

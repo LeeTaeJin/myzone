@@ -1,71 +1,105 @@
-<div class="well" id="menu_font" style="font-size: 20px;" >
-   <center>회원정보 수정 페이지입니다.<br>
-   변경할 비밀번호를 입력해주세요.<br>
-   (회원탈퇴를 원하시는 분은 아래의 '회원탈퇴' 버튼을 눌러주시기 바랍니다.)</center>
-</div>
-<br>
 
-<center>
-<div id = "menu_font" style="font-size: 30px;"><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color:red;"></span>
-&nbsp;회원정보 수정 
-<%#= resource_name.to_s.humanize %>
-</div>
-<br><br>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
+<div style="background-color:lightgray; padding-top:150px;padding-bottom:150px" id="menu_font">
   
-  <div class="field" id = "menu_font_t">
-    <span style = "color:blue; font-size:20px">
-      <%= f.label :student_name,"이름" %>:</span> <%= current_user.student_name %>&nbsp;&nbsp;&nbsp;
-    <span style = "color:blue; font-size:20px">
-      <%= f.label :department,"학과" %>:</span> <%= current_user.department %>&nbsp;&nbsp;&nbsp;
-    <span style = "color:blue; font-size:20px">
-      <%= f.label :student_number,"학번" %>:</span> <%= current_user.student_number %>
-      <%#= f.email_field :email, autofocus: true %>
-  </div>  
-  <br>
+  <div class="row">
+    
+    <div class="col-md-2 col-md-xs-2"></div>
+      
+      <div class="col-md-8 col-md-xs-8" align="center">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h2>비 밀 번 호 변 경</h2>
+            <hr>
+            
+            <div class="col-md-2 col-md-sm-1"></div>
+            
+            <div class="col-md-8 col-md-sm-10">
+              <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+               
+                  <%= devise_error_messages! %>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">성함</span>
+                  <input type="text" class="form-control" name="user" value="<%=current_user.student_name%>" disabled>
+                </div>
+                
+                <br>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">학번</span>
+                  <input type="text" class="form-control" name="user" value="<%=current_user.student_number%>" disabled>
+                </div>
+                
+                <br>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">학과</span>
+                  <input type="text" class="form-control" name="user" value="<%=current_user.department%>" disabled>
+                </div>
+                
+                
+                <br>
+                
+                <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                
+                  <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+                
+                <br>
+                <% end %>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">현재 비밀번호</span>
+                  <%= f.password_field :current_password, autocomplete: "off", autofocus: true, :class => "form-control", required: true, :placeholder => "최소 8자리 이상"%>
+                </div>
+                
+                <br>
+               
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">변경할 비밀번호</span>
+                  <%= f.password_field :password, autocomplete: "off", autofocus: true, :class => "form-control", required: true, :placeholder => "최소 8자리 이상"%>
+                </div>
+                
+                <br>
+                
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">변경할 비밀번호 확인</span>
+                  <%= f.password_field :password_confirmation, autocomplete: "off", autofocus: true, :class => "form-control", required: true, :placeholder => "최소 8자리 이상"%>
+                </div>
+                
+                <br>
+                
+                
+                
+                <div class="actions" id = "menu_font" style = "font-size:25px">
+                  <input type="submit" name="commit" class="btn btn-info btn-lg btn-block" value="비밀번호 수정",onclick="confirm(수정하시겠습니까?)">
+                 <%#= f.submit "로그인" %> 
+                </div>
+          <% end %>
+          
+            <div class="field" id = "menu_font" style="font-size: 18px;margin-top: 10px;">
+              <!--%= button_to "돌아가기", :action => '/book/mypage', :class => "btn btn-default btn-lg btn-block", :method => :get  %><br>-->
+              <a href="/book/mypage" type="button" name="commit" class="btn btn-default btn-lg btn-block" >돌아가기</a>
+              <div style="margin-top:10px">
+              <%= button_to "회원탈퇴", registration_path(resource_name), :class => "btn btn-default btn-lg btn-block", data: { confirm: "탈퇴하시겠습니까?" }, method: :delete  %><br>
+              </div>
+              <!--%= link_to "돌아가기", :class => "btn btn-default btn-lg btn-block", :back  %>-->
+              <!--%= link_to "회원탈퇴", registration_path(resource_name), :class => "btn btn-default btn-lg btn-block", method: :delete, data: { confirm: "탈퇴하시겠습니까?" }  %>-->
+   
+            </div>
+          </div>
+            
+            <div class="col-md-2 col-md-sm-1"></div>
+            
+              
+          </div><!--<div class="panel-body">-->
+        </div><!--<div class="panel panel-default">-->
+      </div><!--<div class="col-md-8 col-md-xs-8">-->
+      
+    <div class="col-md-2 col-md-xs-2" id="menu_font"></div>
+    
+  </div><!--div class row-->
+</div><!--<div style="background-color:lightgray">-->
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
 
-  <div class="field" id = "menu_font_t" style = "font-size:20px">
-    <div class="field">
-      <%= f.label :password, "변경할 비밀번호" %><br />
-      <%= f.password_field :password, autocomplete: "off" %>
-    </div>
-  </div>
-  <br>
 
-    <div class="field" id = "menu_font_t" style = "font-size:20px">
-      <%= f.label :password_confirmation,"비밀번호 확인" %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "off" %>
-    </div>
-  <br>
-
-  <div class="field" id = "menu_font_t" style = "font-size:20px">
-    <div class="field">
-      <%= f.label :current_password," 현재 비밀번호" %>&nbsp;
-      (회원정보 수정을 위해 현재 비밀번호를 입력해 주세요.)<br />
-      <%= f.password_field :current_password, autocomplete: "off" %>
-    </div>
-  </div>
-  <br><br>
-
-  <div class="actions"  id = "menu_font" style = "font-size:25px">
-     <input type="submit" name="commit" value="수정하기" style="height: 40px; width: 300px; background-color: #FFFFFF;">
-    <%#= f.submit "수정" %>
-  </div>
-<% end %>
-
-  <div class="field" id = "menu_font" style="font-size: 18px;margin-top: 10px;">
-  <%= link_to "메인화면으로 돌아가기", :back %><br><br>
-  회원탈퇴를 원하시나요? ^_^&nbsp;
-  <%= link_to "회원탈퇴", registration_path(resource_name), data: { confirm: "탈퇴하시겠습니까?" }, method: :delete %>
-
-  
-  </center>
-  </div>
-
-<br><br>

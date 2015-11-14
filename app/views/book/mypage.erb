@@ -1,8 +1,174 @@
-<div class="well" id="menu_font" style="font-size: 20px">
-  <center>가입한 회원 정보 확인 및 예약 현황을 보여주는 페이지 입니다.<br>
-</div>
 
-<br><br>
+
+<div style="background-color:lightgray; padding-top:150px; padding-bottom:150px" id="menu_font">
+  
+  <div class="row">
+    
+    <div class="col-md-2 col-md-xs-2"></div>
+      
+      <div class="col-md-8 col-md-xs-8" align="center">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            
+            <h2>M Y _ P A G E</h2>
+            <hr>
+            
+            <!--<div class="col-md-2 col-md-sm-1"></div>-->
+            
+            <div class="col-md-4 col-sm-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">회원 정보</h3>
+                </div>
+                <div class="panel-body">
+                  
+                  <table class="table" style="background:white">
+                
+                    <tbody>
+                      
+                      <tr>
+                        <th>이름</th>
+                        <td><%=current_user.student_name%></td>
+                      </tr>
+                      
+                      <tr>
+                        <th>학번</th>
+                        <td><%=current_user.department%></td>
+                      </tr>
+                      
+                      <tr>
+                        <th>이메일</th>
+                        <td><%=current_user.email%></td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                 
+                  <a href="/users/edit" class="btn btn-info btn-block" >비밀번호 변경</a>
+                  <!--<a  class="btn btn-default btn-block" onclick="confirm(탈퇴하시겠습니까?)" method="destroy">회원탈퇴</a>-->
+                  
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-8 col-sm-8">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">예약 현황</h3>
+                </div>
+                
+                <div class="panel-body">
+                  <div class="row">
+                    
+                    <div class="col-md-4 col-sm-4" style="padding-left:20px">
+                      
+                      <div class="panel panel-default" ><!--총예약수-->
+                        <div class="panel-body">
+                          <h3><%=Reservation.where(user: current_user.id).count%></h3>
+                        </div>
+                        
+                        <div class="panel-footer">총 예약수</div>
+                      </div><!--총예약수 끝-->
+                      
+                    </div>
+                    
+                    <div class="col-md-4 col-sm-4" >
+                    
+                      <div class="panel panel-default"><!--승인대기-->
+                        <div class="panel-body">
+                          <h3><%=Reservation.where("user =? and state = ?", current_user.id, "승인대기").count%></h3>
+                        </div>
+                        
+                        <div class="panel-footer">승인대기</div>
+                      </div><!--승인대기-->
+                    
+                    </div>
+                    
+                    <div class="col-md-4 col-sm-4" style="padding-right:20px">
+                      
+                      <div class="panel panel-default"><!--승인완료-->
+                        <div class="panel-body">
+                          <h3><%=Reservation.where("user =? and state = ?", current_user.id, "승인완료").count%></h3>
+                        </div>
+                        
+                        <div class="panel-footer">승인완료</div>
+                      </div><!--승인완료 끝-->
+                    
+                    </div><!--div class-col-md-4-->
+                  
+                  <table class="table table-striped table-bordered table-hover dataTable no-footer" id="searching_table" role="grid" aria-describedby="dataTables-example_info">
+                  <thead>
+                    <tr role="row">
+                      <th class="sorting" aria-sort="ascending" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 321.667px;">날짜</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 389.667px;">시간</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 363.667px;">강의실</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 283.667px;">담당 교수</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 220px;">상태</th>
+                    </tr>
+                  </thead>
+                  <!--테이블 업데이트시 이프문을 거침(빌딩 선택 유무)-->
+                  
+                    <tbody>
+                      <% Reservation.where(" user = ?", current_user.id).each do |r| %>  
+                        <tr class="gradeA odd" role="row">
+                          <td><%=r.date%></td>
+                          <% @start_time= r.start_time.to_time%>
+                          <% @finish_time= r.finish_time.to_time%>
+                          <td><%=@start_time.hour%>시 <%=@start_time.min%>분 - <%=@finish_time.hour%>시 <%=@finish_time.min%>분</td>
+                          <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호 </td>
+                          <td><%=r.professor%></td>
+                          <td><%=r.state%></td>
+                        </tr>
+                      <%end%>
+                    </tbody>
+              
+                </table>
+                  
+                  
+                  
+                  
+                  </div>
+                </div><!--panel body-->
+              </div><!--panel panel-default-->
+            </div><!--<div class="col-md-6 col-sm-6">-->
+            <!--<div class="col-md-2 col-md-sm-1"></div>-->
+            
+              
+          </div><!--<div class="panel-body">-->
+        </div><!--<div class="panel panel-default">-->
+      </div><!--<div class="col-md-8 col-md-xs-8">-->
+      
+    <div class="col-md-2 col-md-xs-2" id="menu_font"></div>
+    
+  </div><!--div class row-->
+</div><!--<div style="background-color:lightgray">-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="well" id="menu_font" style="font-size: 20px">-->
+<!--  <center>가입한 회원 정보 확인 및 예약 현황을 보여주는 페이지 입니다.<br>-->
+<!--</div>-->
+
+<!--<br><br>-->
 
 <!--<div class = "container">-->
 <!--  <div class = "row">-->
@@ -64,644 +230,659 @@
   
 <!--</div>-->
 
-<div class="col-md-offset-1">
-  <div role="tabpanel">
+<!--<div class="container">-->
+<!--<div class="row">-->
+
+<!--<div class="col-md-1"></div>-->
+
+<!--<div class="col-md-9 col-md-offset-1">-->
+
+<!--<div class="col-md-offset-1">-->
+<!--  <div role="tabpanel">-->
 
   <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist" id = "menu_font" style = "font-size:20px;">
-    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">
-      <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;
-    Home</a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
-    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> &nbsp;
-    나의 문의함</a></li>
-    <li role="presentation"><a href="#messages" aria-controls="messagess" role="tab" data-toggle="tab">
-    <span class="glyphicon glyphicon-align-center" aria-hidden="true"></span>&nbsp;
-    예약현황</a></li>
-  </ul>
+<!--  <ul class="nav nav-tabs" role="tablist" id = "menu_font" style = "font-size:20px;">-->
+<!--    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="color:black;">-->
+<!--      <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;-->
+<!--    Home</a></li>-->
+<!--    <li role="presentation" id="messagebox"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" style="color:black;">-->
+<!--    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> &nbsp;-->
+<!--    나의 문의함</a></li>-->
+<!--    <li role="presentation"><a href="#messages" aria-controls="messagess" role="tab" data-toggle="tab" style="color:black;">-->
+<!--    <span class="glyphicon glyphicon-align-center" aria-hidden="true"></span>&nbsp;-->
+<!--    예약현황</a></li>-->
+<!--  </ul>-->
 
   <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="home"><!--메인-->
-    <br><br>
-       <br>        
-      <center>  
-
-        <p style = "font-size:40px;" id = "menu_font"> &nbsp;&nbsp;
+<!--  <div class="tab-content">-->
+<!--    <div role="tabpanel" class="tab-pane active" id="home"><!--메인-->
+<!--    <br><br>-->
+<!--       <br>        -->
+ 
+<!--      <div style = "background-image: url(http://khu-p-chohyejin.c9.io/img/ppp.png); height: 630px; width: 820px">-->
+<!--        <center>-->
+<!--        <p style = "font-size:40px;" id = "menu_font">-->
+<!--        <br>-->
+<!--         My page</p>-->
+<!--        <br>-->
+<!--        <p style = "font-size:22px;" id = "menu_font">성 명 : %= current_user.student_name%></p>-->
+<!--        <p style = "font-size:22px;" id = "menu_font">학 번 : %= current_user.student_number %></p>-->
+<!--        <p style = "font-size:22px;" id = "menu_font">학 과 : %= current_user.department %></p>-->
+<!--        <p style = "font-size:22px;" id = "menu_font">나의 예약 수 : %= Reservation.where(user: current_user.id).count %></p>-->
+<!--        <p style = "font-size:22px;" id = "menu_font">승인 대기중 : %= Reservation.where("user = ? and state = ?",current_user.id,"승인대기").count %></p>-->
         
-         My page</p>
+<!--        <p style = "font-size:22px;" id = "menu_font">승인 완료 : %= Reservation.where("user = ? and state = ?",current_user.id,"승인완료").count %></p>-->
+<!--        <br>-->
+<!--        <div id="menu_font" style="font-size:18px">-->
+<!--        <a href="/users/edit" style="width:30%"class="list-group-item" id = "menu_font" style="font-size:22px">회원정보 수정</a>-->
+<!--        </div>-->
+<!--        </center>-->
+<!--      </div>-->
+
+<!--  </div> -->
+
+<!--    <div role="tabpanel" class="tab-pane" id="profile"><!--나의문의함-->
+<!--                  <br><br><br>-->
+
+     
+<!--        <div class="list-group">-->
         
-        <p style = "font-size:22px;" id = "menu_font">성 명 : <%= current_user.student_name%></p>
-        <p style = "font-size:22px;" id = "menu_font">학 번 : <%= current_user.student_number %></p>
-        <p style = "font-size:22px;" id = "menu_font">학 과 : <%= current_user.department %></p>
-        <p style = "font-size:22px;" id = "menu_font">나의 예약 수 : <%= Reservation.where(user: current_user.id).count %></p>
-        <p style = "font-size:22px;" id = "menu_font">승인 대기중 : <%= Reservation.where(state: "승인대기").count %></p>
-        <p style = "font-size:22px;" id = "menu_font">승인 완료 : <%= Reservation.where(state: "승인완료").count %></p>
-        
-        <br>
-        <a href="/users/edit" style="width:30%"class="list-group-item" id = "menu_font_t">회원 정보 수정</a>
-      </center>
-
-  </div>
-    
-
-
-
-               
+<!--        <a href="#receiver_message" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font" style="font-size:18px"><center>받은 메시지</center></a>-->
+<!--          <div class="collapse" id="receiver_message" >-->
+<!--            <ul class="list-group">-->
             
-         
-          
-    
-    <div role="tabpanel" class="tab-pane" id="profile"><!--나의문의함-->
-      
-     
-        <div class="list-group">
-        
-        <a href="#receiver_message" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>받은 메시지</center></a>
-          <div class="collapse" id="receiver_message" >
-            <ul class="list-group">
-              <table class="table table-striped table-hover ">
-                  <thead>
+<!--              <table class="table table-striped table-hover ">-->
+<!--                  <thead>-->
                   
-                    <tr style="font-size: 18px;" id="menu_font_t">
-                      <th>#</th>
-                      <th>보낸 사람</th>
-                      <th>보낸 날짜</th>
-                      <th>내용 미리보기</th><th></th>
-                    </tr>
-                 </thead>
+<!--                    <tr style="font-size: 16px;" id="menu_font_t">-->
+<!--                      <th>#</th>-->
+<!--                      <th>보낸 사람</th>-->
+<!--                      <th>보낸 날짜</th>-->
+<!--                      <th>내용 미리보기</th><th></th>-->
+<!--                    </tr>-->
+<!--                 </thead>-->
                  
-                  <tbody>
-                    <% Message.where(receiver: current_user.id).reverse.each do |m|%> <!--유저 디비를 생성하면 유저별로 메시지 출력해야되니까 user.messages.each do 하고 걸러줄것-->
+<!--                  <tbody>-->
+<!--                    % Message.where(receiver: current_user.id).reverse.each do |m|%> <!--유저 디비를 생성하면 유저별로 메시지 출력해야되니까 user.messages.each do 하고 걸러줄것-->
                       
-                        <tr>
-                          <td style="font-size: 18px;" id="menu_font_t"><%=m.id%></td>
-                          <td style=" font-size: 18px;" id="menu_font_t"><%=User.find(m.sender).student_name%></td>
-                          <td style="font-size: 18px;" id="menu_font_t"><%=m.created_at%></td>
-                          <td style="font-size: 18px;" id="menu_font_t"><%=m.content%></td>
-                          <td><a href="/message/read/<%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">쪽지보기</a>
-                            <a href="/message/reply/<%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">답장보내기</a></td> <!--답장보낼때는 보낸이랑 받는이 뒤집에서 다시 보내기 수정할것--> 
-                        </tr> 
+<!--                        <tr>-->
+<!--                          <td style="font-size: 16px;" id="menu_font_t">%=m.id%></td>-->
+<!--                          <td style=" font-size: 16px;" id="menu_font_t">%=User.find(m.sender).student_name%></td>-->
+<!--                          <td style="font-size: 16px;" id="menu_font_t">%=m.created_at%></td>-->
+<!--                          <td style="font-size: 16px;" id="menu_font_t">%=m.content%></td>-->
+<!--                          <td><a href="/message/read/%=m.id%>" class="btn btn-info btn-sm" style="text-align: center; font-size: 16px;" id="menu_font">쪽지보기</a>-->
+<!--                            <a href="/message/reply/%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 16px;" id="menu_font">답장보내기</a></td> <!--답장보낼때는 보낸이랑 받는이 뒤집에서 다시 보내기 수정할것-->
+<!--                        </tr> -->
                       
-                    <% end %> <br>
-                  </tbody>
-                </table>
-            </ul>
-          </div>
+<!--                    % end %> <br>-->
+<!--                  </tbody>-->
+<!--                </table>-->
+<!--            </ul>-->
+<!--          </div>-->
           
-        </div>
+<!--        </div>-->
         
-        <div class="list-group" >
+<!--        <div class="list-group" >-->
         
-          <a href="#send_message" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>보낸 메시지</center></a>
-            <div class="collapse" id="send_message">
-              <ul class="list-group">
-                <table class="table table-striped table-hover" id="wait_table">
-                  <thead>
-                    <tr style="font-size: 18px;" id="menu_font_t">
-                      <th>#</th>
-                      <th>받은 사람</th>
-                      <th>보낸 날짜</th>
-                      <th>내용 미리보기</th><th></th>
-                    </tr>
-                  </thead>
+<!--          <a href="#send_message" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font" style="font-size:18px;"><center>보낸 메시지</center></a>-->
+<!--            <div class="collapse" id="send_message">-->
+<!--              <ul class="list-group">-->
+<!--                <table class="table table-striped table-hover" id="wait_table">-->
+<!--                  <thead>-->
+<!--                    <tr style="font-size: 16px;" id="menu_font_t">-->
+<!--                      <th>#</th>-->
+<!--                      <th>받은 사람</th>-->
+<!--                      <th>보낸 날짜</th>-->
+<!--                      <th>내용 미리보기</th><th></th>-->
+<!--                    </tr>-->
+<!--                  </thead>-->
                  
-                  <tbody>
-                    <% Message.where(sender: current_user.id).reverse.each do |m|%> <!--유저 디비를 생성하면 유저별로 메시지 출력해야되니까 user.messages.each do 하고 걸러줄것-->
+<!--                  <tbody>-->
+<!--                    % Message.where(sender: current_user.id).reverse.each do |m|%> <!--유저 디비를 생성하면 유저별로 메시지 출력해야되니까 user.messages.each do 하고 걸러줄것-->
                       
-                      <tr>
-                        <td style="font-size: 18px;" id="menu_font_t"><%=m.id%></td>
-                        <td style=" font-size: 18px;" id="menu_font_t"><%=User.find(m.receiver).student_name%></td>
-                        <td style="font-size: 18px;" id="menu_font_t"><%=m.created_at%></td>
-                        <td style="font-size: 18px;" id="menu_font_t"><%=m.content%></td>
-                        <td><a href="/message/read/<%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">쪽지보기</a>
-                            <a href="/message/reply/<%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 18px;" id="menu_font">답장보내기</a></td> <!--답장보낼때는 보낸이랑 받는이 뒤집에서 다시 보내기 수정할것--> 
-                      </tr> 
+<!--                      <tr>-->
+<!--                        <td style="font-size: 16px;" id="menu_font_t">%=m.id%></td>-->
+<!--                        <td style=" font-size: 16px;" id="menu_font_t">%=User.find(m.receiver).student_name%></td>-->
+<!--                        <td style="font-size: 16px;" id="menu_font_t">%=m.created_at%></td>-->
+<!--                        <td style="font-size: 16px;" id="menu_font_t">%=m.content%></td>-->
+<!--                        <td><a href="/message/read/%=m.id%>" class="btn btn-info btn-sm" style="text-align: center; font-size: 16px;" id="menu_font">쪽지보기</a>-->
+<!--                            <a href="/message/reply/%=m.id%>" class="btn btn-primary btn-sm" style="text-align: center; font-size: 16px;" id="menu_font">답장보내기</a></td> <!--답장보낼때는 보낸이랑 받는이 뒤집에서 다시 보내기 수정할것-->
+<!--                      </tr> -->
                       
-                    <% end %> <br>
-                  </tbody>
-                </table>
-              </ul>
-            </div>
-        </div><!--div list-group-->
+<!--                    % end %> <br>-->
+<!--                  </tbody>-->
+<!--                </table>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--        </div><!--div list-group-->
         
         
       
      
-    </div><!--<div role="tabpanel" class="tab-pane" id="profile"><!--나의문의함-->
+<!--    </div><!--<div role="tabpanel" class="tab-pane" id="profile"><!--나의문의함-->
     
-    <div role="tabpanel" class="tab-pane" id="messages"><!--나의 예약-->
-    
-      <div class="list-group">
+<!--    <div role="tabpanel" class="tab-pane" id="messages"><!--나의 예약-->
+<!--                  <br><br><br>-->
+   
+<!--      <div class="list-group">-->
 
-        <a href="#wait_reservation" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>승인 대기 예약 리스트</center></a>
-          <div class="collapse" id="wait_reservation" >
-            <ul class="list-group">
-              <table class="table table-striped table-hover" id="wait_table">
-                <thead>
-                  <tr class="info">
-                    <th>#</th>
-                    <th>사용자 이름</th>
-                    <th>사용날짜</th>
-                    <th>사용시간</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
+<!--        <a href="#wait_reservation" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font" style="font-size:18px"><center>승인 대기 예약 리스트</center></a>-->
+<!--          <div class="collapse" id="wait_reservation" >-->
+<!--            <ul class="list-group">-->
+<!--              <table class="table table-striped table-hover" id="wait_table">-->
+<!--                <thead>-->
+<!--                <br>-->
+<!--                  <tr class="" style="font-size: 16px;" id="menu_font_t">-->
+<!--                    <th>#</th>-->
+<!--                    <th>사용자 이름</th>-->
+<!--                    <th>사용날짜</th>-->
+<!--                    <th>사용시간</th>-->
+<!--                    <th></th>-->
+<!--                    <th></th>-->
+<!--                    <th></th>-->
+<!--                  </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
                  
-                  <% Reservation.where(state: "승인대기").where(user: current_user.id).each do |c| %>
+<!--                  % Reservation.where(state: "승인대기").where(user: current_user.id).each do |c| %>-->
                     
                     
                     
-                    <tr>
-                      <td><%=c.id%></td>
-                      <td><%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)</td>
-                      <td><%=c.date%></td>
-                      <td><%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%></td>
+<!--                    <tr>-->
+<!--                      <td id="menu_font_t" style="font-size:16px;">%=c.id%></td>-->
+<!--                      <td id="menu_font_t" style="font-size:16px;">%=User.find(c.user).student_name %> (%=User.find(c.user).student_number %>)</td>-->
+<!--                      <td id="menu_font_t" style="font-size:16px;">%=c.date%></td>-->
+<!--                      <td id="menu_font_t" style="font-size:16px;">%=c.start_time.utc.to_s(:time)%> ~ %=c.finish_time.utc.to_s(:time)%></td>-->
                       <!--<td><span class="label label-info" id="view_state%=c.id%>" value="%=c.state%>">%=c.state%></span>    <!--현재 진행상태 보여줌->/td>-->
                       
                       <!--<td>-->
-                        <% if current_user %> <!--로그인 된 상태.-->
+<!--                      % if current_user %> <!--로그인 된 상태.-->
                           
-                            <% if c.state=="승인대기" %>
+<!--                            % if c.state=="승인대기" %>-->
                               
-                              <td><span class="label label-info" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span> </td>
+<!--                              <td><span class="label label-info" id="view_state%=c.id%>" value="%=c.state%>">%=c.state%></span> </td>-->
                               
-                            <% else %>
-                              <td><span class="label label-primary" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span></td>
+<!--                            % else %>-->
+<!--                              <td><span class="label label-primary" id="view_state%=c.id%>" value="%=c.state%>">%=c.state%></span></td>-->
                               
-                            <%end%>
+<!--                            %end%>-->
                                           
-                        <% end %> <!-- if current_user end -->
+<!--                        % end %> <!-- if current_user end -->
                               
           
                       <!--</td>-->
                          
-                      <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show<%=c.id%>">상세보기</button></td>
+<!--                      <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show%=c.id%>"-->
+<!--                      id="menu_font" style="font-size:16px;">상세보기</button></td>-->
                       
-                      <td>
-                      <% if current_user %>
-                         <% if User.find(c.user).email == current_user.email %>
-                          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show_check<%=c.id%>" >예약 취소</button>
+<!--                      <td>-->
+<!--                      % if current_user %>-->
+<!--                         < if User.find(c.user).email == current_user.email %>-->
+<!--                          <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#show_check%=c.id%>"-->
+<!--                          id="menu_font" style="font-size:16px;">예약취소</button>-->
                          
-                         <%end%>
+<!--                         %end%>-->
                       
-                      <% end %>
+<!--                      % end %>-->
                       
-                      </td>
-                    </tr>
+<!--                      </td>-->
+<!--                    </tr>-->
                   
-                <% end %>
+<!--                % end %>-->
                 
-              </tbody>
-            </table> 
-            </ul>
+<!--              </tbody>-->
+<!--            </table> -->
+<!--            </ul>-->
             
-          </div>
+<!--          </div>-->
           
-        </div> 
+<!--        </div> -->
         
         
-        <% Reservation.where(state: "승인대기").where(user: current_user.id).each do |c| %><!--예약취소 모달-->
+<!--        % Reservation.where(state: "승인대기").where(user: current_user.id).each do |c| %><!--예약취소 모달-->
 
-<div id="show_check<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel" id="menu_font">예약 취소</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size:16px;">예약을 취소하시겠습니까?</label>
-        </div>
-      <div class="modal-footer">
-            <form action="/book/delete/<%=c.id%>" method="POST">
-              <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
-              <button type="submit" class="btn btn-danger" id="menu_font" style="font-size:16px;">취소하기</button>
-            </form>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!--<div id="show_check%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--        <h4 class="modal-title" id="exampleModalLabel" id="menu_font">예약 취소</h4>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size:16px;">예약을 취소하시겠습니까?</label>-->
+<!--        </div>-->
+<!--      <div class="modal-footer">-->
+<!--            <form action="/book/delete/%=c.id%>" method="POST">-->
+<!--              <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>-->
+<!--              <button type="submit" class="btn btn-danger" id="menu_font" style="font-size:16px;">취소하기</button>-->
+<!--            </form>-->
+<!--      </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
 
       
           
-<div id="show<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"><!--예약상세보기-->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel"> 예약 상세 보기</h4>
-      </div>
-      <div class="modal-body">
+<!--<div id="show%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"><!--예약상세보기-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--        <h4 class="modal-title" id="exampleModalLabel"> 예약 상세 보기</h4>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
         
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용자 : </label>
-          <span id="menu_font_t" style="font-size: 16px;">
-          <%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)
-          </span>
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용자 : </label>-->
+<!--          <span id="menu_font_t" style="font-size: 16px;">-->
+<!--          %=User.find(c.user).student_name %> (%=User.find(c.user).student_number %>)-->
+<!--          </span>-->
+<!--        </div>-->
         
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용날짜 : </label>
-          <span id="menu_font_t" style="font-size: 16px;">
-          <%=c.date%>
-          </span>
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용날짜 : </label>-->
+<!--          <span id="menu_font_t" style="font-size: 16px;">-->
+<!--          %=c.date%>-->
+<!--          </span>-->
+<!--        </div>-->
         
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용시간 : </label>
-          <span id="menu_font_t" style="font-size: 16px;">
-          <%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%>
-          </span>
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용시간 : </label>-->
+<!--          <span id="menu_font_t" style="font-size: 16px;">-->
+<!--          %=c.start_time.utc.to_s(:time)%> ~ %=c.finish_time.utc.to_s(:time)%>-->
+<!--          </span>-->
+<!--        </div>-->
         
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용목적 : </label>
-           <span id="menu_font_t" style="font-size: 16px;">
-          <%=c.purpose%>
-          </span>
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용목적 : </label>-->
+<!--           <span id="menu_font_t" style="font-size: 16px;">-->
+<!--        %=c.purpose%>-->
+<!--          </span>-->
+<!--        </div>-->
         
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size: 16px;">담당교수 : </label>
-          <span id="menu_font_t" style="font-size: 16px;">
-          <%=c.professor%>            
-          </span>
-        </div>
-      </div>
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size: 16px;">담당교수 : </label>-->
+<!--          <span id="menu_font_t" style="font-size: 16px;">-->
+<!--          %=c.professor%>            -->
+<!--          </span>-->
+<!--        </div>-->
+<!--      </div>-->
       
       
-      <div class="modal-footer" id="menu_font" style="font-size:18px;">
-        <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
+<!--      <div class="modal-footer" id="menu_font" style="font-size:18px;">-->
+<!--        <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>-->
       <%# if current_user.email == "admin@ptu.ac.kr" %>
         <!--<button type="button" class="btn btn-success btn-primary" id="button1<%#=c.id%>" onclick="change(<%#=c.id%>)">승인하기</button>-->
       <%# end %>  
-      </div>
-    </div>
-  </div>
-</div>
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
-<script type="text/javascript">
+<!--<script type="text/javascript">-->
   
-  function change(reservation_id){
+<!--  function change(reservation_id){-->
         
-        var button="button" + reservation_id;
-        var button1="button1" + reservation_id;
-        var view_state="view_state" + reservation_id;
-        var re_state=document.getElementById(view_state).innerHTML;
+<!--        var button="button" + reservation_id;-->
+<!--        var button1="button1" + reservation_id;-->
+<!--        var view_state="view_state" + reservation_id;-->
+<!--        var re_state=document.getElementById(view_state).innerHTML;-->
         
-        if (re_state == "승인대기")//승인대기라면
-          //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!
-          $.ajax({
-            data: {
-              reservation_num: reservation_id,
-              state: "승인완료"
-            },
-            url: "/book/update_state",
-            success: function(){
-              // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인완료";
-              document.getElementById(button).innerHTML="승인취소";
-              document.getElementById(button1).innerHTML="승인취소";
+        <!--if (re_state == "승인대기")//승인대기라면-->
+        <!--  //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!-->
+<!--          $.ajax({-->
+<!--            data: {-->
+<!--              reservation_num: reservation_id,-->
+<!--              state: "승인완료"-->
+<!--            },-->
+<!--            url: "/book/update_state",-->
+<!--            success: function(){-->
+              <!--// alert("db 저장 완료");-->
+<!--              document.getElementById(view_state).innerHTML="승인완료";-->
+<!--              document.getElementById(button).innerHTML="승인취소";-->
+<!--              document.getElementById(button1).innerHTML="승인취소";-->
               
-              document.getElementById(view_state).className="label label-primary";
-              document.getElementById(button).className="btn btn-danger btn-primary";
-              document.getElementById(button1).className="btn btn-danger btn-primary";
-            },
-            error:function(request,status,error){
-            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-          });
-          //db 바꿔줌
+<!--              document.getElementById(view_state).className="label label-primary";-->
+<!--              document.getElementById(button).className="btn btn-danger btn-primary";-->
+<!--              document.getElementById(button1).className="btn btn-danger btn-primary";-->
+<!--            },-->
+<!--            error:function(request,status,error){-->
+<!--            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);-->
+<!--            }-->
+<!--          });-->
+          <!--//db 바꿔줌-->
         
-        else
-          $.ajax({
-            data: {
-              reservation_num: reservation_id,
-              state: "승인대기"
-            },
-            url: "/book/update_state",
-            success: function(){
-              // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인대기";
-              document.getElementById(button).innerHTML="승인하기";
-              document.getElementById(button1).innerHTML="승인하기";
+<!--        else-->
+<!--          $.ajax({-->
+<!--            data: {-->
+<!--              reservation_num: reservation_id,-->
+<!--              state: "승인대기"-->
+<!--            },-->
+<!--            url: "/book/update_state",-->
+<!--            success: function(){-->
+              <!--// alert("db 저장 완료");-->
+<!--              document.getElementById(view_state).innerHTML="승인대기";-->
+<!--              document.getElementById(button).innerHTML="승인하기";-->
+<!--              document.getElementById(button1).innerHTML="승인하기";-->
               
-              document.getElementById(view_state).className="label label-info";
-              document.getElementById(button).className="btn btn-success btn-primary";
-              document.getElementById(button1).className="btn btn-success btn-primary";
-            },
-            error:function(request,status,error){
-            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-          });
+<!--              document.getElementById(view_state).className="label label-info";-->
+<!--              document.getElementById(button).className="btn btn-success btn-primary";-->
+<!--              document.getElementById(button1).className="btn btn-success btn-primary";-->
+<!--            },-->
+<!--            error:function(request,status,error){-->
+<!--            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);-->
+<!--            }-->
+<!--          });-->
           
           
-  };
+<!--  };-->
 
-</script>
+<!--</script>-->
 
-<%end%>
+<!--%end%>-->
 
 
       
-        <div class="list-group">
+<!--        <div class="list-group">-->
         
-        <a href="#ok_reservation" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font_t"><center>승인 완료 예약 리스트</center></a>
-          <div class="collapse" id="ok_reservation" >
-            <ul class="list-group">
-              <table class="table table-striped table-hover" id="wait_table">
-                <thead>
-                  <tr class="info">
-                    <th>#</th>
-                    <th>사용자 이름</th>
-                    <th>사용날짜</th>
-                    <th>사용시간</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
+<!--        <a href="#ok_reservation" class="list-group-item alert alert-warning" data-toggle="collapse" id = "menu_font" style="font-size:18px"><center>승인 완료 예약 리스트</center></a>-->
+<!--          <div class="collapse" id="ok_reservation" >-->
+<!--            <ul class="list-group">-->
+<!--              <table class="table table-striped table-hover" id="wait_table">-->
+<!--                <thead>-->
+<!--                                <br>-->
+
+<!--                  <tr class="" style="font-size: 16px;" id="menu_font_t">-->
+<!--                    <th>#</th>-->
+<!--                    <th>사용자 이름</th>-->
+<!--                    <th>사용날짜</th>-->
+<!--                    <th>사용시간</th>-->
+<!--                    <th></th>-->
+<!--                    <th></th>-->
+<!--                    <th></th>-->
+<!--                  </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
                  
-                  <% Reservation.where(state: "승인완료").where(user: current_user.id).each do |c| %>
+<!--                  % Reservation.where(state: "승인완료").where(user: current_user.id).each do |c| %>-->
                     
-                    <tr>
-                      <td><%=c.id%></td>
-                      <td><%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)</td>
-                      <td><%=c.date%></td>
-                      <td><%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%></td>
+<!--                    <tr>-->
+<!--                      <td id="menu_font_t" style="font-size:16px;">%=c.id%></td>-->
+<!--                      <td id="menu_font_t" style="font-size:16px;">%=User.find(c.user).student_name %> (%=User.find(c.user).student_number %>)</td>-->
+<!--                      <td id="menu_font_t" style="font-size:16px;">%=c.date%></td>-->
+<!--                      <td id="menu_font_t" style="font-size:16px;">%=c.start_time.utc.to_s(:time)%> ~ %=c.finish_time.utc.to_s(:time)%></td>-->
                       <!--<td><span class="label label-info" id="view_state%=c.id%>" value="%=c.state%>">%=c.state%></span>    <!--현재 진행상태 보여줌->/td>-->
                       
                       <!--<td>-->
-                        <% if current_user %> <!--로그인 된 상태.-->
+<!--                        % if current_user %> <!--로그인 된 상태.-->
                           
-                            <% if c.state=="승인대기" %>
+<!--                            % if c.state=="승인대기" %>-->
                               
-                              <td><span class="label label-info" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span> </td>
+<!--                              <td><span class="label label-info" id="view_state%=c.id%>" value="%=c.state%>">%=c.state%></span> </td>-->
                               
-                            <% else %>
-                              <td><span class="label label-primary" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span></td>
+<!--                            % else %>-->
+<!--                              <td><span class="label label-primary" id="view_state%=c.id%>" value="%=c.state%>">%=c.state%></span></td>-->
                               
-                            <%end%>
+<!--                            %end%>-->
                                           
-                        <% end %> <!-- if current_user end -->
+<!--                        % end %> <!-- if current_user end -->
                               
           
                       <!--</td>-->
                          
-                      <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show<%=c.id%>">상세보기</button></td>
+<!--                      <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show%=c.id%>"-->
+<!--                       id="menu_font" style="font-size:16px;">상세보기</button></td>-->
                       
-                      <td>
-                      <% if current_user %>
-                         <% if User.find(c.user).email == current_user.email %>
-                          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show_check<%=c.id%>" >예약 취소</button>
+<!--                      <td>-->
+<!--                      % if current_user %>-->
+<!--                         % if User.find(c.user).email == current_user.email %>-->
+<!--                        <button class="btn btn-danger btn-primary" data-toggle="modal" data-target="#show_check%=c.id%>" -->
+<!--                            style="text-align: center; font-size: 16px;" id="menu_font">예약취소</button>-->
+                          
+                          <!--<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#show_check<%#=c.id%>" >예약취소</button>-->
                          
-                         <%end%>
+<!--                         %end%>-->
                       
-                      <% end %>
-                      </td>
-                    </tr>
+<!--                      % end %>-->
+<!--                      </td>-->
+<!--                    </tr>-->
                   
-                <% end %>
-              </tbody>
-            </table> 
-            </ul>
-          </div>
+<!--                % end %>-->
+<!--              </tbody>-->
+<!--            </table> -->
+<!--            </ul>-->
+<!--          </div>-->
           
-        </div>
-    </div><!--div tabpane1 예약현황-->
-    <div role="tabpanel" class="tab-pane" id="settings">...3</div>
+<!--        </div>-->
+<!--    </div><!--div tabpane1 예약현황-->
+<!--    <div role="tabpanel" class="tab-pane" id="settings">...3</div>-->
   
-  </div><!--<div class="tab-content">-->
-  </div><!--div tabane-->
+<!--  </div><!--<div class="tab-content">-->
+<!--  </div><!--div tabane-->
   
-</div><!--div col-md-offset1-->
-<br><br><br><br><br><br> 
+<!--</div><!--div col-md-offset1-->
+<!--<br><br><br><br><br><br><br><br><br> -->
 
 
-<% Reservation.where(state: "승인완료").where(user: current_user.id).each do |c| %><!--예약취소 모달-->
+<!--% Reservation.where(state: "승인완료").where(user: current_user.id).each do |c| %><!--예약취소 모달-->
 
-<div id="show_check<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel" id="menu_font">예약 취소</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size:16px;">예약을 취소하시겠습니까?</label>
-        </div>
-      <div class="modal-footer">
-            <form action="/book/delete/<%=c.id%>" method="POST">
-              <button type="submit" class="btn btn-danger" id="menu_font" style="font-size:16px;">취소하기</button>
-            </form>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!--<div id="show_check%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--        <h4 class="modal-title" id="exampleModalLabel" id="menu_font">예약 취소</h4>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size:16px;">예약을 취소하시겠습니까?</label>-->
+<!--        </div>-->
+<!--      <div class="modal-footer">-->
+<!--            <form action="/book/delete/%=c.id%>" method="POST">-->
+<!--              <button type="submit" class="btn btn-danger" id="menu_font" style="font-size:16px;">취소하기</button>-->
+<!--            </form>-->
+<!--      </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
 
       
           
-<div id="show<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"><!--예약상세보기-->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel"> 예약 상세 보기</h4>
-      </div>
-      <div class="modal-body">
+<!--<div id="show%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"><!--예약상세보기-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--        <h4 class="modal-title" id="exampleModalLabel"> 예약 상세 보기</h4>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
         
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용자 : </label>
-          <span id="menu_font_t" style="font-size: 16px;">
-          <%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)
-          </span>
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용자 : </label>-->
+<!--          <span id="menu_font_t" style="font-size: 16px;">-->
+<!--          %=User.find(c.user).student_name %> (%=User.find(c.user).student_number %>)-->
+<!--          </span>-->
+<!--        </div>-->
         
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용날짜 : </label>
-          <span id="menu_font_t" style="font-size: 16px;">
-          <%=c.date%>
-          </span>
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용날짜 : </label>-->
+<!--          <span id="menu_font_t" style="font-size: 16px;">-->
+<!--          %=c.date%>-->
+<!--          </span>-->
+<!--        </div>-->
         
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용시간 : </label>
-          <span id="menu_font_t" style="font-size: 16px;">
-          <%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%>
-          </span>
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용시간 : </label>-->
+<!--          <span id="menu_font_t" style="font-size: 16px;">-->
+<!--          %=c.start_time.utc.to_s(:time)%> ~ %=c.finish_time.utc.to_s(:time)%>-->
+<!--          </span>-->
+<!--        </div>-->
         
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용목적 : </label>
-           <span id="menu_font_t" style="font-size: 16px;">
-          <%=c.purpose%>
-          </span>
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size: 16px;">사용목적 : </label>-->
+<!--           <span id="menu_font_t" style="font-size: 16px;">-->
+<!--          %=c.purpose%>-->
+<!--          </span>-->
+<!--        </div>-->
         
-        <div class="form-group">
-          <label for="recipient-name" class="control-label" style="font-size: 16px;">담당교수 : </label>
-          <span id="menu_font_t" style="font-size: 16px;">
-          <%=c.professor%>            
-          </span>
-        </div>
-      </div>
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label" style="font-size: 16px;">담당교수 : </label>-->
+<!--          <span id="menu_font_t" style="font-size: 16px;">-->
+<!--          %=c.professor%>            -->
+<!--          </span>-->
+<!--        </div>-->
+<!--      </div>-->
       
       
-      <div class="modal-footer" id="menu_font" style="font-size:18px;">
-        <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
-      <% if current_user.email == "admin@ptu.ac.kr" %>
-        <button type="button" class="btn btn-success btn-primary" id="button1<%=c.id%>" onclick="change(<%=c.id%>)">승인하기</button>
-      <% end %>  
-      </div>
-    </div>
-  </div>
-</div>
+<!--      <div class="modal-footer" id="menu_font" style="font-size:18px;">-->
+<!--        <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>-->
+<!--      % if current_user.email == "admin@ptu.ac.kr" %>-->
+<!--        <button type="button" class="btn btn-success btn-primary" id="button1%=c.id%>" onclick="change(%=c.id%>)">승인하기</button>-->
+<!--      % end %>  -->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<%end%>
+<!--%end%>-->
 
 
 
 
 
-<% Reservation.where(state: "승인완료").where(user: current_user.id).each do |c| %>
-<script type="text/javascript">
+<!--% Reservation.where(state: "승인완료").where(user: current_user.id).each do |c| %>-->
+<!--<script type="text/javascript">-->
   
-  function change(reservation_id){
+<!--  function change(reservation_id){-->
         
-        var button="button" + reservation_id;
-        var button1="button1" + reservation_id;
-        var view_state="view_state" + reservation_id;
-        var re_state=document.getElementById(view_state).innerHTML;
+<!--        var button="button" + reservation_id;-->
+<!--        var button1="button1" + reservation_id;-->
+<!--        var view_state="view_state" + reservation_id;-->
+<!--        var re_state=document.getElementById(view_state).innerHTML;-->
         
-        if (re_state == "승인대기")//승인대기라면
-          //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!
-          $.ajax({
-            data: {
-              reservation_num: reservation_id,
-              state: "승인완료"
-            },
-            url: "/book/update_state",
-            success: function(){
-              // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인완료";
-              document.getElementById(button).innerHTML="승인취소";
-              document.getElementById(button1).innerHTML="승인취소";
+        <!--if (re_state == "승인대기")//승인대기라면-->
+        <!--  //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!-->
+<!--          $.ajax({-->
+<!--            data: {-->
+<!--              reservation_num: reservation_id,-->
+<!--              state: "승인완료"-->
+<!--            },-->
+<!--            url: "/book/update_state",-->
+<!--            success: function(){-->
+              <!--// alert("db 저장 완료");-->
+<!--              document.getElementById(view_state).innerHTML="승인완료";-->
+<!--              document.getElementById(button).innerHTML="승인취소";-->
+<!--              document.getElementById(button1).innerHTML="승인취소";-->
               
-              document.getElementById(view_state).className="label label-primary";
-              document.getElementById(button).className="btn btn-danger btn-primary";
-              document.getElementById(button1).className="btn btn-danger btn-primary";
-            },
-            error:function(request,status,error){
-            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-          });
-          //db 바꿔줌
+<!--              document.getElementById(view_state).className="label label-primary";-->
+<!--              document.getElementById(button).className="btn btn-danger btn-primary";-->
+<!--              document.getElementById(button1).className="btn btn-danger btn-primary";-->
+<!--            },-->
+<!--            error:function(request,status,error){-->
+<!--            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);-->
+<!--            }-->
+<!--          });-->
+          <!--//db 바꿔줌-->
         
-        else
-          $.ajax({
-            data: {
-              reservation_num: reservation_id,
-              state: "승인대기"
-            },
-            url: "/book/update_state",
-            success: function(){
-              // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인대기";
-              document.getElementById(button).innerHTML="승인하기";
-              document.getElementById(button1).innerHTML="승인하기";
+<!--        else-->
+<!--          $.ajax({-->
+<!--            data: {-->
+<!--              reservation_num: reservation_id,-->
+<!--              state: "승인대기"-->
+<!--            },-->
+<!--            url: "/book/update_state",-->
+<!--            success: function(){-->
+              <!--// alert("db 저장 완료");-->
+<!--              document.getElementById(view_state).innerHTML="승인대기";-->
+<!--              document.getElementById(button).innerHTML="승인하기";-->
+<!--              document.getElementById(button1).innerHTML="승인하기";-->
               
-              document.getElementById(view_state).className="label label-info";
-              document.getElementById(button).className="btn btn-success btn-primary";
-              document.getElementById(button1).className="btn btn-success btn-primary";
-            },
-            error:function(request,status,error){
-            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-          });
+<!--              document.getElementById(view_state).className="label label-info";-->
+<!--              document.getElementById(button).className="btn btn-success btn-primary";-->
+<!--              document.getElementById(button1).className="btn btn-success btn-primary";-->
+<!--            },-->
+<!--            error:function(request,status,error){-->
+<!--            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);-->
+<!--            }-->
+<!--          });-->
           
           
-  };
+<!--  };-->
 
-</script>
-<% end %>
+<!--</script>-->
+<!--% end %>-->
 
 
 
-<% Reservation.where(state: "승인대기").where(user: current_user.id).each do |c| %>
-<script type="text/javascript">
+<!--% Reservation.where(state: "승인대기").where(user: current_user.id).each do |c| %>-->
+<!--<script type="text/javascript">-->
   
-  function change(reservation_id){
+<!--  function change(reservation_id){-->
         
-        var button="button" + reservation_id;
-        var button1="button1" + reservation_id;
-        var view_state="view_state" + reservation_id;
-        var re_state=document.getElementById(view_state).innerHTML;
+<!--        var button="button" + reservation_id;-->
+<!--        var button1="button1" + reservation_id;-->
+<!--        var view_state="view_state" + reservation_id;-->
+<!--        var re_state=document.getElementById(view_state).innerHTML;-->
         
-        if (re_state == "승인대기")//승인대기라면
-          //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!
-          $.ajax({
-            data: {
-              reservation_num: reservation_id,
-              state: "승인완료"
-            },
-            url: "/book/update_state",
-            success: function(){
-              // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인완료";
-              document.getElementById(button).innerHTML="승인취소";
-              document.getElementById(button1).innerHTML="승인취소";
+        <!--if (re_state == "승인대기")//승인대기라면-->
+        <!--  //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!-->
+<!--          $.ajax({-->
+<!--            data: {-->
+<!--              reservation_num: reservation_id,-->
+<!--              state: "승인완료"-->
+<!--            },-->
+<!--            url: "/book/update_state",-->
+<!--            success: function(){-->
+              <!--// alert("db 저장 완료");-->
+<!--              document.getElementById(view_state).innerHTML="승인완료";-->
+<!--              document.getElementById(button).innerHTML="승인취소";-->
+<!--              document.getElementById(button1).innerHTML="승인취소";-->
               
-              document.getElementById(view_state).className="label label-primary";
-              document.getElementById(button).className="btn btn-danger btn-primary";
-              document.getElementById(button1).className="btn btn-danger btn-primary";
-            },
-            error:function(request,status,error){
-            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-          });
-          //db 바꿔줌
+<!--              document.getElementById(view_state).className="label label-primary";-->
+<!--              document.getElementById(button).className="btn btn-danger btn-primary";-->
+<!--              document.getElementById(button1).className="btn btn-danger btn-primary";-->
+<!--            },-->
+<!--            error:function(request,status,error){-->
+<!--            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);-->
+<!--            }-->
+<!--          });-->
+          <!--//db 바꿔줌-->
         
-        else
-          $.ajax({
-            data: {
-              reservation_num: reservation_id,
-              state: "승인대기"
-            },
-            url: "/book/update_state",
-            success: function(){
-              // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인대기";
-              document.getElementById(button).innerHTML="승인하기";
-              document.getElementById(button1).innerHTML="승인하기";
+<!--        else-->
+<!--          $.ajax({-->
+<!--            data: {-->
+<!--              reservation_num: reservation_id,-->
+<!--              state: "승인대기"-->
+<!--            },-->
+<!--            url: "/book/update_state",-->
+<!--            success: function(){-->
+              <!--// alert("db 저장 완료");-->
+<!--              document.getElementById(view_state).innerHTML="승인대기";-->
+<!--              document.getElementById(button).innerHTML="승인하기";-->
+<!--              document.getElementById(button1).innerHTML="승인하기";-->
               
-              document.getElementById(view_state).className="label label-info";
-              document.getElementById(button).className="btn btn-success btn-primary";
-              document.getElementById(button1).className="btn btn-success btn-primary";
-            },
-            error:function(request,status,error){
-            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-          });
+<!--              document.getElementById(view_state).className="label label-info";-->
+<!--              document.getElementById(button).className="btn btn-success btn-primary";-->
+<!--              document.getElementById(button1).className="btn btn-success btn-primary";-->
+<!--            },-->
+<!--            error:function(request,status,error){-->
+<!--            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);-->
+<!--            }-->
+<!--          });-->
           
           
-  };
+<!--  };-->
 
-</script>
-<% end %>
+<!--</script>-->
+<!--% end %>-->
 
+<!--</div>-->
 
-
+<!--<div class="col-md-1"></div>-->
+<!--</div><!--footer div-->
+<!--</div>-->

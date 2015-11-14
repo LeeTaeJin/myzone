@@ -4,6 +4,7 @@ class CreateRooms < ActiveRecord::Migration
 
       t.string :building_name
       t.string :room_number
+      t.integer :accept_people
       
       t.timestamps null: false
     end

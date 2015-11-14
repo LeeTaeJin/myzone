@@ -13,26 +13,33 @@ class MessageController < ApplicationController
     end
     
     def write_process #쪽지 보내기 프로세스
-        if params[:receiver] =="모든학생"
+    
+        new_message=Message.new
+        new_message.sender=params[:sender]
+        new_message.opinion_select=params[:opinion_select]
+        new_message.content=params[:content]
+        new_message.save
+        
+        redirect_to :back
+        # if params[:receiver] =="모든학생"
           
-          User.all.each do |u|
-            new_message=Message.new
-            new_message.sender=current_user.id #나중에 로그인한 사용자 이름으로 보내기로 변경할것
-            new_message.receiver=u.id
-            new_message.content=params[:content]
-            new_message.save
-          end
-        else
-          new_message=Message.new
-          new_message.sender=current_user.id #나중에 로그인한 사용자 이름으로 보내기로 변경할것
-          new_message.receiver=params[:receiver]
-          new_message.content=params[:content]
-          new_message.save
-        end
-          redirect_to :controller => 'book', :action => 'real_main', :alert_message => 'true'
-        #   redirect_to :back , alert_message:"true"   
-        # redirect_to controller:"book", action:"real_main", alert_message:true
-        # redirect_to :back 
+        #   User.all.each do |u|
+        #     new_message=Message.new
+        #     new_message.sender=current_user.id #나중에 로그인한 사용자 이름으로 보내기로 변경할것
+        #     new_message.receiver=u.id
+        #     new_message.content=params[:content]
+        #     new_message.save
+        #   end
+        # else
+        #   new_message=Message.new
+        #   new_message.sender=current_user.id #나중에 로그인한 사용자 이름으로 보내기로 변경할것
+        #   new_message.receiver=params[:receiver]
+        #   new_message.content=params[:content]
+        #   new_message.save
+        # end
+        
+        # redirect_to :controller => 'book', :action => 'real_main', :alert_message => 'true'
+        
     end
     
     def read #쪽지 상세보기 페이지
