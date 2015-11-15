@@ -5,7 +5,9 @@ class BookController < ApplicationController
     
     def real_main  # 메인페이지
        
-        
+  
+      
+     
     end
     
     
@@ -109,8 +111,15 @@ class BookController < ApplicationController
         if (( Time.zone.now<= @start_time.to_s(:db)) and (@start_time.to_s(:db) < @finish_time.to_s(:db))) # true여야함
           
           if @all_reservation.count==0 #예약된게 없으면 무조건 예약하게함
-             @save_result="true" #예약이 가능하도록 한다.
-          
+            if (Time.zone.today + 2.weeks).to_date < @start_time.to_date
+              
+                  #예약이 안되게함.
+               @save_result = "false_over_2week"
+                  
+            else #2주 뒤가 아닐때,
+              @save_result="true" #예약이 가능하도록 한다.
+            end
+            
           else
             @all_reservation.each do |r| #예약이 겹치면
                   if ((@start_time.between?(r.start_time, r.finish_time)) or
@@ -123,7 +132,7 @@ class BookController < ApplicationController
                   else #예약이 안겹치면
                     
                               #안겹친거 확인되면, 2주 뒤인지 확인함. 그래서 2주 뒤일때,
-                              if Time.zone.today + 2.weeks > params[:date].to_date
+                              if (Time.zone.today + 2.weeks).to_date < @start_time.to_date
                                 
                                     #예약이 안되게함.
                                     @save_result = "false_over_2week"
@@ -207,6 +216,11 @@ class BookController < ApplicationController
        update_state=Reservation.find(params[:reservation_num])
        update_state.state=params[:state]
        update_state.save
+       #
+      # reject_reason = Message.new
+      # reject_reason.sender=
+      # new_message.receiver=
+      # reject_reason = params[:content]
        
        render:text =>" "
    end
@@ -217,7 +231,17 @@ class BookController < ApplicationController
     end
     
     def admin_menu
+      
+    end
     
+    def admin_menu_delete #admin_menu에서 불편사항, 개선사항 삭제
+                   
+            am_delete = Message.find(params[:id])
+         
+            am_delete.destroy  
+            
+            redirect_to :back
+      
     end
     
     def searching #조건검색

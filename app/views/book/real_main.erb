@@ -31,15 +31,17 @@
               <%end%>
           
           </div><!--첫번째 동그라미 col div-->
-          
-          
+      
+             
           <div class="col-md-4 col-sm-4" data-parent="#white_box" aria-controls="wait_reservation" data-toggle="collapse" aria-expanded="false" data-target="#wait_reservation">
-            <div class="circle" style="margin-bottom:10px;" >
-              
+             
+            <div class="circle" style="margin-bottom:10px;">
+       
               <% if current_user.email=="admin@ptu.ac.kr"%>
-                <%= Reservation.where("user = ? and state = ?",current_user.id,"승인대기").count %>
+                <%= Reservation.where("state = ? and date = ?", "승인", Time.zone.today).count %>
               <% else%>
-                <%=Reservation.where(date: Time.zone.today)%>
+                <%= Reservation.where("user = ? and state = ?, date = ? ",current_user.id,"승인", Time.zone.today).count %>
+                <%#= Reservation.where(date: Time.zone.today)%>
               <%end%>
             
             </div>
@@ -49,15 +51,15 @@
             <%else%>
               <h4>승 인 대 기</h4>
             <%end%>
-          
+
           </div><!--두번째 동그라미 col div-->
           
           <div class="col-md-4 col-sm-4" data-parent="#white_box" aria-controls="done_reservation" data-toggle="collapse" aria-expanded="false" data-target="#done_reservation">
             <div class="circle" style="margin-bottom:10px;" >
               <% if current_user.email=="admin@ptu.ac.kr"%>
-                <%= Reservation.where(date: Time.zone.today).count %>
-              <%else%>
-                <%= Reservation.where("user = ? and state = ?",current_user.id,"승인완료").count %>
+                <%= Reservation.where(state: "승인").count %>
+              <%else%>           
+                <%= Reservation.where("user = ? and state = ?",current_user.id,"승인").count %>
               <%end%>
               
               
@@ -69,9 +71,9 @@
       
       
       
-      <!--오늘의 예약한 테이블(created at)-->
+      <!--오늘의 예약한 테이블(created at)     1번째 테이블 -->
         <div class="collapse in" id="total_reservation" style="margin-right:30px;margin-left:30px">
-          <table class="table muffin table-bordered table-hover margin-bottom0" style="background:white; color:black">
+          <table class="table table-hover" style="background:white; color:black">
             <thead>
               <tr>
                 <th>장소</th>
@@ -84,17 +86,28 @@
             
             <tbody>
               <% if current_user.email=="admin@ptu.ac.kr"%>
-                <% Reservation.where( created_at: DateTime.now.beginning_of_day..Time.now).last(5).each do |r|%>
+                <% Reservation.where( created_at: DateTime.now.beginning_of_day..Time.now).last(4).each do |r|%>
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
                     <td><%=r.start_time%> - <%=r.finish_time%></td>
-                    <td><%=r.state%></td>
-                    <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=r.id%>">상세정보</button></td>
+                    <!--<td><#%=r.state%></td>-->
                     <td>
-                      <form action="#">
-                        <button type="button" class="btn btn-default btn-sm">예약취소</button>
-                      </form>
+                      <% if r.state=="승인대기" %>                   
+                      
+                      <span class="label label-info" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span>
+                      
+                      <% elsif r.state=="거절"%>
+                      
+                      <span class="label label-danger" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span>
+                       
+                      <% else %>        
+                      
+                      <span class="label label-success" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span> 
+                     
+                      <%end%>
                     </td>
+                    <td align="center"><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=r.id%>">상세정보</button></td>
+                    <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=r.id%>">예약취소</button></td>
                   </tr>
                         
                   <%end%>
@@ -104,13 +117,23 @@
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
                     <td><%=r.start_time%> - <%=r.finish_time%></td>
-                    <td><%=r.state%></td>
-                    <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=r.id%>">상세정보</button></td>
                     <td>
-                      <form action="#">
-                        <button type="button" class="btn btn-default btn-sm">예약취소</button>
-                      </form>
+                      <% if r.state=="승인대기" %>                   
+                      
+                      <span class="label label-info" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span>
+                      
+                      <% elsif r.state=="거절"%>
+                      
+                      <span class="label label-danger" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span>
+                       
+                      <% else %>        
+                      
+                      <span class="label label-success" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span> 
+                     
+                      <%end%>
                     </td>
+                    <td align="center"><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=r.id%>">상세정보</button></td>
+                    <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=r.id%>">예약취소</button></td>
                   </tr>
                         
                   <%end%>
@@ -123,9 +146,9 @@
         </div>
       <!-- 총예약테이블 끝-->
       
-      <!--오늘 사용할 예약 현황 테이블-->
+      <!--오늘 사용할 예약 현황 테이블    2번째 테이블 -->
         <div class="collapse" id="wait_reservation" style="margin-right:30px;margin-left:30px">
-          <table class="table muffin table-bordered table-hover margin-bottom0" style="background:white; color:black">
+          <table class="table table-hover" style="background:white; color:black">
             <thead>
               <tr>
                 <th>장소</th>
@@ -138,33 +161,56 @@
             
             <tbody>
                <% if current_user.email=="admin@ptu.ac.kr"%><!--고칠것-->
-                <% Reservation.where(date: Time.zone.today).last(5).each do |r|%>
+                <% Reservation.where("state = ? and date = ?","승인",Time.zone.today).last(2).each do |r|%>
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
                     <td><%=r.start_time%> - <%=r.finish_time%></td>
-                    <td><%=r.state%></td>
-                    <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=r.id%>">상세정보</button></td>
+                    <!--<td><span class="label label-primary" id="view_state<#%=r.id%>" value="<#%=r.state%>"><#%=r.state%></span></td>-->
                     <td>
-                      <form action="#">
-                        <button type="button" class="btn btn-default btn-sm">예약취소</button>
-                      </form>
+                      <% if r.state=="승인대기" %>                   
+                      
+                      <span class="label label-info" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span> 
+                       
+                      <% elsif r.state=="거절"%>
+                      
+                      <span class="label label-danger" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span> 
+                      
+                      <% else %>
+                      
+                      <span class="label label-success" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span> 
+                     
+                      <%end%>
                     </td>
+                  
+                    <td align="center"><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=r.id%>">상세정보</button></td>
+                    <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=r.id%>">예약취소</button></td>
                   </tr>
                         
                   <%end%>
               
               <%else%>
-                <% Reservation.where("user = ? and state = ?",current_user.id,"승인대기").last(2).each do |r| %>
+                <% Reservation.where("user = ? and state = ? and date = ?",current_user.id,"승인대기",Time.zone.today).last(2).each do |r| %>
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
                     <td><%=r.start_time%> - <%=r.finish_time%></td>
-                    <td><%=r.state%></td>
-                    <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=r.id%>">상세정보</button></td>
+                    <!--<td><#%=r.state%></td>-->
                     <td>
-                      <form action="#">
-                        <button type="button" class="btn btn-default btn-sm">예약취소</button>
-                      </form>
+                      <% if r.state=="승인대기" %>                   
+                      
+                      <span class="label label-info" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span> 
+                       
+                      <% elsif r.state=="거절"%>
+                      
+                      <span class="label label-danger" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span>
+                      
+                      <% else %>        
+                      
+                      <span class="label label-success" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span> 
+                     
+                      <%end%>
                     </td>
+                    <td align="center"><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=r.id%>">상세정보</button></td>
+                    <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=r.id%>">예약취소</button></td>
                   </tr>
                         
                   <%end%>
@@ -177,29 +223,83 @@
       <!-- 승인대기 예약 테이블 끝-->
       
       
-      <!--승인완료 예약 현황 테이블-->
+      
+      
+      
+      
+      
+      
+      <!--승인완료 예약 현황 테이블     3번째 테이블 -->
         <div class="collapse" id="done_reservation" style="margin-right:30px;margin-left:30px">
-          <table class="table muffin table-bordered table-hover margin-bottom0" style="background:white; color:black">
+          <table class="table table-hover" style="background:white; color:black">
             <thead>
               <tr>
                 <th>장소</th>
                 <th>일시</th>
                 <th>상태</th>
                 <th></th><!--바로가기-->
+                <th></th>
               </tr>
             </thead>
             
             <tbody>
-              <% Reservation.where("user = ? and state = ?",current_user.id,"승인완료").last(2).each do |r| %>
-              <tr>
-                <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
-                <td><%=r.start_time%> - <%=r.finish_time%></td>
-                <td><%=r.state%></td>
-                <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=r.id%>">상세정보</button></td>
-              </tr>
-                    
-              <%end%>
+              <% if current_user.email=="admin@ptu.ac.kr"%><!--고칠것-->
+                <% Reservation.where("state = ? and date = ?","승인",Time.zone.today).last(2).each do |r|%>
+                  <tr>
+                    <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
+                    <td><%=r.start_time%> - <%=r.finish_time%></td>
+                    <!--<td><span class="label label-primary" id="view_state<#%=r.id%>" value="<#%=r.state%>"><#%=r.state%></span></td>-->
+                    <td>
+                      <% if r.state=="승인대기" %>                   
+                      
+                      <span class="label label-info" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span> 
+                       
+                      <% elsif r.state=="거절"%>
+                      
+                      <span class="label label-danger" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span> 
+                      
+                      <% else %>
+                      
+                      <span class="label label-success" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span> 
+                     
+                      <%end%>
+                    </td>
+                  
+                    <td align="center"><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=r.id%>">상세정보</button></td>
+                    <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=r.id%>">예약취소</button></td>
+                  </tr>
+                        
+                  <%end%>
               
+              <%else%>
+                <% Reservation.where("state = ?, user = ?", "승인", current_user.id).last(2).each do |r| %>
+                  <tr>
+                    <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
+                    <td><%=r.start_time%> - <%=r.finish_time%></td>
+                    <!--<td><#%=r.state%></td>-->
+                    <td>
+                          <% if r.state=="승인대기" %>                   
+                          
+                          <span class="label label-info" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span>
+                          
+                          <% elsif r.state=="거절"%>
+                          
+                          <span class="label label-danger" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span>
+                           
+                          <% else %>        
+                          
+                          <span class="label label-success" id="view_state<%=r.id%>" value="<%=r.state%>"><%=r.state%></span> 
+                      
+                          <%end%>
+                    </td>
+                    
+                    <td align="center"><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=r.id%>">상세정보</button></td>
+                    <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=r.id%>">예약취소</button></td>
+                  </tr>
+                        
+                  <%end%><!-- reservation end%>    
+              
+              <%end%>><!-- if admin end-->
             </tbody>
           </table>
         </div>
@@ -347,6 +447,7 @@
 <!--      </div>-->
 <!--    </div> <!--div class="row-->
 
+
 <% Reservation.all.each do |c| %>
 <div id="show<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"><!--예약상세보기 모달-->
     <div class="modal-dialog" id="menu_font">
@@ -394,7 +495,15 @@
         <div class="modal-footer" id="menu_font" style="font-size:18px;">
           <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
             <% if current_user.email == "admin@ptu.ac.kr" %>
-              <button type="button" class="btn btn-success btn-primary" id="button1<%=c.id%>" onclick="change(<%=c.id%>)">승인하기</button>
+              <% if c.state=="승인대기" %>
+                <td><button type="button" class="btn btn-success" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인</button></td>
+                
+              <% else %>
+                
+                <td><button type="button" class="btn btn-danger" id="button<%=c.id%>" onclick="change(<%=c.id%>)">거절</button></td>
+              <%end%>
+            
+              <!--<button type="button" class="btn btn-success btn-primary" id="button1<%#=c.id%>" onclick="change(<%#=c.id%>)">승인하기</button>-->
             <% end %>  
         </div>      
       </div>
@@ -403,7 +512,109 @@
   
   </div><!--container의 div-->
   <%end%>
- 
+  
+
+<% Reservation.all.each do |c| %>
+<div id="delete_check<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">예약 취소</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="recipient-name" class="control-label">예약을 취소하시겠습니까?</label>
+        </div>
+      <div class="modal-footer">
+            <form action="/book/delete/<%=c.id%>" method="POST">
+              <button type="submit" class="btn btn-danger">취소하기</button>
+            </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%end%>
 
 
-
+<script type="text/javascript">      
+  function change(reservation_id){
+        
+        var button="button" + reservation_id;
+        var button1="button1" + reservation_id;
+        var view_state="view_state" + reservation_id;
+        var re_state=document.getElementById(view_state).innerHTML;
+        
+        if (re_state == "승인대기")//승인대기라면
+          //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!
+          $.ajax({
+            data: {
+              reservation_num: reservation_id,
+              state: "승인"
+            },
+            url: "/book/update_state",
+            success: function(){
+              // alert("db 저장 완료");
+              document.getElementById(view_state).innerHTML="승인";
+              document.getElementById(button).innerHTML="거절";
+              document.getElementById(button1).innerHTML="거절";
+  
+              document.getElementById(view_state).className="label label-primary";
+              document.getElementById(button).className="btn btn-danger btn-primary";
+              document.getElementById(button1).className="btn btn-danger btn-primary";
+            },
+            error:function(request,status,error){
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+          });
+          //db 바꿔줌
+        
+        else if (re_state == "거절")//승인대기라면
+          //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!
+          $.ajax({
+            data: {
+              reservation_num: reservation_id,
+              state: "승인"
+            },
+            url: "/book/update_state",
+            success: function(){
+              // alert("db 저장 완료");
+              document.getElementById(view_state).innerHTML="승인";
+              document.getElementById(button).innerHTML="거절";
+              document.getElementById(button1).innerHTML="거절";
+  
+              document.getElementById(view_state).className="label label-primary";
+              document.getElementById(button).className="btn btn-danger btn-primary";
+              document.getElementById(button1).className="btn btn-danger btn-primary";
+            },
+            error:function(request,status,error){
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+          });
+          //db 바꿔줌
+          
+          else
+          $.ajax({
+            data: {
+              reservation_num: reservation_id,
+              state: "승인대기"
+            },
+            url: "/book/update_state",
+            success: function(){
+              // alert("db 저장 완료");
+              document.getElementById(view_state).innerHTML="거절";
+              document.getElementById(button).innerHTML="승인";
+              document.getElementById(button1).innerHTML="승인";
+              
+              document.getElementById(view_state).className="label label-info";
+              document.getElementById(button).className="btn btn-success btn-primary";
+              document.getElementById(button1).className="btn btn-success btn-primary";
+            },
+            error:function(request,status,error){
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+          });
+             
+  };  
+</script>

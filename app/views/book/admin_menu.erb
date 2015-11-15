@@ -15,7 +15,7 @@
             <div class="col-md-6 col-md-sm-6">
               <a type="button" class="btn btn-info btn-lg btn-block" href="/book/reser_admin?reservation_date=<%=Time.zone.today%>&reservation_time=<%="0:0".to_time%>&reservation_building=선택안함&reservation_department=선택안함" >예약 통합 관리</a>
               <br>
-              <a type="button" class="btn btn-default btn-lg btn-block" >오프라인 예약</a>
+              <a href="/book/offline" type="button" class="btn btn-default btn-lg btn-block" >오프라인 예약</a>
               <br>
              
               <!--<br>?reservation_date=< %=Time.zone.today%>&reservation_time=< %=Date.beginning_of_day()%>&reservation_building=선택안함&reservation_department=선택안함-->
@@ -106,21 +106,43 @@
                   
                   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                   <% Message.where(opinion_select: "불편사항").each do |m|%>
-                  
+
+
                   <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading<%=m.id%>">
-                      <h4 class="panel-title">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=m.id%>" aria-expanded="false" aria-controls="collapse<%=m.id%>">
-                          <%=m.content.first(30)%>
-                        </a>
-                      </h4>
+                      
+                      <table>
+                       <tbody>
+                        
+                            <h4 class="panel-title">  
+                                <td>
+                                  <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=m.id%>" aria-expanded="false" aria-controls="collapse<%=m.id%>" style="color:black;">
+                                    <%=m.content.first(30)%>&nbsp;
+                                  </a>
+                                </td>
+                                
+                                <td> 
+                                  <!--불편사항 삭제버튼-->
+                                  <form action="/book/admin_menu_delete" method="GET">
+                                    <input type="submit" class="btn btn-danger btn-sm btn-block" style="width:50px;" value="삭제" >                               
+                                    <input type="hidden" name="id" value="<%= m.id %>">  
+                                  </form>
+                                </td>
+                            </h4>  
+                            
+                       </tbody>
+                      </table>
+                    
                     </div>
+                    
                     <div id="collapse<%=m.id%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<%=m.id%>">
                       <div class="panel-body">
                        <%=m.content%>
                       </div>
                     </div>
                   </div>
+                  
+                 
                   <% end%>
                 </div>
                 
@@ -133,12 +155,31 @@
                   
                   <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="heading<%=m.id%>">
-                      <h4 class="panel-title">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=m.id%>" aria-expanded="false" aria-controls="collapse<%=m.id%>">
-                          <%=m.content.first(30)%>
-                        </a>
-                      </h4>
+                    
+                    <table>
+                       <tbody>
+                        
+                            <h4 class="panel-title">  
+                                <td>
+                                  <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=m.id%>" aria-expanded="false" aria-controls="collapse<%=m.id%>" style="color:black;">
+                                    <%=m.content.first(30)%>&nbsp;
+                                  </a>
+                                </td>
+                                
+                                <td> 
+                                  <!--기능개선 삭제버튼-->
+                                  <form action="/book/admin_menu_delete" method="GET">
+                                    <input type="submit" class="btn btn-danger btn-sm btn-block" style="width:50px;" value="삭제" >                               
+                                    <input type="hidden" name="id" value="<%= m.id %>">  
+                                  </form>
+                                </td>
+                            </h4>  
+                            
+                       </tbody>
+                      </table>
+                      
                     </div>
+                    
                     <div id="collapse<%=m.id%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<%=m.id%>">
                       <div class="panel-body">
                        <%=m.content%>

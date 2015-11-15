@@ -63,7 +63,9 @@
   
   <div class="row">
     
-    <div class="col-md-2 col-md-xs-2"></div>
+    <div class="col-md-2 col-md-xs-2">
+     <!--여기에다가 입력한거 뜨게하기!!!-->
+    </div>
       
       <div class="col-md-8 col-md-xs-8" align="center">
         <div class="panel panel-default">
@@ -122,14 +124,72 @@
                           
                         </tbody>
                       </table>
+                  
                     </div>
+                    
+                </div>
+            
+            
+            <% if current_page?(:controller => 'book', :action => 'view_booking?id=29&date=?') %>
+            
+            <!--혜선-->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">이번달 강의실 현황</h3>
+                </div>
+                
+                  <div class="panel-body">
+                    
+                    <form action="/book/upload_alert" method="POST">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <select class="btn" name="alert_color">
+                            <option value="alert alert-danger alert-dismissible">빨강</option>
+                            <option value="alert alert-warning alert-dismissible">노랑</option>
+                            <option value="alert alert-info alert-dismissible">파랑</option>
+                            <option value="alert alert-success alert-dismissible">초록</option>
+                          </select>
+                        </span>
+                        
+                        <input type="text" name="alert_content" class="form-control" placeholder="사용이 불가능한 시간 :D">
+                        
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="submit">등록</button>
+                        </span>
+                      </div>
+                    </form>
+                    
+                    <br>
+                    
+                    <% Sidealert.all.reverse_each do |s|%>
+                      <div class="<%=s.color%>" id="sidealert<%=s.id%>" align="left" role="alert">
+                        <div id="edit_content<%=s.id%>">
+                          <%=s.content%>
+                        </div><br>
+                        
+                        <% @date=s.created_at.to_date%><br>
+                        <div align="right" style="padding-bottom:10px">
+                          <div class="btn-group-sm" role="group" >
+                            <!--<a  id="edit%=s.id%>" onclick="edit(%=s.id%>)"type="btn btn-default" class="btn btn-default">수정</a>-->
+                             <!--<button type="button"  class="close" data-dismiss="alert" aria-label="Close">삭제</button>-->
+                            <a type="btn btn-default" onclick="delete_alert(<%=s.id%>)" class="btn btn-default">삭제</a>
+                          </div>
+                        </div>
+                        
+                        <p align="right" style="color:black"><%=@date.year%>년 <%=@date.month%>월 <%=@date.day%>일 작성</p>
+                      </div>
+                      
+                      
+                    <%end%>
+                  
                 </div>
               </div>
+            
+            <% end %>
+            <!--혜선-->
               
-              
-              
-              
-              
+            </div>
+
             </div>
             
             <div class="col-md-8 col-sm-12">

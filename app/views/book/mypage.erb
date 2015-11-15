@@ -104,6 +104,7 @@
                       <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 363.667px;">강의실</th>
                       <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 283.667px;">담당 교수</th>
                       <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 220px;">상태</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 220px;">취소</th>
                     </tr>
                   </thead>
                   <!--테이블 업데이트시 이프문을 거침(빌딩 선택 유무)-->
@@ -118,6 +119,9 @@
                           <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호 </td>
                           <td><%=r.professor%></td>
                           <td><%=r.state%></td>
+                          <td>
+                          <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=r.id%>">예약취소</button>
+                          </td>
                         </tr>
                       <%end%>
                     </tbody>
@@ -886,3 +890,27 @@
 <!--<div class="col-md-1"></div>-->
 <!--</div><!--footer div-->
 <!--</div>-->
+
+
+<% Reservation.all.each do |c| %>
+<div id="delete_check<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">예약 취소</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="recipient-name" class="control-label">예약을 취소하시겠습니까?</label>
+        </div>
+      <div class="modal-footer">
+            <form action="/book/delete/<%=c.id%>" method="POST">
+              <button type="submit" class="btn btn-danger">취소하기</button>
+            </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%end%>

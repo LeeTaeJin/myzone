@@ -11,7 +11,11 @@
 <div style="margin-right:30px">
   <a href="/freeboard/upload" class="btn btn-default btn-block" >공지사항 작성하기</a>
   <br>
-  <a href="/freeboard/upload" class="btn btn-default btn-block" >강의실 검색</a>
+  <a href="/book/searching?searching_scale=0&searching_building=선택안함" class="btn btn-default btn-block">강의실 검색</a>
+  <br>
+  <a type="button" class="btn btn-info btn-block" href="/book/reser_admin?reservation_date=<%=Time.zone.today%>&reservation_time=<%="0:0".to_time%>&reservation_building=선택안함&reservation_department=선택안함" >예약 통합 관리</a>
+  <br>
+  <a href="/book/offline" class="btn btn-default btn-block">오프라인 대여</a>
 </div>
 <% else%>
   

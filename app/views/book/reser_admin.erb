@@ -89,6 +89,8 @@
                       <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 283.667px;">사용인원</th>
                       <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 220px;">상태</th>
                       <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 220px;"></th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 220px;"></th>
+                      
                     </tr>
                   </thead>
                   <!--테이블 업데이트시 이프문을 거침(빌딩 선택 유무)-->
@@ -111,16 +113,18 @@
                       <!--reservation_time = 시간 설정-->
                       <% @reservation_search = @reservation_search.where("start_time >= ?",@reservation_time.to_time) %> <!--시간 whrere-->
                       
-                      <% if (@reservation_department == "선택안함" or @reservation_department=="")%>
+                      
+                      <% if (@reservation_department == "선택안함" or @reservation_department=="")%><!--학과-->
                         <!--학과 선택-->
-                        <% @reservation_department=@reservation_department%>
+                        <% @reservation_department = @reservation_department%>
                       <% else%>
                         <% @reservation_search = @reservation_search.where("department = ?", @reservation_department) %>
                       <%end%>
                       
-                      <% if (@reservation_building == "선택안함" or @reservation_building=="") %>
-                        <!--학과가 선택아님이 아니라면-->
-                        <% @reservation_search = @reservation_search%>
+                      
+                      <% if (@reservation_building == "선택안함" or @reservation_building=="") %><!--건물-->
+                        <!--빌딩이 선택아님이 아니라면-->
+                        <% @reservation_building = @reservation_building%>
                       <% else%>
                         <% @reservation_search = @reservation_search.where("building = ?", @reservation_building) %>
                       <%end%>
@@ -138,13 +142,20 @@
                           <td><%=User.find(b.user).student_name%></td>
                           <td><%=b.accept_people%></td>
                           <td id="view_state<%=b.id%>"><%=b.state%></td>
+                          <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=b.id%>">상세</button></td>
                           <td>
                             <div class="btn-group" role="group" aria-label="...">
-                              <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=b.id%>">상세</button>
                               <%if b.state=="승인대기"%>
-                                <button type="button" class="btn btn-success btn-sm" id="button<%=b.id%>" onclick="change(<%=b.id%>)" >승인하기</button>
+                                <button type="button" class="btn btn-success btn-sm" id="button_ok<%=b.id%>" onclick="change(<%=b.id%>,this.value)" value="승인">승인</button>
+                                <button type="button" class="btn btn-danger btn-sm" id="button_no<%=b.id%>" data-toggle="modal" data-target="#myModal">거절</button>
+                              <!--<button type="button" class="btn btn-danger btn-sm" id="button_no%=b.id%>" onclick="change(%=b.id%>,this.value)" value="거절">거절</button>-->
                               <%else%>
-                                <button type="button" class="btn btn-danger btn-sm" id="button<%=b.id%>" onclick="change(<%=b.id%>)">승인취소</button>
+                                <%if b.state=="승인"%>
+                                  <button type="button" class="btn btn-danger btn-sm" id="button_no<%=b.id%>" data-toggle="modal" data-target="#myModal">거절</button>
+                                <%else%>
+                                  <button type="button" class="btn btn-success btn-sm" id="button_ok<%=b.id%>" onclick="change(<%=b.id%>,this.value)" value="승인">승인</button>
+                                <%end%>
+                                <!--<button type="button" class="btn btn-danger btn-sm" id="button%=b.id%>" onclick="change(%=b.id%>)">승인취소</button>-->
                               <%end%>
                             </div>
                           </td>
@@ -225,31 +236,58 @@
   </div><!--예약 상세보기 모달 div-->
   
   </div><!--container의 div-->
+  
+  
+  <!-- 거절Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" id="menu_font">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">거절 사유</h4>
+      </div>
+      <div class="modal-body">
+        
+        <textarea id="content<%=c.id%>" class="form-control" placeholder="거절 사유를 입력해주세요 :D" rows="10" cols="70"  required></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" onclick="change(<%=c.id%>,this.value)" value="거절" class="btn btn-danger">거절</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
   <%end%>
   
+  <script type="text/javascript"> 
   
-  <script type="text/javascript">      
-  function change(reservation_id){
+    function change(reservation_id,admin_button){
         
-        var button="button" + reservation_id;
-        var button1="button1" + reservation_id;
-        var view_state="view_state" + reservation_id;
-        var re_state=document.getElementById(view_state).innerHTML;
         
-        if (re_state == "승인대기")//승인대기라면
-          //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!
+        if (admin_button=="승인"){//승인버튼을 누르면
+        
+          var button="button_ok" + reservation_id;
+          var button_no="button_no" + reservation_id;
+          var button1="button1" + reservation_id;
+          var view_state="view_state" + reservation_id;
+          var re_state=document.getElementById(view_state).innerHTML;
+        
           $.ajax({
             data: {
               reservation_num: reservation_id,
-              state: "승인완료"
+              state: "승인"
             },
             url: "/book/update_state",
             success: function(){
               // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인완료";
-              document.getElementById(button).innerHTML="승인취소";
-              document.getElementById(button1).innerHTML="승인취소";
-  
+              document.getElementById(button).value="승인";
+              document.getElementById(view_state).innerHTML="승인";
+              document.getElementById(button).innerHTML="거절";
+              document.getElementById(button1).innerHTML="거절";
+              document.getElementById(button_no).style.visibility='hidden';
+              
               // document.getElementById(view_state).className="label label-primary";
               document.getElementById(button).className="btn btn-danger btn-sm";
               document.getElementById(button1).className="btn btn-danger btn-primary";
@@ -258,29 +296,45 @@
             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
           });
-          //db 바꿔줌
+        }
         
-        else
-          $.ajax({
-            data: {
-              reservation_num: reservation_id,
-              state: "승인대기"
-            },
-            url: "/book/update_state",
-            success: function(){
-              // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인대기";
-              document.getElementById(button).innerHTML="승인하기";
-              document.getElementById(button1).innerHTML="승인하기";
-              
-              // document.getElementById(view_state).className="label label-info";
-              document.getElementById(button).className="btn btn-success btn-sm";
-              document.getElementById(button1).className="btn btn-success btn-primary";
-            },
-            error:function(request,status,error){
-            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-          });
-             
-  };  
-</script>
+          else {//거절버튼을 누르면
+        
+            var button="button_no" + reservation_id;
+            var button_ok="button_ok" + reservation_id;
+            var button1="button1" + reservation_id;
+            var view_state="view_state" + reservation_id;
+            var re_state=document.getElementById(view_state).innerHTML;
+            var content="content" + reservation_id;
+          
+            $.ajax({
+              data: {
+                reservation_num: reservation_id,
+                state: "거절",
+                content: document.getElementById(content).innerHTML
+              },
+              url: "/book/update_state",
+              success: function(){
+                // alert("db 저장 완료");
+                
+                document.getElementById(button).value="거절";
+                
+                document.getElementById(view_state).innerHTML="거절";
+                document.getElementById(button).innerHTML="승인";
+                document.getElementById(button1).innerHTML="승인";
+                document.getElementById(button_ok).style.visibility='hidden';
+                
+                // document.getElementById(view_state).className="label label-primary";
+                document.getElementById(button).className="btn btn-success btn-sm";
+                document.getElementById(button1).className="btn btn-success btn-primary";
+              },
+              error:function(request,status,error){
+              alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+              }
+            });
+          }
+  }
+  </script>
+  
+  
+
