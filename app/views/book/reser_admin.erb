@@ -126,6 +126,7 @@
                         <!--빌딩이 선택아님이 아니라면-->
                         <% @reservation_building = @reservation_building%>
                       <% else%>
+                       
                         <% @reservation_search = @reservation_search.where("building = ?", @reservation_building) %>
                       <%end%>
                       

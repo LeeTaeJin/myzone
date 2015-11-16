@@ -11,41 +11,64 @@
           $.ajax({
             data: {
               reservation_num: reservation_id,
-              state: "승인완료"
+              state: "승인"
             },
             url: "/book/update_state",
             success: function(){
               // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인완료";
-              document.getElementById(button).innerHTML="승인취소";
-              document.getElementById(button1).innerHTML="승인취소";
+              document.getElementById(view_state).innerHTML="승인";
+              document.getElementById(button).innerHTML="거절";
+              document.getElementById(button1).innerHTML="거절";
   
-              // document.getElementById(view_state).className="label label-primary";
+              document.getElementById(view_state).className="label label-success";
               document.getElementById(button).className="btn btn-danger btn-sm";
-              document.getElementById(button1).className="btn btn-danger btn-primary";
+              document.getElementById(button1).className="btn btn-danger btn-sm";
             },
             error:function(request,status,error){
             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
           });
           //db 바꿔줌
-        
-        else
+         else if (re_state == "거절")//승인대기라면
+          //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!
           $.ajax({
             data: {
               reservation_num: reservation_id,
-              state: "승인대기"
+              state: "승인"
             },
             url: "/book/update_state",
             success: function(){
               // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인대기";
-              document.getElementById(button).innerHTML="승인하기";
-              document.getElementById(button1).innerHTML="승인하기";
+              document.getElementById(view_state).innerHTML="승인";
+              document.getElementById(button).innerHTML="거절";
+              document.getElementById(button1).innerHTML="거절";
+             
+              document.getElementById(view_state).className="label label-success";
+              document.getElementById(button).className="btn btn-danger btn-sm";
+              document.getElementById(button1).className="btn btn-danger btn-sm";
+                         },
+            error:function(request,status,error){
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+          });
+          //db 바꿔줌
+          
+        else
+          $.ajax({
+            data: {
+              reservation_num: reservation_id,
+              state: "거절"
+            },
+            url: "/book/update_state",
+            success: function(){
+              // alert("db 저장 완료");
+              document.getElementById(view_state).innerHTML="거절";
+              document.getElementById(button).innerHTML="승인";
+              document.getElementById(button1).innerHTML="승인";
               
-              // document.getElementById(view_state).className="label label-info";
+              document.getElementById(view_state).className="label label-danger";
               document.getElementById(button).className="btn btn-success btn-sm";
-              document.getElementById(button1).className="btn btn-success btn-primary";
+              document.getElementById(button1).className="btn btn-success btn-sm";
             },
             error:function(request,status,error){
             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -63,8 +86,11 @@
   
   <div class="row">
     
-    <div class="col-md-2 col-md-xs-2">
+    <div class="col-md-2 col-xs-2">
      <!--여기에다가 입력한거 뜨게하기!!!-->
+      <%= render "book/left_side" %>
+      
+      
     </div>
       
       <div class="col-md-8 col-md-xs-8" align="center">
@@ -130,63 +156,7 @@
                 </div>
             
             
-            <% if current_page?(:controller => 'book', :action => 'view_booking?id=29&date=?') %>
-            
-            <!--혜선-->
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">이번달 강의실 현황</h3>
-                </div>
-                
-                  <div class="panel-body">
-                    
-                    <form action="/book/upload_alert" method="POST">
-                      <div class="input-group">
-                        <span class="input-group-btn">
-                          <select class="btn" name="alert_color">
-                            <option value="alert alert-danger alert-dismissible">빨강</option>
-                            <option value="alert alert-warning alert-dismissible">노랑</option>
-                            <option value="alert alert-info alert-dismissible">파랑</option>
-                            <option value="alert alert-success alert-dismissible">초록</option>
-                          </select>
-                        </span>
-                        
-                        <input type="text" name="alert_content" class="form-control" placeholder="사용이 불가능한 시간 :D">
-                        
-                        <span class="input-group-btn">
-                          <button class="btn btn-default" type="submit">등록</button>
-                        </span>
-                      </div>
-                    </form>
-                    
-                    <br>
-                    
-                    <% Sidealert.all.reverse_each do |s|%>
-                      <div class="<%=s.color%>" id="sidealert<%=s.id%>" align="left" role="alert">
-                        <div id="edit_content<%=s.id%>">
-                          <%=s.content%>
-                        </div><br>
-                        
-                        <% @date=s.created_at.to_date%><br>
-                        <div align="right" style="padding-bottom:10px">
-                          <div class="btn-group-sm" role="group" >
-                            <!--<a  id="edit%=s.id%>" onclick="edit(%=s.id%>)"type="btn btn-default" class="btn btn-default">수정</a>-->
-                             <!--<button type="button"  class="close" data-dismiss="alert" aria-label="Close">삭제</button>-->
-                            <a type="btn btn-default" onclick="delete_alert(<%=s.id%>)" class="btn btn-default">삭제</a>
-                          </div>
-                        </div>
-                        
-                        <p align="right" style="color:black"><%=@date.year%>년 <%=@date.month%>월 <%=@date.day%>일 작성</p>
-                      </div>
-                      
-                      
-                    <%end%>
-                  
-                </div>
-              </div>
-            
-            <% end %>
-            <!--혜선-->
+           
               
             </div>
 
@@ -214,20 +184,44 @@
                     <th scope="row"><%=User.find(c.user).department %></th>
                     <td><%=User.find(c.user).student_name %></td>
                     <td><%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%></td>
-                    <td id="view_state<%=c.id%>"><%=c.state%></td>  
+                    <td>
+                          <% if c.state=="승인대기" %>                   
+                          
+                          <span class="label label-info" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span>
+                          
+                          <% elsif c.state=="거절"%>
+                          
+                          <span class="label label-danger" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span>
+                           
+                          <% else %>        
+                          
+                          <span class="label label-success" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span> 
+                      
+                          <%end%>
+                    </td>  
                     
-                    <% if current_user.email=="admin@ptu.ac.kr"%>
+                    <% if current_user.email=="admin@ptu.ac.kr"%> <!-- 관리자일 경우 -->
                       <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=c.id%>">상세정보</button></td>
+                      
                       <%if c.state=="승인대기"%>
-                        <td><button type="button" class="btn btn-success btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)" >승인하기</button></td>
+                        
+                        <td><button type="button" class="btn btn-success btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)" >승인</button>
+                        <button type="button" class="btn btn-danger btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)">거절</button></td>
+                      
+                      <%elsif c.state=="거절"%>
+                        <td><button type="button" class="btn btn-success btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)" >승인</button></td>
+                      
                       <%else%>
-                        <td><button type="button" class="btn btn-danger btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인취소</button></td>
+                        <td><button type="button" class="btn btn-danger btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)">거절</button></td>
                       <%end%>
+                    <%end%> <!-- 관리자일 경우 끝 -->
+                    
+                    <% if User.find(c.user).email == current_user.email %>
+                    <%# if current_user.id==c.user%>
+                      <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=c.id%>">삭제</button></td>
                     <%end%>
                     
-                    <% if current_user.id==c.user%>
-                      <button type="button" class="btn btn-default btn-sm" onclick="alert('예약을 삭제하시겠습니까?')">삭제</button>
-                    <%end%>
+                    
                     
                   </tr>
                   <%end%>
@@ -490,7 +484,7 @@
         <div class="modal-footer" id="menu_font" style="font-size:18px;">
           <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
             <% if current_user.email == "admin@ptu.ac.kr" %>
-              <button type="button" class="btn btn-success btn-primary" id="button1<%=c.id%>" onclick="change(<%=c.id%>)">승인하기</button>
+              <button type="button" class="btn btn-success btn-primary" id="button1<%=c.id%>" onclick="change(<%=c.id%>)">승인</button>
             <% end %>  
         </div>      
       </div>
@@ -499,4 +493,26 @@
   
   </div><!--container의 div-->
   <%end%>
- 
+  
+<% Reservation.all.each do |c| %>
+<div id="delete_check<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">예약 취소</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="recipient-name" class="control-label">예약을 취소하시겠습니까?</label>
+        </div>
+      <div class="modal-footer">
+            <form action="/book/delete/<%=c.id%>" method="POST">
+              <button type="submit" class="btn btn-danger">취소하기</button>
+            </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%end%>

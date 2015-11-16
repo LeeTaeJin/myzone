@@ -2,6 +2,16 @@ class BookController < ApplicationController
     
      before_action :authenticate_user!, only: [:booking, :view_booking,:real_main,:main,:booking_process,:mypage,:delete, :update_state,:tip,:searching]
     
+    def upload_subject
+      @subject=Subject.new
+      @subject.room_id=params[:room_id]
+      @subject.subject_name=params[:subject]
+      @subject.subject_time=params[:subject_time]
+      @subject.day=params[:day]
+      @subject.save
+      
+      redirect_to :back
+    end
     
     def real_main  # 메인페이지
        
@@ -161,7 +171,7 @@ class BookController < ApplicationController
         if @save_result == "true" 
           
             @reservation=Reservation.new
-            @reservation.building=params[:building]
+            @reservation.building=params[:building_name]
             @reservation.department=current_user.department
             @reservation.room_id=params[:id]
             @reservation.user=current_user.id 

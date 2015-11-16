@@ -17,7 +17,8 @@
             <div class="circle" style="margin-bottom:10px;">
               
               <% if current_user.email=="admin@ptu.ac.kr"%>
-                <%=Reservation.where( created_at: DateTime.now.beginning_of_day..Time.now).count%>
+                <!--<2%=Reservation.where( created_at: DateTime.now.beginning_of_day..Time.now).count%>-->
+                 <%= Reservation.where(state: "승인대기").count %>
               <%else%>
                 <%= Reservation.where(user: current_user.id).count %>
               <%end%>
@@ -25,7 +26,7 @@
             </div>
               
               <% if current_user.email=="admin@ptu.ac.kr"%>
-                <h4>신 규 예 약 수</h4>
+                <h4>승인 대기 예약수</h4>
               <%else%>
                 <h4>총 예 약 수</h4>
               <%end%>
@@ -40,14 +41,14 @@
               <% if current_user.email=="admin@ptu.ac.kr"%>
                 <%= Reservation.where("state = ? and date = ?", "승인", Time.zone.today).count %>
               <% else%>
-                <%= Reservation.where("user = ? and state = ?, date = ? ",current_user.id,"승인", Time.zone.today).count %>
+                <%= Reservation.where("user = ? and state = ? ",current_user.id,"승인대기").count %>
                 <%#= Reservation.where(date: Time.zone.today)%>
               <%end%>
             
             </div>
             
             <% if current_user.email=="admin@ptu.ac.kr"%>
-              <h4>오늘 이용하는 예약</h4>
+              <h4>금일 예약 현황</h4>
             <%else%>
               <h4>승 인 대 기</h4>
             <%end%>
@@ -64,7 +65,7 @@
               
               
             </div>
-            <h4>승 인 완 료</h4>
+            <h4>승인된 예약</h4>
           </div><!--세번째 동그라미 col div-->
           
           <div class="col-md-3 col-sm-3" data-parent="#white_box" aria-controls="reject_reservation" data-toggle="collapse" aria-expanded="false" data-target="#reject_reservation">
@@ -76,14 +77,14 @@
               <%end%>
     
             </div>
-            <h4>거  절</h4>
+            <h4>거절된 예약</h4>
           </div><!--네번째 동그라미 col div-->
         
         </div> <!--<div align="center">-->
       
       
       
-      <!--오늘의 예약한 테이블(created at)     1번째 테이블 -->
+      <!--승인대기 예약테이블(created at)     1번째 테이블 -->
         <div class="collapse in" id="total_reservation" style="margin-right:30px;margin-left:30px">
           <table class="table table-hover" style="background:white; color:black">
             <thead>
@@ -98,10 +99,11 @@
             
             <tbody>
               <% if current_user.email=="admin@ptu.ac.kr"%>
-                <% Reservation.where( created_at: DateTime.now.beginning_of_day..Time.now).last(4).each do |r|%>
+                <!--<2% Reservation.where( created_at: DateTime.now.beginning_of_day..Time.now).last(4).each do |r|%>-->
+                <% Reservation.where(state: "승인대기").last(4).each do |r|%>
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
-                    <td><%=r.start_time%> - <%=r.finish_time%></td>
+                    <td><%=r.date%>&nbsp;&nbsp;&nbsp;<%=r.start_time.utc.to_s(:time)%> - <%=r.finish_time.utc.to_s(:time)%></td>
                     <!--<td><#%=r.state%></td>-->
                     <td>
                       <% if r.state=="승인대기" %>                   
@@ -128,7 +130,7 @@
                 <% Reservation.where(user: current_user.id).last(4).each do |r| %>
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
-                    <td><%=r.start_time%> - <%=r.finish_time%></td>
+                    <td><%=r.date%>&nbsp;&nbsp;&nbsp;<%=r.start_time.utc.to_s(:time)%> - <%=r.finish_time.utc.to_s(:time)%></td>
                     <td>
                       <% if r.state=="승인대기" %>                   
                       
@@ -173,10 +175,10 @@
             
             <tbody>
                <% if current_user.email=="admin@ptu.ac.kr"%><!--고칠것-->
-                <% Reservation.where("state = ? and date = ?","승인",Time.zone.today).last(2).each do |r|%>
+                <% Reservation.where("state = ? and date = ?","승인",Time.zone.today).last(3).each do |r|%>
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
-                    <td><%=r.start_time%> - <%=r.finish_time%></td>
+                    <td><%=r.date%>&nbsp;&nbsp;&nbsp;<%=r.start_time.utc.to_s(:time)%> - <%=r.finish_time.utc.to_s(:time)%></td>
                     <!--<td><span class="label label-primary" id="view_state<#%=r.id%>" value="<#%=r.state%>"><#%=r.state%></span></td>-->
                     <td>
                       <% if r.state=="승인대기" %>                   
@@ -201,10 +203,10 @@
                   <%end%>
               
               <%else%>
-                <% Reservation.where("user = ? and state = ? and date = ?",current_user.id,"승인대기",Time.zone.today).last(2).each do |r| %>
+                <% Reservation.where("user = ? and state = ? and date = ?",current_user.id,"승인대기",Time.zone.today).last(3).each do |r| %>
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
-                    <td><%=r.start_time%> - <%=r.finish_time%></td>
+                    <td><%=r.date%>&nbsp;&nbsp;&nbsp;<%=r.start_time.utc.to_s(:time)%> - <%=r.finish_time.utc.to_s(:time)%></td>
                     <!--<td><#%=r.state%></td>-->
                     <td>
                       <% if r.state=="승인대기" %>                   
@@ -249,11 +251,11 @@
             
             <tbody>
               <% if current_user.email=="admin@ptu.ac.kr"%><!--고칠것-->
-                <% Reservation.where(state: "승인").last(2).each do |r|%>
+                <% Reservation.where(state: "승인").last(3).each do |r|%>
                 <%# Reservation.where("state = ? and date = ?","승인",Time.zone.today).last(2).each do |r|%>
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
-                    <td><%=r.start_time%> - <%=r.finish_time%></td>
+                    <td><%=r.date%>&nbsp;&nbsp;&nbsp;<%=r.start_time.utc.to_s(:time)%> - <%=r.finish_time.utc.to_s(:time)%></td>
                     <!--<td><span class="label label-primary" id="view_state<#%=r.id%>" value="<#%=r.state%>"><#%=r.state%></span></td>-->
                     <td>
                       <% if r.state=="승인대기" %>                   
@@ -278,10 +280,10 @@
                   <%end%>
               
               <%else%>
-                <% Reservation.where("state = ?, user = ?", "승인", current_user.id).last(2).each do |r| %>
+                <% Reservation.where("state = ? and user = ?", "승인", current_user.id).last(3).each do |r| %>
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
-                    <td><%=r.start_time%> - <%=r.finish_time%></td>
+                    <td><%=r.date%>&nbsp;&nbsp;&nbsp;<%=r.start_time.utc.to_s(:time)%> - <%=r.finish_time.utc.to_s(:time)%></td>
                     <!--<td><#%=r.state%></td>-->
                     <td>
                           <% if r.state=="승인대기" %>                   
@@ -331,7 +333,8 @@
                 <%# Reservation.where("state = ? and date = ?","승인",Time.zone.today).last(2).each do |r|%>
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
-                    <td><%=r.start_time%> - <%=r.finish_time%></td>
+                    <td><%=r.date%>&nbsp;&nbsp;&nbsp;<%=r.start_time.utc.to_s(:time)%> - <%=r.finish_time.utc.to_s(:time)%></td>
+                    
                     <!--<td><span class="label label-primary" id="view_state<#%=r.id%>" value="<#%=r.state%>"><#%=r.state%></span></td>-->
                     <td>
                       <% if r.state=="승인대기" %>                   
@@ -356,10 +359,10 @@
                   <%end%>
               
               <%else%>
-                <% Reservation.where("state = ?, user = ?", "거절", current_user.id).last(2).each do |r| %>
+                <% Reservation.where("state = ? and user = ?", "거절", current_user.id).last(2).each do |r| %>
                   <tr>
                     <td><%=Room.find(r.room_id).building_name%> <%=Room.find(r.room_id).room_number%>호</td>
-                    <td><%=r.start_time%> - <%=r.finish_time%></td>
+                    <td><%=r.date%>&nbsp;&nbsp;&nbsp;<%=r.start_time.utc.to_s(:time)%> - <%=r.finish_time.utc.to_s(:time)%></td>
                     <!--<td><#%=r.state%></td>-->
                     <td>
                           <% if r.state=="승인대기" %>                   
@@ -438,13 +441,7 @@
   
   </div><!--소개 끝--> 
 </div>
-          
-          
-          
-          
-          
-          
-          
+
           
           
           
@@ -578,12 +575,16 @@
         <div class="modal-footer" id="menu_font" style="font-size:18px;">
           <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
             <% if current_user.email == "admin@ptu.ac.kr" %>
+            
               <% if c.state=="승인대기" %>
+                <td><button type="button" class="btn btn-success" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인</button></td>
+              
+              <% elsif c.state=="거절" %>
                 <td><button type="button" class="btn btn-success" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인</button></td>
                 
               <% else %>
                 
-                <td><button type="button" class="btn btn-danger" id="button<%=c.id%>" onclick="change(<%=c.id%>)">거절</button></td>
+                <td><button type="button" class="btn btn-danger" id="myModal<%=c.id%>" data-toggle="modal" data-target="#myModal<%=c.id%>">거절</button></td>
               <%end%>
             
             <% end %>  
@@ -593,6 +594,38 @@
   </div><!--예약 상세보기 모달 div-->
   
   </div><!--container의 div-->
+  
+  
+  
+  
+  
+  
+    <!-- 거절Modal -->
+<div class="modal fade" id="myModal<%=c.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" id="menu_font">
+    <div class="modal-content">
+      <form action="/book/update_state_reject" method="POST">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">거절 사유</h4>
+      </div>
+      <div class="modal-body">
+        
+        <textarea name="content<%=c.id%>" class="form-control" placeholder="거절 사유를 입력해주세요 :D" rows="10" cols="70"  required></textarea>
+        <input type="hidden" name="reservation_num" value="<%=c.id%>"><!--예약 넘버-->
+        <input type="hidden" name="state" value="거절"><!--예약 넘버-->
+        <input type="hidden" name="receiver" value="<%=c.user%>"><!--예약 넘버-->
+        <input type="hidden" name="sender" value="<%=current_user.id%>"><!--예약 넘버-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" onclick="alert('거절사유가 전송되었습니다.')" value="거절" class="btn btn-danger">거절</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
   <%end%>
   
 
@@ -677,7 +710,7 @@
           $.ajax({
             data: {
               reservation_num: reservation_id,
-              state: "승인대기"
+              state: "거절"
             },
             url: "/book/update_state",
             success: function(){

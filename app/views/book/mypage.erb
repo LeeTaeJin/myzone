@@ -913,19 +913,20 @@
 </div>
 <%end%>
 
-
+ 
 <!--사유보기 -->
 <% Message.where("receiver = ?", current_user.id).each do |c| %>
+
 <div id="reason_show<%=c.sender%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">예약 취소</h4>
+        <h4 class="modal-title" id="exampleModalLabel">취소 사유</h4>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label for="recipient-name" class="control-label">예약을 취소하시겠습니까?</label>
+          <label for="recipient-name" class="control-label"><%=c.content%>예약을 취소하시겠습니까?</label>
         </div>
       <div class="modal-footer">
             <form action="/book/delete/<%=c.id%>" method="POST">
