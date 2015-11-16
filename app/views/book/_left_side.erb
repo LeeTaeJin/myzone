@@ -1,0 +1,189 @@
+<% if current_user.email=="admin@ptu.ac.kr"%>
+
+      <form action="/book/upload_subject" method="POST">
+        <div class="well well-sm" style="margin-left:20px; align:center" >
+          <p align="center">간편 과목 등록</p>
+          
+          <div class="input-group">
+           <span class="input-group-addon" id="basic-addon1">요일</span>
+              <select class="form-control input" name="day">
+                
+                  <option value="월">월</option>
+                  <option value="화">화</option>
+                  <option value="수">수</option>
+                  <option value="목">목</option>
+                  <option value="금">금</option>
+                  <option value="토">토</option>
+                  <option value="일">일</option>
+                
+              </select>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">과목명</span>
+            <input type="text" class="form-control" name="subject">
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">교시</span>
+            <input type="text" class="form-control" name="subject_time">
+          </div>
+            <input type="hidden" class="form-control" name="room_id" value="<%=@class.id%>">
+          <br>
+          <button type="submit" class="btn btn-default btn-block">수업 등록</button>
+        </div>
+      </form>
+      <%end%>
+      
+      
+      <ul class="list-group" style="margin-left:20px">
+        <li class="list-group-item" align="center">
+          요일별 강의실 사용 안내
+        </li>
+        <li class="list-group-item" data-toggle="collapse" data-target="#mon" aria-expanded="false" >월
+        <span class="badge"><%=@class.subjects.where(day: "월").count%></span>
+          <div class="collapse" id="mon" align="center">
+            <table class="table" >
+              
+              <tbody>
+                <% if @class.subjects.where(day: "월").count==0%>
+                  수업이 없습니다.
+                <%else%>
+                  <% @class.subjects.where(day: "월").each do |c|%>
+                  <small><tr>
+                    <td scope="row"><%=c.subject_name%> </td>
+                    <td><%=c.day%> - <%=c.subject_time%></td>
+                  </tr></small>
+                  <%end%>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </li>
+        
+        <li class="list-group-item" data-toggle="collapse" data-target="#tue" aria-expanded="false" >화
+          <span class="badge"><%=@class.subjects.where(day: "화").count%></span>
+          <div class="collapse" id="tue" align="center">
+            <table class="table" >
+              
+              <tbody>
+                <% if @class.subjects.where(day: "화").count==0%>
+                  수업이 없습니다.
+                <%else%>
+                  <% @class.subjects.where(day: "화").each do |c|%>
+                  <small><tr>
+                    <th scope="row"><%=c.subject_name%></th>
+                    <th><%=c.day%> - <%=c.subject_time%></th>
+                  </tr></small>
+                  <%end%>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </li>
+        
+        <li class="list-group-item" data-toggle="collapse" data-target="#wen" aria-expanded="false" >수
+          <span class="badge"><%=@class.subjects.where(day: "수").count%></span>
+          <div class="collapse" id="wen" align="center">
+            <table class="table" >
+              
+              <tbody>
+                <% if @class.subjects.where(day: "수").count==0%>
+                  수업이 없습니다.
+                <%else%>
+                  <% @class.subjects.where(day: "수").each do |c|%>
+                  <small><tr>
+                    <th scope="row"><%=c.subject_name%></th>
+                    <th><%=c.day%> - <%=c.subject_time%></th>
+                  </tr></small>
+                  <%end%>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </li>
+        
+        <li class="list-group-item" data-toggle="collapse" data-target="#thu" aria-expanded="false" >목
+        <span class="badge"><%=@class.subjects.where(day: "목").count%></span>
+          <div class="collapse" id="thu" align="center">
+            <table class="table" >
+              
+              <tbody>
+                <% if @class.subjects.where(day: "목").count==0%>
+                  수업이 없습니다.
+                <%else%>
+                  <% @class.subjects.where(day: "목").each do |c|%>
+                  <small><tr>
+                    <th scope="row"><%=c.subject_name%></th>
+                    <th><%=c.day%> - <%=c.subject_time%></th>
+                  </tr></small>
+                  <%end%>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </li>
+        
+        <li class="list-group-item" data-toggle="collapse" data-target="#fri" aria-expanded="false" >금
+        <span class="badge"><%=@class.subjects.where(day: "금").count%></span>
+          <div class="collapse" id="fri" align="center">
+            <table class="table" >
+              
+              <tbody>
+                <% if @class.subjects.where(day: "금").count==0%>
+                  수업이 없습니다.
+                <%else%>
+                  <% @class.subjects.where(day: "금").each do |c|%>
+                  <small><tr>
+                    <th scope="row"><%=c.subject_name%></th>
+                    <th><%=c.day%> - <%=c.subject_time%></th>
+                  </tr></small>
+                  <%end%>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </li>
+        
+        <li class="list-group-item" data-toggle="collapse" data-target="#sat" aria-expanded="false" >토
+        <span class="badge"><%=@class.subjects.where(day: "토").count%></span>
+          <div class="collapse" id="sat" align="center">
+            <table class="table" >
+              
+              <tbody>
+                <% if @class.subjects.where(day: "토").count==0%>
+                  수업이 없습니다.
+                <%else%>
+                  <% @class.subjects.where(day: "토").each do |c|%>
+                  <small><tr>
+                    <th scope="row"><%=c.subject_name%></th>
+                    <th><%=c.day%> - <%=c.subject_time%></th>
+                  </tr></small>
+                  <%end%>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </li>
+        
+        <li class="list-group-item" data-toggle="collapse" data-target="#sun" aria-expanded="false" >일
+        <span class="badge"><%=@class.subjects.where(day: "일").count%></span>
+          <div class="collapse" id="sun" align="center">
+            <table class="table" >
+              
+              <tbody>
+                <% if @class.subjects.where(day: "일").count==0%>
+                  수업이 없습니다.
+                <%else%>
+                  <% @class.subjects.where(day: "일").each do |c|%>
+                  <small><tr>
+                    <th scope="row"><%=c.subject_name%></th>
+                    <th><%=c.day%> - <%=c.subject_time%></th>
+                  </tr></small>
+                  <%end%>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </li>
+      </ul>
