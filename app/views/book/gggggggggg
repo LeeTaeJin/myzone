@@ -609,3 +609,49 @@
       </div>
       </center>
       <br> <br>
+
+
+
+
+
+
+          else {//거절버튼을 누르면
+        
+            var button_no="button_no" + reservation_id;
+            var button_ok="button_ok" + reservation_id;
+            var button1="button1" + reservation_id;
+            var view_state="view_state" + reservation_id;
+            var re_state=document.getElementById(view_state).innerHTML;
+            var content="content" + reservation_id;
+            var receiver=document.getElementById(button_no)
+          
+            $.ajax({
+              data: {
+                reservation_num: reservation_id,
+                state: "거절",
+                receiver: receiver.value,
+                sender: "<%=current_user.id%>",
+                content: document.getElementById(content).innerHTML
+              },
+              url: "/book/update_state",
+              success: function(){
+                // alert("db 저장 완료");
+                
+                // document.getElementById(button).value="거절";
+                
+                // document.getElementById(view_state).innerHTML="거절";
+                // document.getElementById(button).innerHTML="승인";
+                // document.getElementById(button1).innerHTML="승인";//모달의 버튼
+                // document.getElementById(button_ok).style.visibility='hidden';
+                
+                // // document.getElementById(view_state).className="label label-primary";
+                // document.getElementById(button).className="btn btn-success btn-sm";
+                // document.getElementById(button1).className="btn btn-success btn-primary";
+                 alert("거절사유가 전송되었습니다");
+                 $("#searching_table").load(window.location + " #searching_table");
+              },
+              error:function(request,status,error){
+              alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+              }
+            });
+          }

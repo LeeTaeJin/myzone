@@ -213,16 +213,32 @@ class BookController < ApplicationController
     
    
    def update_state
+       
        update_state=Reservation.find(params[:reservation_num])
        update_state.state=params[:state]
        update_state.save
        #
       # reject_reason = Message.new
-      # reject_reason.sender=
-      # new_message.receiver=
-      # reject_reason = params[:content]
+      # reject_reason.sender=params[:sender]
+      # reject_reason.receiver=params[:receiver]
+      # reject_reason.content = params[:content]
+      # reject_reason.save
        
        render:text =>" "
+   end
+   
+   def update_state_reject
+       update_state=Reservation.find(params[:reservation_num])
+       update_state.state=params[:state]
+       update_state.save
+       #
+       reject_reason = Message.new
+       reject_reason.sender=params[:reservation_num] #예약 넘버
+       reject_reason.receiver=params[:receiver]
+       reject_reason.content = params[:content]
+       reject_reason.save
+       
+       redirect_to :back
    end
     
     

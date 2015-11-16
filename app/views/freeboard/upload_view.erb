@@ -37,9 +37,9 @@
                           <td><%= r.rp_content %></td>
                           
                           <% if current_user.id==r.user_id%>
-                          <td>
+                          <td align="right">
                             <form action="/freeboard/reply_delete" method="GET">
-                              <input type="submit" class="btn btn-danger btn-sm btn-block" value="삭제" >                               
+                              <input type="submit" class="btn btn-danger btn-sm " value="삭제" >                               
                               <input type="hidden" name="rp_id" value="<%= r.id %>">
                             </form>
                           </td>
@@ -93,11 +93,7 @@
       
     <div class="col-md-2 col-md-xs-2" id="menu_font">
       
-      <div class="alert alert-danger alert-dismissible" role="alert" style="margin-right:30px">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-         혹시 조건에 맞는 강의실을 찾고싶으세요?<br><br>
-         <a href="/book/searching?searching_scale=0&searching_building=선택안함"><button type="button" class="btn btn-default">강의실 검색 바로가기</button></a>
-      </div>
+      <%= render "book/side" %>
       
     </div>
     

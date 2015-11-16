@@ -83,18 +83,7 @@
       </div><!--<div class="col-md-8 col-md-xs-8">-->
       
     <div class="col-md-2 col-md-xs-2" id="menu_font" style="padding-right:30px">
-      <div class="alert alert-warning" role="alert">
-        강의실 예약 전 <strong>공지사항을 꼭 읽어주세요!</strong><br><br>
-        <a href="/freeboard/freeboards"><button type="button" class="btn btn-default">공지사항 바로가기</button></a>
-      
-      </div>
-      
-      <div class="alert alert-danger alert-dismissible" role="alert" >
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-         혹시 조건에 맞는 강의실을 찾고싶으세요?<br><br>
-         <a href="/book/searching?searching_scale=0&searching_building=선택안함"><button type="button" class="btn btn-default">강의실 검색 바로가기</button></a>
-      </div>
-      
+      <%= render "book/side" %>
     </div>
     
   </div><!--div class row-->

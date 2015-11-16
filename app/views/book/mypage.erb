@@ -120,7 +120,13 @@
                           <td><%=r.professor%></td>
                           <td><%=r.state%></td>
                           <td>
-                          <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=r.id%>">예약취소</button>
+                            <div class="btn-group" role="group" aria-label="...">
+                              <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=r.id%>">예약취소</button>
+                              <%if r.state=="거절"%>
+                                <button type="button" class="btn btn-info btn-sm" id="reason_show<%=r.id%>" data-toggle="modal" data-target="#reason_show<%=r.id%>">사유보기</button>
+                              <%end%>
+                            </div>
+                              
                           </td>
                         </tr>
                       <%end%>
@@ -142,20 +148,12 @@
         </div><!--<div class="panel panel-default">-->
       </div><!--<div class="col-md-8 col-md-xs-8">-->
       
-    <div class="col-md-2 col-md-xs-2" id="menu_font"></div>
+    <div class="col-md-2 col-md-xs-2" id="menu_font">
+      <%= render "book/side" %>
+    </div>
     
   </div><!--div class row-->
 </div><!--<div style="background-color:lightgray">-->
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -894,6 +892,31 @@
 
 <% Reservation.all.each do |c| %>
 <div id="delete_check<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">예약 취소</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="recipient-name" class="control-label">예약을 취소하시겠습니까?</label>
+        </div>
+      <div class="modal-footer">
+            <form action="/book/delete/<%=c.id%>" method="POST">
+              <button type="submit" class="btn btn-danger">취소하기</button>
+            </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%end%>
+
+
+<!--사유보기 -->
+<% Message.where("receiver = ?", current_user.id).each do |c| %>
+<div id="reason_show<%=c.sender%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

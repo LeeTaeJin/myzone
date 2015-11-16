@@ -151,7 +151,7 @@
                               <!--<button type="button" class="btn btn-danger btn-sm" id="button_no%=b.id%>" onclick="change(%=b.id%>,this.value)" value="거절">거절</button>-->
                               <%else%>
                                 <%if b.state=="승인"%>
-                                  <button type="button" class="btn btn-danger btn-sm" id="button_no<%=b.id%>" data-toggle="modal" data-target="#myModal">거절</button>
+                                  <button type="button" class="btn btn-danger btn-sm" id="button_no<%=b.id%>" value="<%=b.user%>" data-toggle="modal" data-target="#myModal<%=b.id%>">거절</button>
                                 <%else%>
                                   <button type="button" class="btn btn-success btn-sm" id="button_ok<%=b.id%>" onclick="change(<%=b.id%>,this.value)" value="승인">승인</button>
                                 <%end%>
@@ -173,7 +173,9 @@
         </div><!--<div class="panel panel-default">-->
       </div><!--<div class="col-md-8 col-md-xs-8">-->
       
-    <div class="col-md-2 col-md-xs-2" id="menu_font"></div>
+    <div class="col-md-2 col-md-xs-2" id="menu_font">
+      <%= render "book/side" %>
+    </div>
     
   </div><!--div class row-->
 </div><!--<div style="background-color:lightgray">-->
@@ -239,21 +241,27 @@
   
   
   <!-- 거절Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal<%=c.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" id="menu_font">
     <div class="modal-content">
+      <form action="/book/update_state_reject" method="POST">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">거절 사유</h4>
       </div>
       <div class="modal-body">
         
-        <textarea id="content<%=c.id%>" class="form-control" placeholder="거절 사유를 입력해주세요 :D" rows="10" cols="70"  required></textarea>
+        <textarea name="content<%=c.id%>" class="form-control" placeholder="거절 사유를 입력해주세요 :D" rows="10" cols="70"  required></textarea>
+        <input type="hidden" name="reservation_num" value="<%=c.id%>"><!--예약 넘버-->
+        <input type="hidden" name="state" value="거절"><!--예약 넘버-->
+        <input type="hidden" name="receiver" value="<%=c.user%>"><!--예약 넘버-->
+        <input type="hidden" name="sender" value="<%=current_user.id%>"><!--예약 넘버-->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" onclick="change(<%=c.id%>,this.value)" value="거절" class="btn btn-danger">거절</button>
+        <button type="submit" onclick="alert('거절사유가 전송되었습니다.')" value="거절" class="btn btn-danger">거절</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -268,11 +276,12 @@
         
         if (admin_button=="승인"){//승인버튼을 누르면
         
-          var button="button_ok" + reservation_id;
-          var button_no="button_no" + reservation_id;
-          var button1="button1" + reservation_id;
-          var view_state="view_state" + reservation_id;
-          var re_state=document.getElementById(view_state).innerHTML;
+          var button_ok="button_ok" + reservation_id; //승인버튼
+          var button_no="button_no" + reservation_id; //거절버튼
+          var button_modal="button1" + reservation_id; //모달의 버튼(거절시 나타나는)
+          
+          var view_state="view_state" + reservation_id; 
+          var re_state=document.getElementById(view_state).innerHTML;//상태표시
         
           $.ajax({
             data: {
@@ -282,59 +291,28 @@
             url: "/book/update_state",
             success: function(){
               // alert("db 저장 완료");
-              document.getElementById(button).value="승인";
-              document.getElementById(view_state).innerHTML="승인";
-              document.getElementById(button).innerHTML="거절";
-              document.getElementById(button1).innerHTML="거절";
-              document.getElementById(button_no).style.visibility='hidden';
+              // document.getElementById(button_ok).value="승인";
+              // document.getElementById(view_state).innerHTML="승인";
+              // document.getElementById(button).innerHTML="거절"; //표의 inner
+              // // document.getElementById(button1).innerHTML="거절";
+              // document.getElementById(button_no).style.visibility='hidden';
               
-              // document.getElementById(view_state).className="label label-primary";
-              document.getElementById(button).className="btn btn-danger btn-sm";
-              document.getElementById(button1).className="btn btn-danger btn-primary";
+              // // document.getElementById(view_state).className="label label-primary";
+              // document.getElementById(button).className="btn btn-danger btn-sm";
+              // document.getElementById(button1).className="btn btn-danger btn-primary";
+              
+              $("#searching_table").load(window.location + " #searching_table");
+              
             },
             error:function(request,status,error){
             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
           });
         }
-        
-          else {//거절버튼을 누르면
-        
-            var button="button_no" + reservation_id;
-            var button_ok="button_ok" + reservation_id;
-            var button1="button1" + reservation_id;
-            var view_state="view_state" + reservation_id;
-            var re_state=document.getElementById(view_state).innerHTML;
-            var content="content" + reservation_id;
-          
-            $.ajax({
-              data: {
-                reservation_num: reservation_id,
-                state: "거절",
-                content: document.getElementById(content).innerHTML
-              },
-              url: "/book/update_state",
-              success: function(){
-                // alert("db 저장 완료");
-                
-                document.getElementById(button).value="거절";
-                
-                document.getElementById(view_state).innerHTML="거절";
-                document.getElementById(button).innerHTML="승인";
-                document.getElementById(button1).innerHTML="승인";
-                document.getElementById(button_ok).style.visibility='hidden';
-                
-                // document.getElementById(view_state).className="label label-primary";
-                document.getElementById(button).className="btn btn-success btn-sm";
-                document.getElementById(button1).className="btn btn-success btn-primary";
-              },
-              error:function(request,status,error){
-              alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-              }
-            });
-          }
+ 
   }
   </script>
   
   
 
+       
