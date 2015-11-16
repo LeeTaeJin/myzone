@@ -584,7 +584,7 @@
                 
               <% else %>
                 
-                <td><button type="button" class="btn btn-danger" id="myModal<%=c.id%>" data-toggle="modal" data-target="#myModal<%=c.id%>">거절</button></td>
+                <td><button type="button" class="btn btn-danger" id="myModal<%=c.id%> "onclick="change(<%=c.id%>)">거절</button></td>
               <%end%>
             
             <% end %>  

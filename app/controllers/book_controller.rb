@@ -303,6 +303,11 @@ class BookController < ApplicationController
       
     end
     
+    def offline
+      
+    end
+    
+    
 end
                 
         
