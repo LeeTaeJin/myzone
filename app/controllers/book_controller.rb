@@ -212,6 +212,7 @@ class BookController < ApplicationController
     
     def mypage
        
+      # @message = Message.all
     end
     
     def delete #예약 지울때

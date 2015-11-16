@@ -75,7 +75,7 @@
       </div>
       <div class="modal-body">
         
-        <textarea name="content<%=c.id%>" class="form-control" placeholder="거절 사유를 입력해주세요 :D" rows="10" cols="70"  required></textarea>
+        <textarea name="content" class="form-control" placeholder="거절 사유를 입력해주세요 :D" rows="10" cols="70"  required></textarea>
         <input type="hidden" name="reservation_num" value="<%=c.id%>"><!--예약 넘버-->
         <input type="hidden" name="state" value="거절"><!--예약 넘버-->
         <input type="hidden" name="receiver" value="<%=c.user%>"><!--예약 넘버-->
@@ -241,7 +241,7 @@
                             <div class="btn-group" role="group" aria-label="...">
                               <%if b.state=="승인대기"%>
                                 <button type="button" class="btn btn-success btn-sm" id="button_ok<%=b.id%>" onclick="change(<%=b.id%>,this.value)" value="승인">승인</button>
-                                <button type="button" class="btn btn-danger btn-sm" id="button_no<%=b.id%>" data-toggle="modal" data-target="#myModal">거절</button>
+                                <button type="button" class="btn btn-danger btn-sm" id="button_no<%=b.id%>" data-toggle="modal" data-target="#reject_modal<%=b.id%>">거절</button>
                               <!--<button type="button" class="btn btn-danger btn-sm" id="button_no%=b.id%>" onclick="change(%=b.id%>,this.value)" value="거절">거절</button>-->
                               <%else%>
                                 <%if b.state=="승인"%>
@@ -300,17 +300,10 @@
             },
             url: "/book/update_state",
             success: function(){
-              alert("db 저장 완료");
+              // alert("db 저장 완료");
               document.getElementById(button_ok).value="승인";
               document.getElementById(view_state).innerHTML="승인";
-              // document.getElementById(button).innerHTML="거절"; //표의 inner
-              // document.getElementById(button1).innerHTML="거절";
-              // document.getElementById(button_no).style.visibility='hidden';
-              
-              // // document.getElementById(view_state).className="label label-primary";
-              // document.getElementById(button).className="btn btn-danger btn-sm";
-              // document.getElementById(button1).className="btn btn-danger btn-primary";
-              
+             
               $("#searching_table").load(window.location + " #searching_table");
               
             },

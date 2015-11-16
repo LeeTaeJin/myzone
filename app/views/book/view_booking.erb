@@ -163,7 +163,7 @@
             </div>
             
             <div class="col-md-8 col-sm-12">
-              <table class="table">
+              <table class="table" id="reservation_table">
                 <thead>
                   <tr>
                     <th>소속</th>
@@ -202,18 +202,32 @@
                     
                     <% if current_user.email=="admin@ptu.ac.kr"%> <!-- 관리자일 경우 -->
                       <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=c.id%>">상세정보</button></td>
-                      
+                      <td>
                       <%if c.state=="승인대기"%>
                         
-                        <td><button type="button" class="btn btn-success btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)" >승인</button>
-                        <button type="button" class="btn btn-danger btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)">거절</button></td>
-                      
-                      <%elsif c.state=="거절"%>
-                        <td><button type="button" class="btn btn-success btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)" >승인</button></td>
+                          
+                            <button type="button" class="btn btn-success btn-sm" id="button_ok<%=c.id%>" onclick="change(<%=c.id%>,this.value)" value="승인">승인</button>
+                            <button type="button" class="btn btn-danger btn-sm" id="button_no<%=c.id%>" data-toggle="modal" data-target="#reject_modal<%=c.id%>">거절</button>
+                          
+                       
                       
                       <%else%>
-                        <td><button type="button" class="btn btn-danger btn-sm" id="button<%=c.id%>" onclick="change(<%=c.id%>)">거절</button></td>
+                        <%if c.state=="승인"%>
+                          <button type="button" class="btn btn-danger btn-sm" id="button_no<%=c.id%>" value="<%=c.user%>" data-toggle="modal" data-target="#reject_modal<%=c.id%>">거절</button>
+                        <%else%>
+                          <button type="button" class="btn btn-success btn-sm" id="button_ok<%=c.id%>" onclick="change(<%=c.id%>,this.value)" value="승인">승인</button>
+                        <%end%>
+                        <!--<button type="button" class="btn btn-danger btn-sm" id="button%=b.id%>" onclick="change(%=b.id%>)">승인취소</button>-->
                       <%end%>
+                      </td>
+                      
+                        
+                      <!--%elsif c.state=="거절"%>-->
+                      <!--  <td><button type="button" class="btn btn-success btn-sm" id="button_ok%=c.id%>" onclick="change1(%=c.id%>)" >승인</button></td>-->
+                      
+                      <!--%else%>-->
+                      <!--  <td><button type="button" class="btn btn-danger btn-sm" id="button_no%=c.id%>" onclick="change1(%=c.id%>)">거절</button></td>-->
+                      <!--%end%>-->
                     <%end%> <!-- 관리자일 경우 끝 -->
                     
                     <% if User.find(c.user).email == current_user.email %>
@@ -245,26 +259,162 @@
 
 
 
+  <script type="text/javascript"> 
+  
+    function change(reservation_id,admin_button){
+        
+        
+        if (admin_button=="승인"){//승인버튼을 누르면
+        
+          var button_ok="button_ok" + reservation_id; //승인버튼
+          var button_no="button_no" + reservation_id; //거절버튼
+          var button_modal="button1" + reservation_id; //모달의 버튼(거절시 나타나는)
+          
+          var view_state="view_state" + reservation_id; 
+          var re_state=document.getElementById(view_state).innerHTML;//상태표시
+        
+          $.ajax({
+            data: {
+              reservation_num: reservation_id,
+              state: "승인"
+            },
+            url: "/book/update_state",
+            success: function(){
+              // alert("db 저장 완료");
+              document.getElementById(button_ok).value="승인";
+              document.getElementById(view_state).innerHTML="승인";
+              
+              $("#reservation_table").load(window.location + " #reservation_table");
+              
+            },
+            error:function(request,status,error){
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+          });
+        }
+ 
+  }
+  </script>
+  
+  
+  
 
 
 
+<% Reservation.all.each do |c| %>
+<div id="show<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"><!--예약상세보기 모달-->
+    <div class="modal-dialog" id="menu_font">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="exampleModalLabel"> 예약 상세 보기</h4>
+        </div>
+        <div class="modal-body">  
+          <div class="form-group">
+            
+            <table class="table">
+                    
+              <tbody>
+                
+                <tr>
+                  <th>사용자</th>
+                  <td><%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)</td>
+                </tr>
+                
+                <tr>
+                  <th>학과</th>
+                  <td><%=User.find(c.user).department %></td>
+                </tr>
+                
+                <tr>
+                  <th>담당교수</th>
+                  <td><%=c.professor%> </td>
+                </tr>
+                
+                <tr>
+                  <th>사용일시</th>
+                  <td><%=c.date%> <%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%></td>
+                </tr>
+                
+                <tr>
+                  <th>사용목적</th>
+                  <td><%=c.purpose%></td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+        </div><!--modal body의 div-->      
+        <div class="modal-footer" id="menu_font" style="font-size:18px;">
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
+            <% if current_user.email == "admin@ptu.ac.kr" %>
+              <% if c.state=="승인대기" %>
+                <button type="button" class="btn btn-success" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인</button>
+              
+              <% elsif c.state=="거절" %>
+                <button type="button" class="btn btn-success" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인</button>
+                
+              <% else %>
+                
+                <button type="button" class="btn btn-danger" id="myModal<%=c.id%>" data-toggle="modal" data-target="#myModal<%=c.id%>">거절</button>
+              <%end%>
+              
+            <% end %>  
+        </div>      
+      </div>
+    </div>
+  </div><!--예약 상세보기 모달 div-->
+</div>
+  
+  
+<!-- 거절Modal -->
+<div id="reject_modal<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" id="menu_font">
+    <div class="modal-content">
+      <form action="/book/update_state_reject" method="POST">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">거절 사유</h4>
+      </div>
+      <div class="modal-body">
+        
+        <textarea name="content" class="form-control" placeholder="거절 사유를 입력해주세요 :D" rows="10" cols="70"  required></textarea>
+        <input type="hidden" name="reservation_num" value="<%=c.id%>"><!--예약 넘버-->
+        <input type="hidden" name="state" value="거절"><!--예약 넘버-->
+        <input type="hidden" name="receiver" value="<%=c.user%>"><!--예약 넘버-->
+        <input type="hidden" name="sender" value="<%=current_user.id%>"><!--예약 넘버-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" onclick="alert('거절사유가 전송되었습니다.')" value="거절" class="btn btn-danger">거절</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 
+<div id="delete_check<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">예약 취소</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="recipient-name" class="control-label">예약을 취소하시겠습니까?</label>
+        </div>
+      <div class="modal-footer">
+            <form action="/book/delete/<%=c.id%>" method="POST">
+              <button type="submit" class="btn btn-danger">취소하기</button>
+            </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <%end%>
 
 
 
@@ -413,7 +563,7 @@
   <!--    </div>-->
   <!--  </div> <!--row의 div>-->
   
-  <!--<% @class.reservations.where(date: @date.to_date).each do |c| %><!--예약취소 모달--
+  <!--% @class.reservations.where(date: @date.to_date).each do |c| %><!--예약취소 모달--
   
   <!--<div id="show_check%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">-->
   <!--  <div class="modal-dialog">-->
@@ -438,81 +588,81 @@
   <!--</div>-->
         
   
-<div id="show<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"><!--예약상세보기 모달-->
-    <div class="modal-dialog" id="menu_font">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="exampleModalLabel"> 예약 상세 보기</h4>
-        </div>
-        <div class="modal-body">  
-          <div class="form-group">
+<!--<div id="show%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"><!--예약상세보기 모달-->-->
+<!--    <div class="modal-dialog" id="menu_font">-->
+<!--      <div class="modal-content">-->
+<!--        <div class="modal-header">-->
+<!--          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--          <h4 class="modal-title" id="exampleModalLabel"> 예약 상세 보기</h4>-->
+<!--        </div>-->
+<!--        <div class="modal-body">  -->
+<!--          <div class="form-group">-->
             
-            <table class="table">
+<!--            <table class="table">-->
                     
-              <tbody>
+<!--              <tbody>-->
                 
-                <tr>
-                  <th>사용자</th>
-                  <td><%=User.find(c.user).student_name %> (<%=User.find(c.user).student_number %>)</td>
-                </tr>
+<!--                <tr>-->
+<!--                  <th>사용자</th>-->
+<!--                  <td>%=User.find(c.user).student_name %> (%=User.find(c.user).student_number %>)</td>-->
+<!--                </tr>-->
                 
-                <tr>
-                  <th>학과</th>
-                  <td><%=User.find(c.user).department %></td>
-                </tr>
+<!--                <tr>-->
+<!--                  <th>학과</th>-->
+<!--                  <td>%=User.find(c.user).department %></td>-->
+<!--                </tr>-->
                 
-                <tr>
-                  <th>담당교수</th>
-                  <td><%=c.professor%> </td>
-                </tr>
+<!--                <tr>-->
+<!--                  <th>담당교수</th>-->
+<!--                  <td>%=c.professor%> </td>-->
+<!--                </tr>-->
                 
-                <tr>
-                  <th>사용일시</th>
-                  <td><%=c.date%> <%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%></td>
-                </tr>
+<!--                <tr>-->
+<!--                  <th>사용일시</th>-->
+<!--                  <td>%=c.date%> %=c.start_time.utc.to_s(:time)%> ~ %=c.finish_time.utc.to_s(:time)%></td>-->
+<!--                </tr>-->
                 
-                <tr>
-                  <th>사용목적</th>
-                  <td><%=c.purpose%></td>
-                </tr>
+<!--                <tr>-->
+<!--                  <th>사용목적</th>-->
+<!--                  <td>%=c.purpose%></td>-->
+<!--                </tr>-->
                 
-              </tbody>
-            </table>
+<!--              </tbody>-->
+<!--            </table>-->
             
-        </div><!--modal body의 div-->      
-        <div class="modal-footer" id="menu_font" style="font-size:18px;">
-          <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
-            <% if current_user.email == "admin@ptu.ac.kr" %>
-              <button type="button" class="btn btn-success btn-primary" id="button1<%=c.id%>" onclick="change(<%=c.id%>)">승인</button>
-            <% end %>  
-        </div>      
-      </div>
-    </div>
-  </div><!--예약 상세보기 모달 div-->
+<!--        </div><!--modal body의 div-->      -->
+<!--        <div class="modal-footer" id="menu_font" style="font-size:18px;">-->
+<!--          <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>-->
+<!--            % if current_user.email == "admin@ptu.ac.kr" %>-->
+<!--              <button type="button" class="btn btn-success btn-primary" id="button1%=c.id%>" onclick="change(%=c.id%>)">승인</button>-->
+<!--            % end %>  -->
+<!--        </div>      -->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div><!--예약 상세보기 모달 div-->
   
-  </div><!--container의 div-->
-  <%end%>
+<!--  </div><!--container의 div-->
+<!--  %end%>-->
   
-<% Reservation.all.each do |c| %>
-<div id="delete_check<%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">예약 취소</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="recipient-name" class="control-label">예약을 취소하시겠습니까?</label>
-        </div>
-      <div class="modal-footer">
-            <form action="/book/delete/<%=c.id%>" method="POST">
-              <button type="submit" class="btn btn-danger">취소하기</button>
-            </form>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>
-<%end%>
+<!--% Reservation.all.each do |c| %>-->
+<!--<div id="delete_check%=c.id%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--        <h4 class="modal-title" id="exampleModalLabel">예약 취소</h4>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        <div class="form-group">-->
+<!--          <label for="recipient-name" class="control-label">예약을 취소하시겠습니까?</label>-->
+<!--        </div>-->
+<!--      <div class="modal-footer">-->
+<!--            <form action="/book/delete/%=c.id%>" method="POST">-->
+<!--              <button type="submit" class="btn btn-danger">취소하기</button>-->
+<!--            </form>-->
+<!--      </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--%end%>-->

@@ -25,8 +25,8 @@
 <!-- 예약 취소 끝 -->
  
 <!--사유보기 -->
-<% Message.all.each do |c| %>
-
+<% Message.where("receiver = ?",current_user.id).each do |c| %>
+<!--여기서 c.sender가 예약 넘버임-->
 <div id="reason_show<%=c.sender%>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -39,9 +39,10 @@
           <label for="recipient-name" class="control-label"><%=c.content%></label>
         </div>
       <div class="modal-footer">
-            <form action="/book/delete/<%=c.id%>" method="POST">
-              <button type="submit" class="btn btn-danger">취소하기</button>
-            </form>
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
+            <!--<form action="/book/delete/<2%=c.id%>" method="POST">-->
+            <!--  <button type="submit" class="btn btn-danger">취소하기</button>-->
+            <!--</form>-->
       </div>
       </div>
     </div>

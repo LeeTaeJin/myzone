@@ -572,22 +572,30 @@
             </table>
             
         </div><!--modal body의 div-->      
+        
+      
         <div class="modal-footer" id="menu_font" style="font-size:18px;">
           <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
-            <% if current_user.email == "admin@ptu.ac.kr" %>
+          
+          <a href="/book/view_booking?id=<%=c.id%>&date=<%=c.date%>" >
+          <button type="button" class="btn btn-default">바로가기</button>
+          </a>
+            <%# if current_user.email == "admin@ptu.ac.kr" %>
             
-              <% if c.state=="승인대기" %>
-                <td><button type="button" class="btn btn-success" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인</button></td>
+              <%# if c.state=="승인대기" %>
+        <!--        <td><button type="button" class="btn btn-success" id="button_ok<%#=c.id%>" onclick="change(<%#=c.id%>,this.value)" value="승인">승인</button>-->
+        <!--          <button type="button" class="btn btn-danger" id="button_no<%#=c.id%>" data-toggle="modal" data-target="#reject_modal<%#=c.id%>">거절</button>-->
+        <!--        </td>-->
               
-              <% elsif c.state=="거절" %>
-                <td><button type="button" class="btn btn-success" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인</button></td>
+              <%# elsif c.state=="거절" %>
+        <!--        <td><button type="button" class="btn btn-success" id="button_ok<%#=c.id%>" onclick="change(<%#=c.id%>,this.value)" value="승인">승인</button></td>-->
                 
-              <% else %>
+              <%# else %>
                 
-                <td><button type="button" class="btn btn-danger" id="myModal<%=c.id%> "onclick="change(<%=c.id%>)">거절</button></td>
-              <%end%>
+        <!--        <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#reject_modal<%#=c.id%>">거절</button></td>-->
+              <%#end%>
             
-            <% end %>  
+            <%# end %>  
         </div>      
       </div>
     </div>
@@ -601,7 +609,7 @@
   
   
     <!-- 거절Modal -->
-<div class="modal fade" id="myModal<%=c.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="reject_modal<%=c.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" id="menu_font">
     <div class="modal-content">
       <form action="/book/update_state_reject" method="POST">
@@ -611,7 +619,7 @@
       </div>
       <div class="modal-body">
         
-        <textarea name="content<%=c.id%>" class="form-control" placeholder="거절 사유를 입력해주세요 :D" rows="10" cols="70"  required></textarea>
+        <textarea name="content" class="form-control" placeholder="거절 사유를 입력해주세요 :D" rows="10" cols="70"  required></textarea>
         <input type="hidden" name="reservation_num" value="<%=c.id%>"><!--예약 넘버-->
         <input type="hidden" name="state" value="거절"><!--예약 넘버-->
         <input type="hidden" name="receiver" value="<%=c.user%>"><!--예약 넘버-->
@@ -653,78 +661,141 @@
 <%end%>
 
 
-<script type="text/javascript">      
-  function change(reservation_id){
+
+
+
+
+
+
+
+
+<script type="text/javascript"> 
+  
+    function change(reservation_id,admin_button){
         
-        var button="button" + reservation_id;
-        var button1="button1" + reservation_id;
-        var view_state="view_state" + reservation_id;
-        var re_state=document.getElementById(view_state).innerHTML;
         
-        if (re_state == "승인대기")//승인대기라면
-          //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!
-          $.ajax({
-            data: {
-              reservation_num: reservation_id,
-              state: "승인"
-            },
-            url: "/book/update_state",
-            success: function(){
-              // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인";
-              document.getElementById(button).innerHTML="거절";
-              
-              document.getElementById(view_state).className="label label-success";
-              document.getElementById(button).className="btn btn-danger btn-primary";
-              
-            },
-            error:function(request,status,error){
-            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-          });
-          //db 바꿔줌
+        if (admin_button=="승인"){//승인버튼을 누르면
         
-        else if (re_state == "거절")//승인대기라면
-          //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!
-          $.ajax({
-            data: {
-              reservation_num: reservation_id,
-              state: "승인"
-            },
-            url: "/book/update_state",
-            success: function(){
-              // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="승인";
-              document.getElementById(button).innerHTML="거절";
-             
-              document.getElementById(view_state).className="label label-success";
-              document.getElementById(button).className="btn btn-danger btn-primary";
-                         },
-            error:function(request,status,error){
-            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-          });
-          //db 바꿔줌
+          var button_ok="button_ok" + reservation_id; //승인버튼
+          var button_no="button_no" + reservation_id; //거절버튼
+          var button_modal="button1" + reservation_id; //모달의 버튼(거절시 나타나는)
           
-          else
+          var view_state="view_state" + reservation_id; 
+          var re_state=document.getElementById(view_state).innerHTML;//상태표시
+        
           $.ajax({
             data: {
               reservation_num: reservation_id,
-              state: "거절"
+              state: "승인"
             },
             url: "/book/update_state",
             success: function(){
-              // alert("db 저장 완료");
-              document.getElementById(view_state).innerHTML="거절";
-              document.getElementById(button).innerHTML="승인";
+              alert("승인이 완료되었습니다.");
+              document.getElementById(button_ok).value="승인";
+              document.getElementById(view_state).innerHTML="승인";
+             
+              $("#done_reservation").load(window.location + " #done_reservation");
+              $("#reject_reservation").load(window.location + " #reject_reservation");
               
-              document.getElementById(view_state).className="label label-danger";
-              document.getElementById(button).className="btn btn-success btn-primary";
             },
             error:function(request,status,error){
             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
           });
+        }
+ 
+  }
+  </script>
+
+
+
+
+
+<!--<script type="text/javascript">      -->
+<!--  function change(reservation_id){-->
+        
+<!--        var button="button" + reservation_id;-->
+<!--        var button1="button1" + reservation_id;-->
+<!--        var view_state="view_state" + reservation_id;-->
+<!--        var re_state=document.getElementById(view_state).innerHTML;-->
+        
+        <!--if (re_state == "승인대기")//승인대기라면-->
+        <!--  //상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!-->
+<!--          $.ajax({-->
+<!--            data: {-->
+<!--              reservation_num: reservation_id,-->
+<!--              state: "승인"-->
+<!--            },-->
+<!--            url: "/book/update_state",-->
+<!--            success: function(){-->
+              <!--// alert("db 저장 완료");-->
+<!--              document.getElementById(view_state).innerHTML="승인";-->
+<!--              document.getElementById(button).innerHTML="거절";-->
+              
+<!--              document.getElementById(view_state).className="label label-success";-->
+<!--              document.getElementById(button).className="btn btn-danger btn-primary";-->
+              
+<!--              $("#tatal_reservation").load(window.location + " #total_reservation");-->
+<!--              $("#wait_reservation").load(window.location + " #wait_reservation");-->
+<!--              $("#reject_reservation").load(window.location + " #reject_reservation");-->
+<!--              $("#done_reservation").load(window.location + " #done_reservation");-->
+<!--            },-->
+<!--            error:function(request,status,error){-->
+<!--            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);-->
+<!--            }-->
+<!--          });-->
+        <!--  //db 바꿔줌-->
+        
+        <!--else if (re_state == "거절")//승인대기라면-->
+          <!--//상태표시 바꾸고 버튼 텍스트도 바꿔줘야한다 db도!-->
+<!--          $.ajax({-->
+<!--            data: {-->
+<!--              reservation_num: reservation_id,-->
+<!--              state: "승인"-->
+<!--            },-->
+<!--            url: "/book/update_state",-->
+<!--            success: function(){-->
+              <!--// alert("db 저장 완료");-->
+<!--              document.getElementById(view_state).innerHTML="승인";-->
+<!--              document.getElementById(button).innerHTML="거절";-->
              
-  };  
-</script>
+<!--              document.getElementById(view_state).className="label label-success";-->
+<!--              document.getElementById(button).className="btn btn-danger btn-primary";-->
+              
+<!--              $("#tatal_reservation").load(window.location + " #total_reservation");-->
+<!--              $("#wait_reservation").load(window.location + " #wait_reservation");-->
+<!--              $("#reject_reservation").load(window.location + " #reject_reservation");-->
+<!--              $("#done_reservation").load(window.location + " #done_reservation");-->
+<!--            },-->
+<!--            error:function(request,status,error){-->
+<!--            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);-->
+<!--            }-->
+<!--          });-->
+          <!--/db 바꿔줌-->
+          
+<!--          else-->
+<!--          $.ajax({-->
+<!--            data: {-->
+<!--              reservation_num: reservation_id,-->
+<!--              state: "거절"-->
+<!--            },-->
+<!--            url: "/book/update_state",-->
+<!--            success: function(){-->
+              <!--// alert("db 저장 완료");-->
+<!--              document.getElementById(view_state).innerHTML="거절";-->
+<!--              document.getElementById(button).innerHTML="승인";-->
+              
+<!--              document.getElementById(view_state).className="label label-danger";-->
+<!--              document.getElementById(button).className="btn btn-success btn-primary";-->
+<!--              $("#tatal_reservation").load(window.location + " #total_reservation");-->
+<!--              $("#wait_reservation").load(window.location + " #wait_reservation");-->
+<!--              $("#reject_reservation").load(window.location + " #reject_reservation");-->
+<!--              $("#done_reservation").load(window.location + " #done_reservation");-->
+<!--            },-->
+<!--            error:function(request,status,error){-->
+<!--            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);-->
+<!--            }-->
+<!--          });-->
+             
+<!--  };  -->
+<!--</script>-->
