@@ -347,19 +347,7 @@
         </div><!--modal body의 div-->      
         <div class="modal-footer" id="menu_font" style="font-size:18px;">
           <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
-            <% if current_user.email == "admin@ptu.ac.kr" %>
-              <% if c.state=="승인대기" %>
-                <button type="button" class="btn btn-success" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인</button>
-              
-              <% elsif c.state=="거절" %>
-                <button type="button" class="btn btn-success" id="button<%=c.id%>" onclick="change(<%=c.id%>)">승인</button>
-                
-              <% else %>
-                
-                <button type="button" class="btn btn-danger" id="myModal<%=c.id%>" data-toggle="modal" data-target="#myModal<%=c.id%>">거절</button>
-              <%end%>
-              
-            <% end %>  
+           
         </div>      
       </div>
     </div>
