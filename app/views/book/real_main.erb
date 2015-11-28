@@ -577,9 +577,9 @@
         <div class="modal-footer" id="menu_font" style="font-size:18px;">
           <button type="button" class="btn btn-default" data-dismiss="modal" id="menu_font">Close</button>
           
-          <!--<a href="/book/view_booking?id=<2%=c.id%>&date=<2%=c.date%>" >-->
-          <!--<button type="button" class="btn btn-default">바로가기</button>-->
-          <!--</a>-->
+          <a href="/book/view_booking?id=<%=c.room_id%>&date=<%=c.date%>">
+            <button type="button" class="btn btn-default">바로가기</button>
+          </a>
             <%# if current_user.email == "admin@ptu.ac.kr" %>
             
               <%# if c.state=="승인대기" %>
@@ -602,39 +602,39 @@
   </div><!--예약 상세보기 모달 div-->
   
   </div><!--container의 div-->
-  
-  
-  
-  
-  
-  
-    <!-- 거절Modal -->
-<div class="modal fade" id="reject_modal<%=c.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" id="menu_font">
-    <div class="modal-content">
-      <form action="/book/update_state_reject" method="POST">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">거절 사유</h4>
-      </div>
-      <div class="modal-body">
-        
-        <textarea name="content" class="form-control" placeholder="거절 사유를 입력해주세요 :D" rows="10" cols="70"  required></textarea>
-        <input type="hidden" name="reservation_num" value="<%=c.id%>"><!--예약 넘버-->
-        <input type="hidden" name="state" value="거절"><!--예약 넘버-->
-        <input type="hidden" name="receiver" value="<%=c.user%>"><!--예약 넘버-->
-        <input type="hidden" name="sender" value="<%=current_user.id%>"><!--예약 넘버-->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" onclick="alert('거절사유가 전송되었습니다.')" value="거절" class="btn btn-danger">거절</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
   <%end%>
+  
+  
+  
+  
+  
+    <!-- 거절Modal  151128 필요없을듯? -->
+<!--<div class="modal fade" id="reject_modal<2%=c.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+<!--  <div class="modal-dialog" id="menu_font">-->
+<!--    <div class="modal-content">-->
+<!--      <form action="/book/update_state_reject" method="POST">-->
+<!--      <div class="modal-header">-->
+<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--        <h4 class="modal-title" id="myModalLabel">거절 사유</h4>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+        
+<!--        <textarea name="content" class="form-control" placeholder="거절 사유를 입력해주세요 :D" rows="10" cols="70"  required></textarea>-->
+<!--        <input type="hidden" name="reservation_num" value="<2%=c.id%>"><!--예약 넘버-->-->
+<!--        <input type="hidden" name="state" value="거절"><!--예약 넘버-->-->
+<!--        <input type="hidden" name="receiver" value="<2%=c.user%>"><!--예약 넘버-->-->
+<!--        <input type="hidden" name="sender" value="<2%=current_user.id%>"><!--예약 넘버-->-->
+<!--      </div>-->
+<!--      <div class="modal-footer">-->
+<!--        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+<!--        <button type="submit" onclick="alert('거절사유가 전송되었습니다.')" value="거절" class="btn btn-danger">거절</button>-->
+<!--      </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+  
   
 
 <% Reservation.all.each do |c| %>

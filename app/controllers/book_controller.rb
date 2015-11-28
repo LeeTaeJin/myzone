@@ -109,42 +109,39 @@ class BookController < ApplicationController
     def booking_process #중복
     
         @date=params[:date].to_time
-        @all_reservation=Reservation.where(room_id: params[:id]).where(date: params[:date])
-        #@all_reservation=Reservation.where("room_id = ? and date = ?", params[:id], @date)
-        # @all_reservation=Reservation.where(room_id: params[:id]).where(date: @date)
-        # @all_reservation=Reservation.where(room_id: params[:id]).where(date: @date)
-        @start_time=Time.new(@date.year, @date.month, @date.day, params[:start_time].to_time.hour, params[:start_time].to_time.min)
-        @finish_time=Time.new(@date.year, @date.month, @date.day, params[:finish_time].to_time.hour, params[:finish_time].to_time.min)
-        # 
-        # @save_result = true # 초기값 설정을 true 에서 "" 로 바꿔놈.
+        @all_reservation=Reservation.where(room_id: params[:id]).where(date: params[:date])  #날짜와 강의실 정보를 가져 온다
+        @start_time=Time.new(@date.year, @date.month, @date.day, params[:start_time].to_time.hour, params[:start_time].to_time.min) # 에약 시작시간 저장
+        @finish_time=Time.new(@date.year, @date.month, @date.day, params[:finish_time].to_time.hour, params[:finish_time].to_time.min) # 예약 마침시간 저장
+      
          
-        if (( Time.zone.now<= @start_time.to_s(:db)) and (@start_time.to_s(:db) < @finish_time.to_s(:db))) # true여야함
+        if (( Time.zone.now<= @start_time.to_s(:db)) and (@start_time.to_s(:db) < @finish_time.to_s(:db))) # 현재시간 이후 && 예약시작시간이 마침시간보다 이전 일 때
           
-          if @all_reservation.count==0 #예약된게 없으면 무조건 예약하게함
-            if (Time.zone.today + 2.weeks).to_date < @start_time.to_date
+          if @all_reservation.count==0 #예약된게 없는 경우 에약 가능함
+            if (Time.zone.today + 2.weeks).to_date < @start_time.to_date  # 오늘 날짜 이후 2주 뒤 날짜라면 
               
                   #예약이 안되게함.
-               @save_result = "false_over_2week"
+               @save_result = "false_over_2week"  
                   
             else #2주 뒤가 아닐때,
               @save_result="true" #예약이 가능하도록 한다.
             end
             
-          else
-            @all_reservation.each do |r| #예약이 겹치면
-                  if ((@start_time.between?(r.start_time, r.finish_time)) or
-                      (@finish_time.between?(r.start_time, r.finish_time)) or
-                      ((@start_time < r.start_time) and (r.finish_time < @finish_time)))
+          else  #예약이 하나라도 있는 경우 
+            @all_reservation.each do |r| #전체 예약을 뽑아온다
+                  if ((@start_time.between?(r.start_time, r.finish_time)) or    # 새로입력하는 예약시간이 기존에 있는 시간 사이에 있거나,
+                      (@finish_time.between?(r.start_time, r.finish_time)) or    # 밖에 있는경우 예약불가
+                      ((@start_time <= r.start_time) and (r.finish_time <= @finish_time))) # ??
                     
-                    #저장 안됨
+                    # 기존에 있던 예약과 중복이 된다면 예약불가 
+                    
                     @save_result = "false_overlap"  
                     
-                  else #예약이 안겹치면
+                  else #예약이 중복되지 않고
                     
-                              #안겹친거 확인되면, 2주 뒤인지 확인함. 그래서 2주 뒤일때,
+                              # 2주 뒤인지 확인해서,
                               if (Time.zone.today + 2.weeks).to_date < @start_time.to_date
                                 
-                                    #예약이 안되게함.
+                                    #2주 뒤인 경우 예약이 안되게함.
                                     @save_result = "false_over_2week"
                                     
                               else #2주 뒤가 아닐때,
@@ -154,7 +151,7 @@ class BookController < ApplicationController
                               end    
                   end 
             end #all_reservation.each do  
-            ######################################################               
+
             
                     
           end #@all_reservation.count==0
