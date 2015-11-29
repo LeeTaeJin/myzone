@@ -109,7 +109,7 @@ class BookController < ApplicationController
     def booking_process #중복
     
         @date=params[:date].to_time
-        @all_reservation=Reservation.where(room_id: params[:id]).where(date: params[:date]).where(state: "승인")  #날짜와 강의실 정보를 가져 온다
+        @all_reservation=Reservation.where(room_id: params[:id]).where(date: params[:date])  #where(state: "승인")  날짜와 강의실 정보를 가져 온다
         @start_time=Time.new(@date.year, @date.month, @date.day, params[:start_time].to_time.hour, params[:start_time].to_time.min) # 에약 시작시간 저장
         @finish_time=Time.new(@date.year, @date.month, @date.day, params[:finish_time].to_time.hour, params[:finish_time].to_time.min) # 예약 마침시간 저장
       
