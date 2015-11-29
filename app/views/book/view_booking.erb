@@ -170,75 +170,103 @@
                     <th>이름</th>
                     <th>사용시간</th>
                     <th>승인여부</th>
-                    
+                    <th></th>
                   <% if current_user.email=="admin@ptu.ac.kr"%>
                     <th>상세</th>
                     <th>관리자 승인</th>
                   <%end%>
-                    <th></th>
+                    
                   </tr>
                 </thead>
                 <tbody>
-                  <% @class.reservations.where(date: @date.to_date).each do |c|%>
-                  <tr>
-                    <th scope="row"><%=User.find(c.user).department %></th>
-                    <td><%=User.find(c.user).student_name %></td>
-                    <td><%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%></td>
-                    <td>
-                          <% if c.state=="승인대기" %>                   
-                          
-                          <span class="label label-info" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span>
-                          
-                          <% elsif c.state=="거절"%>
-                          
-                          <span class="label label-danger" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span>
-                           
-                          <% else %>        
-                          
-                          <span class="label label-success" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span> 
-                      
-                          <%end%>
-                    </td>  
-                    
-                    <% if current_user.email=="admin@ptu.ac.kr"%> <!-- 관리자일 경우 -->
-                      <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=c.id%>">상세정보</button></td>
+                  <% if current_user.email=="admin@ptu.ac.kr"%><!--관리자일때-->
+                    <% @class.reservations.where(date: @date.to_date).each do |c|%>
+                    <tr>
+                      <th scope="row"><%=User.find(c.user).department %></th>
+                      <td><%=User.find(c.user).student_name %></td>
+                      <td><%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%></td>
                       <td>
-                      <%if c.state=="승인대기"%>
+                            <% if c.state=="승인대기" %>                   
+                            
+                            <span class="label label-info" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span>
+                            
+                            <% elsif c.state=="거절"%>
+                            
+                            <span class="label label-danger" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span>
+                             
+                            <% else %>        
+                            
+                            <span class="label label-success" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span> 
                         
-                          
-                            <button type="button" class="btn btn-success btn-sm" id="button_ok<%=c.id%>" onclick="change(<%=c.id%>,this.value)" value="승인">승인</button>
-                            <button type="button" class="btn btn-danger btn-sm" id="button_no<%=c.id%>" data-toggle="modal" data-target="#reject_modal<%=c.id%>">거절</button>
-                          
-                       
+                            <%end%>
+                      </td>  
                       
-                      <%else%>
-                        <%if c.state=="승인"%>
-                          <button type="button" class="btn btn-danger btn-sm" id="button_no<%=c.id%>" value="<%=c.user%>" data-toggle="modal" data-target="#reject_modal<%=c.id%>">거절</button>
+                      <!--<#% if current_user.email=="admin@ptu.ac.kr"%> <!-- 관리자일 경우-->
+                        <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#show<%=c.id%>">상세정보</button></td>
+                        <td>
+                        <%if c.state=="승인대기"%>
+                          
+                            
+                              <button type="button" class="btn btn-success btn-sm" id="button_ok<%=c.id%>" onclick="change(<%=c.id%>,this.value)" value="승인">승인</button>
+                              <button type="button" class="btn btn-danger btn-sm" id="button_no<%=c.id%>" data-toggle="modal" data-target="#reject_modal<%=c.id%>">거절</button>
+                            
+                         
+                        
                         <%else%>
-                          <button type="button" class="btn btn-success btn-sm" id="button_ok<%=c.id%>" onclick="change(<%=c.id%>,this.value)" value="승인">승인</button>
+                          <%if c.state=="승인"%>
+                            <button type="button" class="btn btn-danger btn-sm" id="button_no<%=c.id%>" value="<%=c.user%>" data-toggle="modal" data-target="#reject_modal<%=c.id%>">거절</button>
+                          <%else%>
+                            <button type="button" class="btn btn-success btn-sm" id="button_ok<%=c.id%>" onclick="change(<%=c.id%>,this.value)" value="승인">승인</button>
+                          <%end%>
+                          <!--<button type="button" class="btn btn-danger btn-sm" id="button%=b.id%>" onclick="change(%=b.id%>)">승인취소</button>-->
                         <%end%>
-                        <!--<button type="button" class="btn btn-danger btn-sm" id="button%=b.id%>" onclick="change(%=b.id%>)">승인취소</button>-->
+                        </td>
+                       
+                      <!--%end%>  관리자일 경우 끝 -->
+                      
+                      <% if User.find(c.user).email == current_user.email %>
+                      <%# if current_user.id==c.user%>
+                        <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=c.id%>">삭제</button></td>
                       <%end%>
-                      </td>
                       
-                        
-                      <!--%elsif c.state=="거절"%>-->
-                      <!--  <td><button type="button" class="btn btn-success btn-sm" id="button_ok%=c.id%>" onclick="change1(%=c.id%>)" >승인</button></td>-->
-                      
-                      <!--%else%>-->
-                      <!--  <td><button type="button" class="btn btn-danger btn-sm" id="button_no%=c.id%>" onclick="change1(%=c.id%>)">거절</button></td>-->
-                      <!--%end%>-->
-                    <%end%> <!-- 관리자일 경우 끝 -->
+                    </tr>
+                    <%end%>
                     
-                    <% if User.find(c.user).email == current_user.email %>
-                    <%# if current_user.id==c.user%>
-                      <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=c.id%>">삭제</button></td>
+                  <%else%><!--관리자가 아닐경우-->
+                    
+                    <% @class.reservations.where(date: @date.to_date).where("state=? or state=?", "승인","승인대기").each do |c|%>
+                    <tr>
+                      <th scope="row"><%=User.find(c.user).department %></th>
+                      <td><%=User.find(c.user).student_name %></td>
+                      <td><%=c.start_time.utc.to_s(:time)%> ~ <%=c.finish_time.utc.to_s(:time)%></td>
+                      <td>
+                            <% if c.state=="승인대기" %>                   
+                            
+                            <span class="label label-info" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span>
+                            
+                            <% elsif c.state=="거절"%>
+                            
+                            <span class="label label-danger" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span>
+                             
+                            <% else %>        
+                            
+                            <span class="label label-success" id="view_state<%=c.id%>" value="<%=c.state%>"><%=c.state%></span> 
+                        
+                            <%end%>
+                      </td>  
+                      
+                      
+                      <% if User.find(c.user).email == current_user.email %>
+                      <%# if current_user.id==c.user%>
+                        <td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete_check<%=c.id%>">삭제</button></td>
+                      <%end%>
+                      
+                    </tr>
                     <%end%>
                     
                     
-                    
-                  </tr>
-                  <%end%>
+                  <%end%><!--전체 엔드-->
+                  
                 </tbody>
               </table>
             </div>

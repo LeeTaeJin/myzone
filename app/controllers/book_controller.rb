@@ -109,7 +109,7 @@ class BookController < ApplicationController
     def booking_process #중복
     
         @date=params[:date].to_time
-        @all_reservation=Reservation.where(room_id: params[:id]).where(date: params[:date])  #날짜와 강의실 정보를 가져 온다
+        @all_reservation=Reservation.where(room_id: params[:id]).where(date: params[:date]).where(state: "승인")  #날짜와 강의실 정보를 가져 온다
         @start_time=Time.new(@date.year, @date.month, @date.day, params[:start_time].to_time.hour, params[:start_time].to_time.min) # 에약 시작시간 저장
         @finish_time=Time.new(@date.year, @date.month, @date.day, params[:finish_time].to_time.hour, params[:finish_time].to_time.min) # 예약 마침시간 저장
       
@@ -127,7 +127,7 @@ class BookController < ApplicationController
             end
             
           else  #예약이 하나라도 있는 경우 
-            @all_reservation.each do |r| #전체 예약을 뽑아온다
+            @all_reservation.each do |r| #승인완료된 예약을 뽑아온다
                   if ((@start_time.between?(r.start_time, r.finish_time)) or    # 새로입력하는 예약시간이 기존에 있는 시간 사이에 있거나,
                       (@finish_time.between?(r.start_time, r.finish_time)) or    # 밖에 있는경우 예약불가
                       ((@start_time <= r.start_time) and (r.finish_time <= @finish_time))) # ??
@@ -154,7 +154,7 @@ class BookController < ApplicationController
 
             
                     
-          end #@all_reservation.count==0
+          end #@all_reservation.count==0ㅂ
          
         else
             @save_result = "false_not_later"

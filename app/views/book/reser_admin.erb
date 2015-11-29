@@ -222,7 +222,7 @@
                        
                         <% @reservation_search = @reservation_search.where("building = ?", @reservation_building) %>
                       <%end%>
-                      
+                      <% @reservation_search.order(:date)%>
                       <% @reservation_search.each do |b| %>  
                         <tr class="gradeA odd" role="row">
                           <td><%=b.date%></td>
@@ -230,7 +230,8 @@
                           <% @start_time= b.start_time.to_time%>
                           <% @finish_time= b.finish_time.to_time%>
                           
-                          <td><%=@start_time.hour%>시 <%=@start_time.min%>분 - <%=@finish_time.hour%>시 <%=@finish_time.min%>분</td>
+                          <!--<td><%#=@start_time.hour%>시 <%#=@start_time.min%>분 - <%#=@finish_time.hour%>시 <%#=@finish_time.min%>분</td>-->
+                          <td><%=b.start_time.utc.to_s(:time)%> - <%=b.finish_time.utc.to_s(:time)%></td>
                           <td><%=Room.find(b.room_id).building_name%> <%=Room.find(b.room_id).room_number%>호 </td>
                           <td><%=User.find(b.user).department%></td>
                           <td><%=User.find(b.user).student_name%></td>
